@@ -1,0 +1,50 @@
+.state-map {
+  height: auto;
+  min-width: 100%;
+  max-width: 80%;
+  margin: 0 auto;
+  position: relative;
+}
+/* .esri-map-draw {
+    height: 785px;
+    min-width: 100%;
+    max-width: 80%;
+    margin: 0 auto;
+    margin-top: -10px !important;
+} */
+
+::ng-deep #bmap_gc {
+  margin-top: -30px !important;
+}
+::ng-deep .esriPopup .titleButton {
+  display: none !important;
+}
+
+.loader-center {
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  transform: translate(-40%, -40%);
+  margin: 0 auto;
+  z-index: 9;
+  background: #000;
+  height: 100%;
+  width: 100%;
+  opacity: 0.5;
+}
+
+.spinner-border {
+    z-index: 99999 !important;
+    color: #fff;
+    opacity: 1;
+}
+.back-btn{
+  background: #113689;
+  color: white;
+}
+
+
