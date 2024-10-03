@@ -1,0 +1,106 @@
+.indian-map{
+    height: 500px;
+    min-width: 100%;
+    max-width: 80%;
+    margin: 0 auto;
+    /* border:  2px solid green; */
+    position: relative;
+}
+
+/* .esri-map-draws {
+   
+    border: 2px solid green;
+    height: 785px;
+    min-width: 100%;
+    max-width: 80%;
+    margin: 0 auto;
+} */
+
+
+::ng-deep #bmap_gc{
+ margin-top: -30px !important;
+}
+::ng-deep .esriPopup .titleButton {
+    display: none !important;
+}
+
+.loader-center {
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    transform: translate(-40%, -40%);
+    margin: 0 auto;
+    z-index: 9;
+    background: #000;
+    height: 100%;
+    width: 100%;
+    opacity: 0.5;
+  }
+  /* .loader-center-map{
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    transform: translate(-40%, -40%);
+    margin: 0 auto;
+    z-index: 9;
+    background: #000;
+    height: 100%;
+    width: 100%;
+    opacity: 0.5;
+  } */
+  .spinner-border {
+    z-index: 99999 !important;
+    color: #fff;
+    opacity: 1;
+}
+
+.esri-map-draw{height: 900px; width:100%;}
+g#bmap_graphics_layer {
+    transform: translate(-50px, -150px);
+}
+
+div#dijit_Dialog_0 {
+    display: none;
+}
+.show-color-meaning{
+    display: flex;
+    gap: 5px;
+}
+.show-color-first{
+    display: flex;
+    gap: 5px;
+}
+.circle1 {
+    width: 20px;
+    height: 20px;
+    background-color:#ff4342;
+    border-radius: 50%;
+
+  }
+  .circle2 {
+    width: 20px;
+    height: 20px;
+    background-color: #ffda6e;
+    border-radius: 50%;
+
+  }
+  .circle3 {
+    width: 20px;
+    height: 20px;
+    background-color: #7ab132;
+    border-radius: 50%;
+
+  }
+  .text {
+    color: black;
+    
+  }
+  

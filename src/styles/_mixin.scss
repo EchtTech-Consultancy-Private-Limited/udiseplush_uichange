@@ -1,0 +1,17 @@
+@mixin d_flex_between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@mixin d_flex_center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin d_flex_end {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}

@@ -1,0 +1,266 @@
+
+::ng-deep #bmap_gc {
+  margin-top: -30px !important;
+}
+
+::ng-deep .esriPopup .titleButton {
+  display: none !important;
+}
+
+.loader-center {
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  transform: translate(-40%, -40%);
+  margin: 0 auto;
+  z-index: 9;
+  background: #000;
+  height: 100%;
+  width: 100%;
+  opacity: 0.5;
+}
+
+
+.spinner-border {
+  z-index: 99999 !important;
+  color: #fff;
+  opacity: 1;
+}
+
+.esri-map-draw {
+  height: 900px;
+  width: 100%;
+}
+
+g#bmap_graphics_layer {
+  transform: translate(-50px, -150px);
+}
+
+div#dijit_Dialog_0 {
+  display: none;
+}
+
+.show-color-meaning {
+  display: flex;
+  justify-content: end;
+  gap: 5px;
+  padding-right: 40px;
+
+  @media (max-width: 1599px) and (min-width: 1400px) {
+    padding-right: 0px;
+  }
+
+  @media (max-width: 1399px) and (min-width: 1024px) {
+    padding-right: 0px;
+  }
+
+}
+
+.show-color-first {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  margin-left: 10px;
+  white-space: nowrap;
+
+  @media (max-width: 1599px) and (min-width: 1400px) {
+    margin-left: 5px;
+    font-size: 14px;
+  }
+  
+  @media (max-width: 1399px) and (min-width: 1024px) {
+    margin-left: 5px;
+    font-size: 10px;
+  }
+
+}
+
+.circle1 {
+  width: 15px;
+  height: 15px;
+  background-color: #fcae91;
+  border-radius: 50%;
+
+}
+
+.circle2 {
+  width: 15px;
+  height: 15px;
+  background-color: #ffeda0;
+  border-radius: 50%;
+
+}
+
+.circle3 {
+  width: 15px;
+  height: 15px;
+  background-color: #e3d1f8;
+  border-radius: 50%;
+
+}
+.circle4{
+  width: 15px;
+  height: 15px;
+  background-color: #c1d0b5;
+  border-radius: 50%;
+}
+.text {
+  color: black;
+
+}
+
+.loading {
+  position: fixed;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 10000;
+}
+
+/* Transparent Overlay */
+.loading:before {
+  content: "";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(rgba(20, 20, 20, 0.8), rgba(0, 0, 0, 0.8));
+  background: -webkit-radial-gradient(rgba(20, 20, 20, 0.8), rgba(0, 0, 0, 0.8));
+}
+
+/* :not(:required) hides these rules from IE9 and below */
+.loading:not(:required) {
+  /* hide "loading..." text */
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+
+.loading:not(:required):after {
+  content: "";
+  display: block;
+  font-size: 10px;
+  width: 1em;
+  height: 1em;
+  margin-top: -0.5em;
+  animation: spinner 150ms infinite linear;
+  border-radius: 0.5em;
+  box-shadow: rgba(255, 255, 255, 0.75) 1.5em 0 0 0, rgba(255, 255, 255, 0.75) 1.1em 1.1em 0 0, rgba(255, 255, 255, 0.75) 0 1.5em 0 0, rgba(255, 255, 255, 0.75) -1.1em 1.1em 0 0, rgba(255, 255, 255, 0.75) -1.5em 0 0 0, rgba(255, 255, 255, 0.75) -1.1em -1.1em 0 0, rgba(255, 255, 255, 0.75) 0 -1.5em 0 0, rgba(255, 255, 255, 0.75) 1.1em -1.1em 0 0;
+}
+
+.state-label {
+  text-align: center;
+  font-weight: bold;
+  font-size: 12px;
+  /* Adjust font size as needed */
+  color: #333;
+  /* Text color */
+  background: none;
+  border: none;
+}
+
+
+/* Animation */
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/*# sourceMappingURL=basicInformation_old.css.map */
+.leaflet-container {
+  background: none !important;
+}
+
+
+.backButton {
+  background: #082C7C;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  font-size: 12px;
+  padding: 6px 9px 6px 7px;
+  display: flex;
+
+  svg {
+    height: 16px;
+    width: 16px;
+    margin-right: 5px;
+  }
+}
+
+.mapindia {
+  width: 100%;
+}
+
+.map-dropdown {
+  select {
+    width: 200px;
+    float: right;
+    margin-right: 38px;
+    // margin-top: 12px;
+    appearance: auto;
+    // height: 38px;
+
+    @media (max-width: 1599px) and (min-width: 1400px) {
+      margin-right: 0px;
+      width: 200px;
+      // height: 30px;
+      // margin-top: 10px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 1399px) and (min-width: 1024px) {
+      margin-right: 0px;
+      width: 200px;
+      // margin-top: 10px;
+      // height: 30px;
+      font-size: 12px;
+    }
+  }
+}
+
+.map-back-btn {
+  position: absolute;
+  right: 38%;
+  top: 21%;
+  z-index: 9999;
+
+  @media (max-width: 1599px) and (min-width: 1400px) {
+    right: 34%;
+    top: 20.7%;
+
+    .backButton{
+      font-size: 12px;
+      padding: 5px 9px 5px 7px;
+    }
+  }
+
+  @media (max-width: 1399px) and (min-width: 1024px) {
+    right: 36%;
+    top: 22.4%;
+    .backButton{
+      font-size: 12px;
+      padding: 5px 9px 5px 7px;
+    }
+  }
+
+  
+}
