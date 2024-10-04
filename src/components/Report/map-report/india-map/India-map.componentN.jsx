@@ -51,11 +51,11 @@ export default function IndiaMapComponentN() {
   const [selectedDropoutType, setSelectedDropoutType] = useState("primary");
   const [selectedTransitionRate, setSelectedTransitionRate] = useState("primaryToUpper");
   const [selectedPupilTeacherRatio, setSelectedPupilTeacherRatio] = useState("primary");
-
+  const [loading, setLoding] = useState("true")
   useEffect(() => {
     setHandles(handleSchemesEvent);
   }, [handleSchemesEvent]);
-
+console.log( geoJsonId," handlesRef.current")
   useEffect(() => {
     handlesRef.current = handles;
     if (geoJsonRef.current) {
@@ -102,6 +102,7 @@ export default function IndiaMapComponentN() {
     useEffect(() => {
       if (map && geoJsonRef.current) {
         map.fitBounds(geoJsonRef.current.getBounds());
+        console.log(geoJsonRef.current.getBounds(), "kjsdkjsdjsd")
       }
     }, [map, geoJsonId, mapData, handles]);
 
@@ -220,11 +221,13 @@ export default function IndiaMapComponentN() {
           dashData: mapData?.dashData?.find(item => item.regionCd === district_id),
         }
         : null;
-
+      
     let tooltipContent;
     if (localStorageStateName === "All India/National") {
+      setLoding(true)
       tooltipContent = `<div><strong>State:</strong> ${properties?.lgd_state_name || 'N/A'}</div>`;
       if (matchingDatas?.dashIntData) {
+        setLoding(false)
         if (handlesRef.current === "gross_enrollment_ratio") {
           if (selectedEnrollmentType === "elementary") {
             tooltipContent += `<br/><strong>Gross Enrollment Ratio Elementary:</strong> ${matchingDatas?.dashIntData?.gerElementary || 'N/A'}`;
@@ -262,8 +265,10 @@ export default function IndiaMapComponentN() {
       }
 
     } else {
+      setLoding(true)
       tooltipContent = `<div><strong>District:</strong> ${properties?.lgd_district_name || 'N/A'}</div>`;
       if (matchingDatas?.dashIntData) {
+        setLoding(false)
         if (handlesRef.current === "gross_enrollment_ratio") {
           if (selectedEnrollmentType === "elementary") {
             tooltipContent += `<br/><strong>Gross Enrollment Ratio Elementary:</strong> ${matchingDatas?.dashIntData?.gerElementary || 'N/A'}`;
@@ -559,7 +564,7 @@ export default function IndiaMapComponentN() {
           )}
 
         </div>
-        {dashIntDataMapLoading && (
+        {loading && (
           <Box className="map-overley">
             <CircularProgress />
           </Box>
@@ -568,11 +573,11 @@ export default function IndiaMapComponentN() {
         <MapContainer
           className="map"
           center={mapCenter}
-          zoom={11}
+          zoom={5}
           zoomControl={false}
           ref={mapRef}
           scrollWheelZoom={false}
-          dragging={false} 
+          dragging={false}
           attributionControl={false}
         >
 
@@ -582,7 +587,6 @@ export default function IndiaMapComponentN() {
             <GeoJSON className=""
               data={geoJson}
               key={geoJsonId}
-              
               style={geoJSONStyle}
               onEachFeature={onEachFeature}
               ref={geoJsonRef}
