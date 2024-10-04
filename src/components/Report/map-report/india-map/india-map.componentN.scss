@@ -325,12 +325,25 @@ div#dijit_Dialog_0 {
   left: 19%;
 
   @media (max-width: 1599px) and (min-width: 1400px) {
-    top: 2.1%;
-  left: 20%;
+    top: 1.8%;
+    left: 18%;
+    
+    .backButton{
+      font-size: 10px;
+    padding: 4px 5px;
+    align-items: center;
+    }
+
   }
 
   @media (max-width: 1399px) and (min-width: 1024px) {
-    top: 2.2%;
-    left: 24%;
+    top: 2%;
+    left: 20%;   
+
+    .backButton{
+      font-size: 10px;
+    padding: 4px 5px;
+    align-items: center;
+    }
   }
 }
