@@ -9,7 +9,7 @@
 
     .map-heading-map {
         display: flex;
-        align-items: flex-start;
+        align-items: center;
         justify-content: space-between;
     }
 
@@ -17,17 +17,29 @@
         background: #ffffff;
         border: 0;
         border-radius: 30px;
-        padding: 4px !important;
-        font-size: 12px;
+        padding: 8px 10px !important;
+        font-size: 14px;
         color: #000000;
         font-weight: 600;
         margin-top: 0px;
+        display: flex;
+        align-items: center;
         text-align: center;
-        margin-left: 5px;
+        margin-right: 0 !important;
 
         .material-icons-round {
-            font-size: 24px !important;
+            font-size: 20px !important;
             margin-right: 0px;
+        }
+
+        @media (max-width: 1599px) and (min-width: 1400px) {
+            padding: 4px 7px !important;
+            font-size: 12px;
+        }
+
+        @media (max-width: 1399px) and (min-width: 1024px) {
+            padding: 4px 7px !important;
+            font-size: 12px;
         }
 
     }
@@ -265,15 +277,15 @@
     width: 38%;
     height: 100%;
     background: #ededed;
-    border-radius: 0px 30px 0px 0px;
+    border-radius: 15px 15px 0px 0px;
 
     @media (max-width: 1599px) and (min-width: 1400px) {
-        width: 41.45%;
+        width: 41.45% !important;
         padding-right: 15px;
     }
 
     @media (max-width: 1399px) and (min-width: 1024px) {
-        width: 42.8%;
+        width: 42.8% !important;
         padding-right: 15px;
     }
 }

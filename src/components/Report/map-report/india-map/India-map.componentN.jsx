@@ -28,7 +28,6 @@ export default function IndiaMapComponentN() {
   const dispatch = useDispatch();
   const [geoJsonId, setGeoJsonId] = useState(COUNTRY_VIEW_ID);
   const [mapData, setMapData] = useState({ dashIntDataMap: null, dashData: null });
-  const [updateGrossEData, setUpdateGrossEData] = useState("Gross Enrollment Ratio")
   const geoJson = useMemo(() => topojson.feature(india, india.objects[geoJsonId]), [geoJsonId]);
   const mapRef = useRef(null);
   const geoJsonRef = useRef(null);
@@ -129,14 +128,14 @@ export default function IndiaMapComponentN() {
     const getColor = (a, thresholds, reversed = false) => {
       var normalizedA = a;
       if (reversed) {
-        return normalizedA <= thresholds[0] ? "#c1d0b5" : 
-          normalizedA <= thresholds[1] ? "#e3d1f8" :   
-            normalizedA <= thresholds[2] ? "#ffeda0" :   
+        return normalizedA <= thresholds[0] ? "#c1d0b5" :
+          normalizedA <= thresholds[1] ? "#e3d1f8" :
+            normalizedA <= thresholds[2] ? "#ffeda0" :
               "#fcae91";
       } else {
-        return normalizedA <= thresholds[0] ? "#fcae91" :  
-          normalizedA <= thresholds[1] ? "#ffeda0" :   
-            normalizedA <= thresholds[2] ? "#e3d1f8" : 
+        return normalizedA <= thresholds[0] ? "#fcae91" :
+          normalizedA <= thresholds[1] ? "#ffeda0" :
+            normalizedA <= thresholds[2] ? "#e3d1f8" :
               "#c1d0b5";
       }
     };
@@ -515,38 +514,112 @@ export default function IndiaMapComponentN() {
 
 
 
-  useEffect(() => {
-    if (grossEData === "gross_enrollment_ratio") {
-      setUpdateGrossEData("Gross Enrollment Ratio")
-    }
-    else if (grossEData === "dropout_rate") {
-      setUpdateGrossEData("Dropout Rate")
-    }
-    else if (grossEData === "transition_rate") {
-      setUpdateGrossEData("Transition Rate")
-
-    }
-    else if (grossEData === "pupil_teacher_ratio") {
-      setUpdateGrossEData("Pupil Teacher Ratio")
-    }
-    else if (grossEData === "schools_with_drinking_water") {
-      setUpdateGrossEData("Schools with Drinking Water")
-    }
-    else if (grossEData === "schools_with_electricity_connection") {
-      setUpdateGrossEData("Schools with Electricity Connection")
-
-    }
-
-
-  }, [grossEData])
   const isReversed = handles === "dropout_rate" || handles === "pupil_teacher_ratio";
 
   return (
     <>
-      <div style={{ width: "100%" }} className="d-flex align-items-center justify-content-between">
 
-        <div className="updated-gross-text ps-2">{updateGrossEData}</div>
-        <div>
+
+
+      <div className="mapMainContainer">
+        <div className="d-flex justify-content-between align-items-center mt-2">
+          {geoJsonId === "india-states" && (
+            <div className="buttonWrapper" style={{ visibility: "hidden" }}>
+              <button
+                className="backButton ms-2"
+              >
+                <ArrowBackIcon /> National View
+              </button>
+            </div>
+          )
+
+          }
+
+          {geoJsonId !== "india-states" && (
+            <div className="buttonWrapper">
+              <button
+                onClick={() => {
+                  setGeoJsonId(COUNTRY_VIEW_ID);
+                  dispatch(removeAllDistrict());
+                  dispatch(removeAllBlock());
+                  localStorage.setItem("year", "2021-22")
+                  window.localStorage.setItem("map_district_name", "District");
+                  window.localStorage.setItem("map_state_name", "All India/National");
+                  window.localStorage.setItem("state", "All India/National");
+                  dispatch(fetchMaptatsData(modifiedFilterObjForReset));
+                  dispatch(fetchMaptatsOtherData(modifiedFilterObjForReset));
+                  handleAPICallAccordingToFilter(modifiedFilterObjResetDashboard);
+                  dispatch(setstateId(null));
+                }}
+                className="backButton ms-2"
+              >
+                <ArrowBackIcon /> National View
+              </button>
+            </div>
+          )}
+
+        </div>
+        {dashIntDataMapLoading && (
+          <Box className="map-overley">
+            <CircularProgress />
+          </Box>
+        )}
+
+        <MapContainer
+          className="map"
+          center={mapCenter}
+          zoom={11}
+          zoomControl={false}
+          ref={mapRef}
+          scrollWheelZoom={false}
+          dragging={false} 
+          attributionControl={false}
+        >
+
+
+
+          {mapData && (
+            <GeoJSON className=""
+              data={geoJson}
+              key={geoJsonId}
+              
+              style={geoJSONStyle}
+              onEachFeature={onEachFeature}
+              ref={geoJsonRef}
+            />
+          )}
+
+          {/* code for show bydefault district name */}
+          {/* {mapData && geoJson.features.map((feature, index) => {
+            if (feature.properties && feature.properties.lgd_district_name) {
+              const [lat, lng] = getCentroid(feature);
+
+              if (geoJsonId !== "india-states") {
+                return (
+                  <Marker
+                    key={index}
+                    position={[lat, lng]}
+                    icon={L.divIcon({
+                      className: 'state-label',
+                      html: `<div style="font-size: 7px; color: #000; text-align: center; z-index:1">${feature.properties.lgd_district_name}</div>`,
+                      iconSize: [60, 20],
+                      iconAnchor: [25, 10],
+                    })}
+                  />
+                );
+              }
+            }
+            return null;
+          })} */}
+
+          <MapUpdater />
+        </MapContainer>
+      </div>
+
+      <div>
+
+
+        <div className="d-flex justify-content-between align-items-center ps-2 pr-2">
           {handles !== "" && rangeMapping[handles] ? (
             <div className="show-color-meaning">
               {["dropout_rate", "pupil_teacher_ratio"].includes(handles) ? (
@@ -611,46 +684,8 @@ export default function IndiaMapComponentN() {
             </div>
           ) : null}
 
-        </div>
-      </div>
 
 
-      <div className="mapMainContainer">
-        <div className="d-flex justify-content-between align-items-center mt-2">
-          {geoJsonId === "india-states" && (
-            <div className="buttonWrapper" style={{ visibility: "hidden" }}>
-              <button
-                className="backButton ms-2"
-              >
-                <ArrowBackIcon /> National View
-              </button>
-            </div>
-          )
-
-          }
-
-          {geoJsonId !== "india-states" && (
-            <div className="buttonWrapper">
-              <button
-                onClick={() => {
-                  setGeoJsonId(COUNTRY_VIEW_ID);
-                  dispatch(removeAllDistrict());
-                  dispatch(removeAllBlock());
-                  localStorage.setItem("year", "2021-22")
-                  window.localStorage.setItem("map_district_name", "District");
-                  window.localStorage.setItem("map_state_name", "All India/National");
-                  window.localStorage.setItem("state", "All India/National");
-                  dispatch(fetchMaptatsData(modifiedFilterObjForReset));
-                  dispatch(fetchMaptatsOtherData(modifiedFilterObjForReset));
-                  handleAPICallAccordingToFilter(modifiedFilterObjResetDashboard);
-                  dispatch(setstateId(null));
-                }}
-                className="backButton ms-2"
-              >
-                <ArrowBackIcon /> National View
-              </button>
-            </div>
-          )}
           <div className="map-dropdown">
             {handleSchemesEvent === "gross_enrollment_ratio" && (
               <select
@@ -693,77 +728,8 @@ export default function IndiaMapComponentN() {
               </select>
             )}
           </div>
+
         </div>
-        {dashIntDataMapLoading && (
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              position: 'absolute',
-              top: 90,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: 'rgba(0, 0, 0, 0.8)',
-              borderRadius: "5px",
-              zIndex: 1000,
-              height: '75vh',
-              width: '100%'
-            }}
-          >
-            <CircularProgress />
-          </Box>
-        )}
-
-        <MapContainer
-          className="map"
-          center={mapCenter}
-          zoom={11}
-          zoomControl={false}
-          ref={mapRef}
-          attributionControl={false}
-          style={{ height: "75vh", width: "100%" }}
-        >
-
-
-
-          {mapData && (
-            <GeoJSON className="map-interactive"
-              data={geoJson}
-              key={geoJsonId}
-              scrollWheelZoom={true}
-              style={geoJSONStyle}
-              onEachFeature={onEachFeature}
-              ref={geoJsonRef}
-            />
-          )}
-
-          {/* code for show bydefault district name */}
-          {/* {mapData && geoJson.features.map((feature, index) => {
-            if (feature.properties && feature.properties.lgd_district_name) {
-              const [lat, lng] = getCentroid(feature);
-
-              if (geoJsonId !== "india-states") {
-                return (
-                  <Marker
-                    key={index}
-                    position={[lat, lng]}
-                    icon={L.divIcon({
-                      className: 'state-label',
-                      html: `<div style="font-size: 8px; color: #000; text-align: center; z-index:1">${feature.properties.lgd_district_name}</div>`,
-                      iconSize: [50, 20],
-                      iconAnchor: [25, 10],
-                    })}
-                  />
-                );
-              }
-            }
-            return null;
-          })} */}
-
-          <MapUpdater />
-        </MapContainer>
       </div>
     </>
   );
