@@ -25,12 +25,12 @@ export default function HomeMap({ handleClass }) {
           <div className="row">
             <div className="col-md-12 p-0">
               <div className="common-content text-start map-heading-map">
-                <h2
+                {/* <h2
                   className="heading-blue mb-3"
                   style={{ whiteSpace: "pre-line" }}
                 >
-                  {t("message_on_map")}
-                </h2>
+                  
+                </h2> */}
                 <button
                   className="header-dropdown-btn close-map-btn"
                   title="Close Map"
@@ -38,7 +38,7 @@ export default function HomeMap({ handleClass }) {
                 >
                   {" "}
                   <span className="material-icons-round">close</span>{" "}
-                  {t("close_map_button")}
+                  {/* {t("close_map_button")}  */}
                 </button>
               </div>
             </div>

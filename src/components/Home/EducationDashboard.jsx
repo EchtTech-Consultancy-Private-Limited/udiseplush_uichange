@@ -292,7 +292,7 @@ export default function EducationDashboard() {
         <div className="container">
           <div className="row">
             <div className="col-md-12 mb-4 p-0">
-              <h2 className="heading-blue">{t("education_dashboard")}</h2>
+              <h2 className="heading-blue">{t("message_on_map")}</h2>
               <Breadcrumb />
             </div>
 

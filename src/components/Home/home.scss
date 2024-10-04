@@ -17,17 +17,17 @@
         background: #ffffff;
         border: 0;
         border-radius: 30px;
-        padding: 6px 10px;
+        padding: 4px !important;
         font-size: 12px;
         color: #000000;
         font-weight: 600;
-        display: flex;
-        align-items: center;
-        margin-top: 5px;
+        margin-top: 0px;
+        text-align: center;
+        margin-left: 5px;
 
         .material-icons-round {
-            font-size: 20px !important;
-            margin-right: 3px;
+            font-size: 24px !important;
+            margin-right: 0px;
         }
 
     }
@@ -263,13 +263,18 @@
     z-index: 1;
     position: fixed;
     width: 38%;
+    height: 100%;
+    background: #ededed;
+    border-radius: 0px 30px 0px 0px;
 
     @media (max-width: 1599px) and (min-width: 1400px) {
-    width: 40%;
+        width: 41.45%;
+        padding-right: 15px;
     }
-    
+
     @media (max-width: 1399px) and (min-width: 1024px) {
-    width: 41%;
+        width: 42.8%;
+        padding-right: 15px;
     }
 }
 
@@ -288,7 +293,8 @@
 }
 
 .main-card-home::after {
-    background: #ededed;
+    // background: #ededed;
+    background: #fff;
     border-radius: 0px 30px 0px 0px;
 }
 
@@ -458,7 +464,9 @@ button.header-dropdown-btn.open-map-btn {
             display: flex;
             flex-wrap: wrap;
 
-            .srid-card-se{width: 100%;}
+            .srid-card-se {
+                width: 100%;
+            }
         }
 
         .card-box-impact.tab-for-graph {
@@ -794,6 +802,7 @@ button.header-dropdown-btn.open-map-btn {
         font-size: 15px !important;
     }
 }
+
 .updated-gross-text {
     font-size: 16px;
     font-weight: 600;

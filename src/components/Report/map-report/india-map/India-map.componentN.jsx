@@ -708,7 +708,7 @@ export default function IndiaMapComponentN() {
               backgroundColor: 'rgba(0, 0, 0, 0.8)',
               borderRadius: "5px",
               zIndex: 1000,
-              height: '69vh',
+              height: '75vh',
               width: '100%'
             }}
           >
@@ -720,15 +720,16 @@ export default function IndiaMapComponentN() {
           className="map"
           center={mapCenter}
           zoom={11}
+          zoomControl={false}
           ref={mapRef}
           attributionControl={false}
-          style={{ height: "55vh", width: "100%" }}
+          style={{ height: "75vh", width: "100%" }}
         >
 
 
 
           {mapData && (
-            <GeoJSON
+            <GeoJSON className="map-interactive"
               data={geoJson}
               key={geoJsonId}
               scrollWheelZoom={true}

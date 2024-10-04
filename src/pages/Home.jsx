@@ -64,10 +64,10 @@ export default function Home() {
         className={`${header_name.headerName !== "All Reports"
             ? header_name.removeBeforeAfterClass
             : ""
-          } ptb-0 bg-grey ${customClass}`}
+          } ptb-0 bg-white ${customClass}`}
         id="content"
       >
-        <div className="container">
+        <div className="container bg-grey">
           <div className="row">
             {header_name.headerName === "All Reports" ? (
               <Reports />
