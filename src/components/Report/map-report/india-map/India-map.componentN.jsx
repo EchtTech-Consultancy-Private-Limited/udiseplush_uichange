@@ -55,7 +55,6 @@ export default function IndiaMapComponentN() {
   useEffect(() => {
     setHandles(handleSchemesEvent);
   }, [handleSchemesEvent]);
-console.log( geoJsonId," handlesRef.current")
   useEffect(() => {
     handlesRef.current = handles;
     if (geoJsonRef.current) {
@@ -97,18 +96,74 @@ console.log( geoJsonId," handlesRef.current")
     setMapData(data);
   }, []);
 
-  const MapUpdater = () => {
+  // const MapUpdater = () => {
+  //   const map = useMap();
+  //   useEffect(() => {
+  //     if (map && geoJsonRef.current) {
+  //       map.fitBounds(geoJsonRef.current.getBounds());
+  //     }
+  //   }, [map, geoJsonId, mapData, handles]);
+
+  //   return null;
+  // };
+
+  const MapUpdater = ({ geoJsonRef, center }) => {
     const map = useMap();
+  
     useEffect(() => {
       if (map && geoJsonRef.current) {
         map.fitBounds(geoJsonRef.current.getBounds());
-        console.log(geoJsonRef.current.getBounds(), "kjsdkjsdjsd")
       }
-    }, [map, geoJsonId, mapData, handles]);
+  
+      const handleZoomEnd = () => {
+        const zoomLevel = map.getZoom();
+        console.log(zoomLevel, 'Zoom Level');
+  
+        if (geoJsonRef.current) {
+          geoJsonRef.current.eachLayer((layer) => {
+            const layerElement = layer?.getElement();
+        
+            if (layerElement) {
+              console.log(layerElement, 'layerElement');
+              const isSmallScreen = window.matchMedia('(max-width: 1599px) and (min-width: 1400px)').matches;
 
+        
+              if (zoomLevel >= 7) {
+                layerElement.style.transform = 'scale(0.7)';
+                const overlayElements = document.getElementsByClassName('map');
+                
+                for (let i = 0; i < overlayElements.length; i++) {
+                  if (isSmallScreen) {
+                    console.log(isSmallScreen,"isSmallScreen")
+                    overlayElements[i].style.height = '55.5vh'; 
+                  } else {
+                    overlayElements[i].style.height = '57.5vh'; 
+                  }
+                }
+        
+                map.setView(center, zoomLevel);
+              } else {
+                layerElement.style.transform = '';
+                const overlayElements = document.getElementsByClassName('map');
+                for (let i = 0; i < overlayElements.length; i++) {
+                  overlayElements[i].style.height = ''; 
+                }
+              }
+            }
+          });
+        }
+        
+      };
+  
+      map.on('zoomend', handleZoomEnd);
+  
+      return () => {
+        map.off('zoomend', handleZoomEnd);
+      };
+    }, [map, geoJsonRef, center]);
+  
     return null;
   };
-
   const getColorFromData = useCallback((feature) => {
     const properties = feature?.properties;
     const state_id = localStorageStateName === "All India/National" ? properties.lgd_state_id : null;
@@ -221,7 +276,7 @@ console.log( geoJsonId," handlesRef.current")
           dashData: mapData?.dashData?.find(item => item.regionCd === district_id),
         }
         : null;
-      
+
     let tooltipContent;
     if (localStorageStateName === "All India/National") {
       setLoding(true)
@@ -516,15 +571,8 @@ console.log( geoJsonId," handlesRef.current")
   };
 
 
-
-
-
-  const isReversed = handles === "dropout_rate" || handles === "pupil_teacher_ratio";
-
   return (
     <>
-
-
 
       <div className="mapMainContainer">
         <div className="d-flex justify-content-between align-items-center mt-2">
@@ -574,8 +622,8 @@ console.log( geoJsonId," handlesRef.current")
           className="map"
           center={mapCenter}
           zoom={5}
-          zoomControl={false}
           ref={mapRef}
+          zoomControl={false}
           scrollWheelZoom={false}
           dragging={false}
           attributionControl={false}
@@ -584,7 +632,8 @@ console.log( geoJsonId," handlesRef.current")
 
 
           {mapData && (
-            <GeoJSON className=""
+            <GeoJSON
+              className="map-interactive"
               data={geoJson}
               key={geoJsonId}
               style={geoJSONStyle}
@@ -616,7 +665,7 @@ console.log( geoJsonId," handlesRef.current")
             return null;
           })} */}
 
-          <MapUpdater />
+      <MapUpdater geoJsonRef={geoJsonRef}   center={mapCenter}/>
         </MapContainer>
       </div>
 

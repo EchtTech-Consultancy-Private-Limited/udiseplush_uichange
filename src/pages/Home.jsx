@@ -67,7 +67,7 @@ export default function Home() {
           } ptb-0 bg-white ${customClass}`}
         id="content"
       >
-        <div className="container bg-grey">
+        <div className="container bg-grey border-r-b">
           <div className="row">
             {header_name.headerName === "All Reports" ? (
               <Reports />
