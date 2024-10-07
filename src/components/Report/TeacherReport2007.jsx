@@ -80,17 +80,24 @@ export default function TeacherReport2007() {
   const urlParams = new URLSearchParams(queryString.replace("#/", ""));
   const paramValue = urlParams.get("type");
   const schData = useSelector((state) => state?.pupilteacherratio);
-  const school_data = useSelector((state) => state?.pupilteacherratio?.data?.data);
-  const school_data_Years = useSelector((state) => state?.pupilteacherratioyear?.data?.data);
-  const school_data_Years_management = useSelector((state) => state?.pupilteacherratioyearmanagement?.data?.data);
+  const school_data = useSelector(
+    (state) => state?.pupilteacherratio?.data?.data
+  );
+  const school_data_Years = useSelector(
+    (state) => state?.pupilteacherratioyear?.data?.data
+  );
+  const school_data_Years_management = useSelector(
+    (state) => state?.pupilteacherratioyearmanagement?.data?.data
+  );
   const [local_state, setLocalStateName] = useState("All India/National");
   const [local_district, setLocalDistrictName] = useState("District");
   const [local_block, setLocalBlockName] = useState("Block");
   const schoolFilter = useSelector((state) => state.schoolFilter2007Slice);
   const filterObj = structuredClone(schoolFilter);
   const headerSliceData = useSelector((state) => state.header.activeTab);
-  const local_year = useMemo(() => localStorage.getItem("year"), []);
-  const stateName = useMemo(()=>localStorage.getItem("state"),[]);
+  const local_year = localStorage.getItem("year");
+
+  const stateName = useMemo(() => localStorage.getItem("state"), []);
   const [processedData, setProcessedData] = useState([]);
   const [groupKeys, setGroupKeys] = useState({
     schManagementBroad: false,
@@ -145,7 +152,8 @@ export default function TeacherReport2007() {
   const type = queryParameters.get("type");
   const [intialTeacherData, setIntialTeacherData] = useState(school_data);
   const [pinnedBottomRowDataByRows, setPinnedBottomRowDataByRow] = useState([]);
-  const [pupilTeacherRatioBy, setPupilTeacherRatioBy] = useState("School Management");
+  const [pupilTeacherRatioBy, setPupilTeacherRatioBy] =
+    useState("School Management");
   const gridApiRef = useRef(null);
   useEffect(() => {
     setIntialTeacherData(school_data);
@@ -193,7 +201,7 @@ export default function TeacherReport2007() {
   const [activeTab, setActiveTab] = useState(type);
   const [data, setData] = useState([]);
   const [graphData, setGraphData] = useState([]);
-  const [pinnedData, SetPinnedData] = useState([])
+  const [pinnedData, SetPinnedData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const filter_query_by_location =
     // local_state === "All India/National" ||
@@ -271,7 +279,6 @@ export default function TeacherReport2007() {
   //     SetPinnedData(arrGroupedDataTable);
   //   }
   // }, [arrGroupedDataTable, local_state]);
-
 
   function onColumnVisible(event) {
     const columnId = event?.column?.colId;
@@ -469,9 +476,6 @@ export default function TeacherReport2007() {
   const categoriesYear = processedData.map((item) => item.yearRange);
 
   const handleFilter = (e, value) => {
-
-
-
     if (value === "School Management" || value === "Mgts Details") {
       if (value === "School Management") {
         if (mgt === "active") {
@@ -598,16 +602,23 @@ export default function TeacherReport2007() {
       { headerName: "Rural", field: ruralField, hide: false },
     ];
   };
-  
-  const updateColumnHelper = (headerName, baseField, urbanField, ruralField) => {
+
+  const updateColumnHelper = (
+    headerName,
+    baseField,
+    urbanField,
+    ruralField
+  ) => {
     return {
       headerName,
       hide: false,
-      children: groupKeys.schLocationDesc ? undefined : createChildrenColumns(urbanField, ruralField),
+      children: groupKeys.schLocationDesc
+        ? undefined
+        : createChildrenColumns(urbanField, ruralField),
       ...(groupKeys.schLocationDesc ? { field: baseField } : {}),
     };
   };
-  
+
   const updateColumns = () => {
     setColumn((prevColumns) => {
       return prevColumns.map((col) => {
@@ -660,79 +671,82 @@ export default function TeacherReport2007() {
     dType: dType,
     dCode: dCode,
   };
-  const handleButtonClick =useCallback((type, detailType, e) => {
-    handleFilterClick(type, detailType);
-  
-    if (type === "School Management" && detailType === "broad") {
-      initialFilter.managementCode = 0;
-      dispatch(fetchArchiveServicesPtR(initialFilter));
-      setMgt("active");
-      setMgtDetail("");
-      setCatDetail("");
-      setCat("");
-      setUR("");
-      setGroupKeys((prevKeys) => ({
-        ...prevKeys,
-        schManagementBroad: true,
-        schCategoryBroad: false,
-        schLocationDesc: false,
-      }));
-    } else if (type === "School Category" && detailType === "broad") {
-      initialFilter.categoryCode = 0;
-      dispatch(fetchArchiveServicesPtR(initialFilter));
-      setCat("active");
-      setCatDetail("");
-      setMgtDetail("");
-      setMgt("");
-      setUR("");
-      setGroupKeys((prevKeys) => ({
-        ...prevKeys,
-        schManagementBroad: false,
-        schCategoryBroad: true,
-        schLocationDesc: false,
-      }));
+  const handleButtonClick = useCallback(
+    (type, detailType, e) => {
+      handleFilterClick(type, detailType);
 
-      const updatedColumns = [
-        { headerName: "Location", field: "regionName", hide: false },
-        { headerName: "Pre-Primary", field: "ptrPrePry", hide: false },
-        { headerName: "Primary", field: "ptrPry", hide: false },
-        { headerName: "Upper Primary", field: "ptrUPry", hide: false },
-        { headerName: "Secondary", field: "ptrSec", hide: false },
-        { headerName: "Higher Secondary", field: "ptrHSec", hide: false },
-        // {
-        //   headerName: "Overall",
-        //   field: "ptrHSec",
-        //   hide: false,
-        // },
-      ];
+      if (type === "School Management" && detailType === "broad") {
+        initialFilter.managementCode = 0;
+        dispatch(fetchArchiveServicesPtR(initialFilter));
+        setMgt("active");
+        setMgtDetail("");
+        setCatDetail("");
+        setCat("");
+        setUR("");
+        setGroupKeys((prevKeys) => ({
+          ...prevKeys,
+          schManagementBroad: true,
+          schCategoryBroad: false,
+          schLocationDesc: false,
+        }));
+      } else if (type === "School Category" && detailType === "broad") {
+        initialFilter.categoryCode = 0;
+        dispatch(fetchArchiveServicesPtR(initialFilter));
+        setCat("active");
+        setCatDetail("");
+        setMgtDetail("");
+        setMgt("");
+        setUR("");
+        setGroupKeys((prevKeys) => ({
+          ...prevKeys,
+          schManagementBroad: false,
+          schCategoryBroad: true,
+          schLocationDesc: false,
+        }));
 
-      setColumn(updatedColumns);
-    } else if (type === "Urban/Rural" && detailType === "broad") {
-      const currentLocationDesc = !groupKeys.schLocationDesc;
-      setUR(currentLocationDesc ? "active" : "");
-      setGroupKeys((prevKeys) => ({
-        ...prevKeys,
-        schLocationDesc: currentLocationDesc,
-      }));
-      updateColumns();
+        const updatedColumns = [
+          { headerName: "Location", field: "regionName", hide: false },
+          { headerName: "Pre-Primary", field: "ptrPrePry", hide: false },
+          { headerName: "Primary", field: "ptrPry", hide: false },
+          { headerName: "Upper Primary", field: "ptrUPry", hide: false },
+          { headerName: "Secondary", field: "ptrSec", hide: false },
+          { headerName: "Higher Secondary", field: "ptrHSec", hide: false },
+          // {
+          //   headerName: "Overall",
+          //   field: "ptrHSec",
+          //   hide: false,
+          // },
+        ];
 
-      if (currentLocationDesc) {
-        initialFilter.locationCode = 0;
-        if (groupKeys.schManagementBroad) {
-          initialFilter.managementCode = 0;
+        setColumn(updatedColumns);
+      } else if (type === "Urban/Rural" && detailType === "broad") {
+        const currentLocationDesc = !groupKeys.schLocationDesc;
+        setUR(currentLocationDesc ? "active" : "");
+        setGroupKeys((prevKeys) => ({
+          ...prevKeys,
+          schLocationDesc: currentLocationDesc,
+        }));
+        updateColumns();
+
+        if (currentLocationDesc) {
+          initialFilter.locationCode = 0;
+          if (groupKeys.schManagementBroad) {
+            initialFilter.managementCode = 0;
+          }
+        } else {
+          if (groupKeys.schManagementBroad) {
+            initialFilter.managementCode = 0;
+          }
         }
-      } else {
-        if (groupKeys.schManagementBroad) {
-          initialFilter.managementCode = 0;
-        }
+
+        dispatch(fetchArchiveServicesPtR(initialFilter));
       }
 
-      dispatch(fetchArchiveServicesPtR(initialFilter));
-    }
+      handleFilter(type, e);
+    },
+    [yearId, regionType, regionCode, dType, dCode, dispatch, groupKeys]
+  );
 
-    handleFilter(type, e);
-  },[yearId, regionType, regionCode, dType, dCode, dispatch, groupKeys]);
-  
   const handleButtonClickGraph = (type, detailType, e) => {
     handleFilterClick(type, detailType);
 
@@ -985,7 +999,7 @@ export default function TeacherReport2007() {
       }
       return newFilters;
     });
-  },[]);
+  }, []);
 
   const switchColumnsToRow = (e, flag = false) => {
     setShowTransposeds(false);
@@ -1111,17 +1125,18 @@ export default function TeacherReport2007() {
         );
       } else if (groupKeys.schManagementBroad && groupKeys.schLocationDesc) {
         setColumn((prevColumns) => {
-          const locationExists = prevColumns.some((col) => col.headerName === "Location");
+          const locationExists = prevColumns.some(
+            (col) => col.headerName === "Location"
+          );
           const updatedColumns = !locationExists
             ? [
-
-              ...prevColumns,
-              {
-                headerName: "Location",
-                field: "Location",
-                hide: !filter_query_by_location,
-              },
-            ]
+                ...prevColumns,
+                {
+                  headerName: "Location",
+                  field: "Location",
+                  hide: !filter_query_by_location,
+                },
+              ]
             : prevColumns;
 
           return updatedColumns.map((col) => {
@@ -1142,7 +1157,7 @@ export default function TeacherReport2007() {
                 ruralField: "CentralptrTotalRural",
                 urbanField: "CentralptrTotalUrban",
               },
-              "Others": {
+              Others: {
                 ruralField: "OthersptrTotalRural",
                 urbanField: "OthersptrTotalUrban",
               },
@@ -1170,7 +1185,6 @@ export default function TeacherReport2007() {
             }
           });
         });
-
       }
       const newArr = arr.map((item, idx) => ({
         ...item,
@@ -1249,12 +1263,11 @@ export default function TeacherReport2007() {
   //   },
   // ];
 
-
   // Function to filter keys with decimal values
   const getDecimalValues = (data) => {
-    return data.map(item => {
+    return data.map((item) => {
       return Object.entries(item).reduce((acc, [key, value]) => {
-        if (!isNaN(value) && value !== null && value.toString().includes('.')) {
+        if (!isNaN(value) && value !== null && value.toString().includes(".")) {
           acc[key] = value;
         }
         return acc;
@@ -1262,13 +1275,15 @@ export default function TeacherReport2007() {
     });
   };
 
-  const pinedBottomRowDatas = getDecimalValues(pinnedData).map((filteredItem) => ({
-    ...(getLastTrueToShowTotal()
-      ? { [getLastTrueToShowTotal()]: "Total" }
-      : { regionName: "Total" }),
-    totSch: calculateTotal("totSch"),
-    ...filteredItem
-  }));
+  const pinedBottomRowDatas = getDecimalValues(pinnedData).map(
+    (filteredItem) => ({
+      ...(getLastTrueToShowTotal()
+        ? { [getLastTrueToShowTotal()]: "Total" }
+        : { regionName: "Total" }),
+      totSch: calculateTotal("totSch"),
+      ...filteredItem,
+    })
+  );
 
   /*------------Export data to Excel and PDF-------------*/
   const getHeaderToExport = (gridApi) => {
@@ -1322,10 +1337,13 @@ export default function TeacherReport2007() {
   const getDocument = (gridApi) => {
     const headerRow = getHeaderToExport(gridApi);
     const rows = getRowsToExport(gridApi);
-    const pinnedBottomRowData = (((local_state !== "All India/National")) && ((local_state === "State Wise")) || ((local_district === "District Wise")) || ((local_block === "Block Wise")))
-      ? (pinedBottomRowDatas)
-      : [];
-    const pinnedBottomRow = pinnedBottomRowData
+    const pinnedBottomRowData =
+      (local_state !== "All India/National" && local_state === "State Wise") ||
+      local_district === "District Wise" ||
+      local_block === "Block Wise"
+        ? pinedBottomRowDatas
+        : [];
+    const pinnedBottomRow = pinnedBottomRowData;
     const date = new Date();
     // const formattedDate = new Intl.DateTimeFormat("en-US", {
     //   weekday: "long",     // Full day name (e.g., Friday)
@@ -1493,18 +1511,15 @@ export default function TeacherReport2007() {
         imgWidthE,
         imgHeightE
       );
-
     };
     // Function to add footer
-    const addFooter = () => {
-
-    };
-    const secondRow = [{ content: '', colSpan: 1 }];
+    const addFooter = () => {};
+    const secondRow = [{ content: "", colSpan: 1 }];
     columns?.children?.forEach((category) => {
       secondRow.push({
         content: category.headerName,
         colSpan: category.children.length,
-        styles: { halign: 'center' }
+        styles: { halign: "center" },
       });
     });
     const table = [];
@@ -1516,9 +1531,13 @@ export default function TeacherReport2007() {
       pinnedBottomRow.forEach((row) => {
         const totalRow = headerRow.map((header) => {
           let field = header.text;
-          if (row.hasOwnProperty(field.charAt(0).toLowerCase() + field.slice(1))) {
+          if (
+            row.hasOwnProperty(field.charAt(0).toLowerCase() + field.slice(1))
+          ) {
             field = field.charAt(0).toLowerCase() + field.slice(1);
-          } else if (row.hasOwnProperty(field.charAt(0).toUpperCase() + field.slice(1))) {
+          } else if (
+            row.hasOwnProperty(field.charAt(0).toUpperCase() + field.slice(1))
+          ) {
             field = field.charAt(0).toUpperCase() + field.slice(1);
           }
           return row[field] !== undefined ? row[field].toString() : "";
@@ -1531,43 +1550,69 @@ export default function TeacherReport2007() {
 
     const headers = [];
 
-    if (groupKeys.schCategoryBroad  && groupKeys.schLocationDesc === true) {
-
+    if (groupKeys.schCategoryBroad && groupKeys.schLocationDesc === true) {
       headers.push([
-        { content: '', colSpan: local_state === "State Wise" || local_district === "District Wise" || local_block === "Block Wise" ? 2 : 1, styles: { halign: 'center' } },
-        { content: 'Pre-Primary', colSpan: 2, styles: { halign: 'center' } },
-        { content: 'Primary', colSpan: 2, styles: { halign: 'center' } },
-        { content: 'Upper Primary', colSpan: 2, styles: { halign: 'center' } },
-        { content: 'Secondary', colSpan: 2, styles: { halign: 'center' } },
-        { content: 'Higher Secondary', colSpan: 2, styles: { halign: 'center' } },
+        {
+          content: "",
+          colSpan:
+            local_state === "State Wise" ||
+            local_district === "District Wise" ||
+            local_block === "Block Wise"
+              ? 2
+              : 1,
+          styles: { halign: "center" },
+        },
+        { content: "Pre-Primary", colSpan: 2, styles: { halign: "center" } },
+        { content: "Primary", colSpan: 2, styles: { halign: "center" } },
+        { content: "Upper Primary", colSpan: 2, styles: { halign: "center" } },
+        { content: "Secondary", colSpan: 2, styles: { halign: "center" } },
+        {
+          content: "Higher Secondary",
+          colSpan: 2,
+          styles: { halign: "center" },
+        },
         // { content: '', colSpan: 1, styles: { halign: 'center' } },
       ]);
     }
-    if (groupKeys.schManagementBroad === true && groupKeys.schLocationDesc === true) {
-
+    if (
+      groupKeys.schManagementBroad === true &&
+      groupKeys.schLocationDesc === true
+    ) {
       headers.push([
-        { content: '', colSpan: local_state === "State Wise" || local_district === "District Wise" || local_block === "Block Wise" ? 2 : 1, styles: { halign: 'center' } },
-        { content: 'State Government', colSpan: 2, styles: { halign: 'center' } },
-        { content: 'Govt Aided', colSpan: 2, styles: { halign: 'center' } },
-        { content: 'Private Unaided', colSpan: 2, styles: { halign: 'center' } },
-
-
-
+        {
+          content: "",
+          colSpan:
+            local_state === "State Wise" ||
+            local_district === "District Wise" ||
+            local_block === "Block Wise"
+              ? 2
+              : 1,
+          styles: { halign: "center" },
+        },
+        {
+          content: "State Government",
+          colSpan: 2,
+          styles: { halign: "center" },
+        },
+        { content: "Govt Aided", colSpan: 2, styles: { halign: "center" } },
+        {
+          content: "Private Unaided",
+          colSpan: 2,
+          styles: { halign: "center" },
+        },
       ]);
     }
-    const thirdRow = [{ content: '', styles: { halign: 'center' } }];
-
+    const thirdRow = [{ content: "", styles: { halign: "center" } }];
 
     table[0].forEach((header) => {
-      thirdRow.push({ content: header, styles: { halign: 'center' } });
+      thirdRow.push({ content: header, styles: { halign: "center" } });
     });
 
+    thirdRow.shift({ content: "", colSpan: 1 });
 
-    thirdRow.shift({ content: '', colSpan: 1 });
-
-    headers.push(thirdRow)
+    headers.push(thirdRow);
     doc.autoTable({
-      head:groupKeys.schLocationDesc=== false ?[table[0]] : headers,
+      head: groupKeys.schLocationDesc === false ? [table[0]] : headers,
       //  head: [table[0]],
       body: table.slice(1),
       theme: "grid",
@@ -1594,13 +1639,14 @@ export default function TeacherReport2007() {
         // Check if the current column header is "Serial Number"
         if (columnHeaderText === "Serial Number") {
           data.cell.styles.halign = "center"; // Center-align the content for "Serial Number"
-        } else if (columnHeaderText === "RegionName" || columnHeaderText === "Location") {
+        } else if (
+          columnHeaderText === "RegionName" ||
+          columnHeaderText === "Location"
+        ) {
           data.cell.styles.halign = "left"; // Center-align the content for "Serial Number"
-        }
-        else if (columnHeaderText === "Location") {
+        } else if (columnHeaderText === "Location") {
           data.cell.styles.halign = "left"; // Center-align the content for "Serial Number"
-        }
-        else {
+        } else {
           data.cell.styles.halign = "right";
         }
       },
@@ -1613,7 +1659,7 @@ export default function TeacherReport2007() {
     for (let i = 1; i <= totalPages; i++) {
       doc.setPage(i);
       doc.setFontSize(14);
-      doc.setFont('helvetica', 'normal');
+      doc.setFont("helvetica", "normal");
       doc.setTextColor("black");
       doc.text(
         `Page ${i} of ${totalPages}`,
@@ -1629,7 +1675,6 @@ export default function TeacherReport2007() {
         { fontSize: 12, align: "right", color: "black" }
       );
     }
-
 
     for (let i = 0; i < totalPages; i++) {
       doc.setPage(i + 1);
@@ -1700,7 +1745,7 @@ export default function TeacherReport2007() {
   useEffect(() => {
     setColumn((prevColumns) =>
       prevColumns.map((column) => {
-        if ((column.field === "regionName")) {
+        if (column.field === "regionName") {
           return {
             ...column,
             hide: !filter_query_by_location,
@@ -1714,8 +1759,14 @@ export default function TeacherReport2007() {
   dispatch(handleActiveTabs(activeTab));
 
   // enable disable State District and Block tab
-  const storedStateWise = useMemo(()=>localStorage.getItem("map_state_name"),[]);
-  const storedDistrictWise = useMemo(()=>localStorage.getItem("map_district_name"),[]);
+  const storedStateWise = useMemo(
+    () => localStorage.getItem("map_state_name"),
+    []
+  );
+  const storedDistrictWise = useMemo(
+    () => localStorage.getItem("map_district_name"),
+    []
+  );
 
   const [isStateTabEnabled, setIsStateTabEnabled] = useState(true);
   const [isDistrictTabEnabled, setIsDistrictTabEnabled] = useState(false);
@@ -2019,10 +2070,12 @@ export default function TeacherReport2007() {
   // The `handleMissingData` function is used to process data and ensure missing values are replaced,
   // which is then displayed in AG Grid using the processed data.
 
-
-  const pinnedBottomRowData = (((local_state !== "All India/National")) && ((local_state === "State Wise")) || ((local_district === "District Wise")) || ((local_block === "Block Wise")))
-    ? (pinedBottomRowDatas)
-    : [];
+  const pinnedBottomRowData =
+    (local_state !== "All India/National" && local_state === "State Wise") ||
+    local_district === "District Wise" ||
+    local_block === "Block Wise"
+      ? pinedBottomRowDatas
+      : [];
   return (
     <>
       {schData.isLoading && <GlobalLoading />}
@@ -2149,7 +2202,6 @@ export default function TeacherReport2007() {
                       </>
                     )}
 
-                    {/* vishal */}
                     <span>{local_year}</span>
                   </h4>
                 )}
@@ -2584,7 +2636,7 @@ export default function TeacherReport2007() {
                                                 if (
                                                   !item ||
                                                   item instanceof
-                                                  Highcharts.Axis
+                                                    Highcharts.Axis
                                                 ) {
                                                   return t("category");
                                                 }
@@ -2706,7 +2758,7 @@ export default function TeacherReport2007() {
                                                 if (
                                                   !item ||
                                                   item instanceof
-                                                  Highcharts.Axis
+                                                    Highcharts.Axis
                                                 ) {
                                                   return t("category");
                                                 }
@@ -2828,7 +2880,7 @@ export default function TeacherReport2007() {
                                                 if (
                                                   !item ||
                                                   item instanceof
-                                                  Highcharts.Axis
+                                                    Highcharts.Axis
                                                 ) {
                                                   return t("category");
                                                 }
@@ -2867,8 +2919,9 @@ export default function TeacherReport2007() {
                                 <div className="piechart-box row mt-4 align-items-center">
                                   <div className="col-md-12">
                                     <div
-                                      className={`scroll-btn-graph ${currentIndex === 0 ? "disabled" : ""
-                                        }`}
+                                      className={`scroll-btn-graph ${
+                                        currentIndex === 0 ? "disabled" : ""
+                                      }`}
                                       onClick={handlePrevious}
                                     >
                                       <span className="material-icons-round">
@@ -2999,10 +3052,11 @@ export default function TeacherReport2007() {
                                       immutable={true}
                                     />
                                     <div
-                                      className={`scroll-btn-graph ${currentIndex >= 38 - limit
+                                      className={`scroll-btn-graph ${
+                                        currentIndex >= 38 - limit
                                           ? "disabled"
                                           : ""
-                                        }`}
+                                      }`}
                                       onClick={handleNext}
                                     >
                                       <span className="material-icons-round">
@@ -3019,8 +3073,9 @@ export default function TeacherReport2007() {
                                 <div className="piechart-box row mt-4 align-items-center">
                                   <div className="col-md-12">
                                     <div
-                                      className={`scroll-btn-graph ${currentIndex === 0 ? "disabled" : ""
-                                        }`}
+                                      className={`scroll-btn-graph ${
+                                        currentIndex === 0 ? "disabled" : ""
+                                      }`}
                                       onClick={handlePrevious}
                                     >
                                       <span className="material-icons-round">
@@ -3144,10 +3199,11 @@ export default function TeacherReport2007() {
                                       immutable={true}
                                     />
                                     <div
-                                      className={`scroll-btn-graph ${currentIndex >= 38 - limit
+                                      className={`scroll-btn-graph ${
+                                        currentIndex >= 38 - limit
                                           ? "disabled"
                                           : ""
-                                        }`}
+                                      }`}
                                       onClick={handleNext}
                                     >
                                       <span className="material-icons-round">
