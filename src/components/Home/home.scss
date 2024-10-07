@@ -30,18 +30,19 @@
         .material-icons-round {
             font-size: 20px !important;
             margin-right: 0px;
+
             @media (max-width: 1599px) and (min-width: 1099px) {
                 font-size: 18px !important;
             }
         }
 
         @media (max-width: 1599px) and (min-width: 1400px) {
-            padding: 4px 7px !important;
+            padding: 6px 7px !important;
             font-size: 12px;
         }
 
         @media (max-width: 1399px) and (min-width: 1024px) {
-            padding: 4px 7px !important;
+            padding: 6px 7px !important;
             font-size: 12px;
         }
 
@@ -282,12 +283,18 @@
     background: #ededed;
     border-radius: 15px 15px 0px 0px;
 
+    @media(min-width: 1921px) {
+        width: 33.7% !important;
+    }
     @media (max-width: 1599px) and (min-width: 1400px) {
         width: 41.45% !important;
         padding-right: 15px;
     }
-
-    @media (max-width: 1399px) and (min-width: 1024px) {
+    @media (max-width: 1399px) and (min-width: 1351px) {
+        width: 40% !important;
+        padding-right: 15px;
+    }
+    @media (max-width: 1350px) and (min-width: 1024px) {
         width: 42.8% !important;
         padding-right: 15px;
     }
@@ -301,7 +308,7 @@
 .main-card-home:before {
     position: absolute;
     content: '';
-    width: 49%;
+    width: 45%;
     height: 100%;
     bottom: 0;
     z-index: 0;
@@ -823,6 +830,6 @@ button.header-dropdown-btn.open-map-btn {
     font-weight: 600;
 }
 
-.border-r-b{
-    border-radius: 0 15px 0 0 ;
+.border-r-b {
+    border-radius: 0 15px 0 0;
 }
