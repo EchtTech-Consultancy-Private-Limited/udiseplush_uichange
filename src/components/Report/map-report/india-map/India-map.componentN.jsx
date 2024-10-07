@@ -106,68 +106,83 @@ export default function IndiaMapComponentN() {
 
   //   return null;
   // };
-
-  const MapUpdater = ({ geoJsonRef, center }) => {
+  const MapUpdater = ({ geoJsonRef }) => {
     const map = useMap();
   
     useEffect(() => {
       if (map && geoJsonRef.current) {
-        map.fitBounds(geoJsonRef.current.getBounds());
+        const zoomLevel = geoJsonId === "india-states" ? 4 : 6;
+        const bounds = geoJsonRef.current.getBounds();
+        const center = bounds.getCenter();
+        map.setView(center, zoomLevel);
       }
-  
-      const handleZoomEnd = () => {
-        const zoomLevel = map.getZoom();
-        console.log(zoomLevel, 'Zoom Level');
-  
-        if (geoJsonRef.current) {
-          geoJsonRef.current.eachLayer((layer) => {
-            const layerElement = layer?.getElement();
-        
-            if (layerElement) {
-              console.log(layerElement, 'layerElement');
-              const isSmallScreen = window.matchMedia('(max-width: 1599px) and (min-width: 1400px)').matches;
-
-        
-              if (zoomLevel >= 7) {
-                layerElement.style.transform = 'scale(0.8)';
-                const overlayElements = document.getElementsByClassName('map');
-                
-                for (let i = 0; i < overlayElements.length; i++) {
-                  if (isSmallScreen) {
-                    console.log(isSmallScreen,"isSmallScreen")
-                    overlayElements[i].style.height = '67.5vh'; 
-                    overlayElements[i].style.marginTop = '8.5vh';  
-                     overlayElements[i].style.marginLeft = '8.5vh'; 
-                  } else {
-                    overlayElements[i].style.height = '67.5vh'; 
-                  }
-                }
-        
-                map.setView(center, zoomLevel);
-              } else {
-                layerElement.style.transform = '';
-                const overlayElements = document.getElementsByClassName('map');
-                for (let i = 0; i < overlayElements.length; i++) {
-                  overlayElements[i].style.height = ''; 
-                  overlayElements[i].style.marginTop = ''; 
-                  overlayElements[i].style.marginLeft = ''; 
-                }
-              }
-            }
-          });
-        }
-        
-      };
-  
-      map.on('zoomend', handleZoomEnd);
-  
-      return () => {
-        map.off('zoomend', handleZoomEnd);
-      };
-    }, [map, geoJsonRef, center]);
+    }, [map, geoJsonId, geoJsonRef]);
   
     return null;
   };
+  
+
+  // const MapUpdater = ({ geoJsonRef, center }) => {
+  //   const map = useMap();
+  
+  //   useEffect(() => {
+  //     if (map && geoJsonRef.current) {
+  //       map.fitBounds(geoJsonRef.current.getBounds());
+  //     }
+  
+  //     const handleZoomEnd = () => {
+  //       const zoomLevel = map.getZoom();
+  //       console.log(zoomLevel, 'Zoom Level');
+  
+  //       if (geoJsonRef.current) {
+  //         geoJsonRef.current.eachLayer((layer) => {
+  //           const layerElement = layer?.getElement();
+        
+  //           if (layerElement) {
+  //             console.log(layerElement, 'layerElement');
+  //             const isSmallScreen = window.matchMedia('(max-width: 1599px) and (min-width: 1400px)').matches;
+
+        
+  //             if (zoomLevel >= 7) {
+  //               layerElement.style.transform = 'scale(0.8)';
+  //               const overlayElements = document.getElementsByClassName('map');
+                
+  //               for (let i = 0; i < overlayElements.length; i++) {
+  //                 if (isSmallScreen) {
+  //                   console.log(isSmallScreen,"isSmallScreen")
+  //                   overlayElements[i].style.height = '67.5vh'; 
+  //                   overlayElements[i].style.marginTop = '8.5vh';  
+  //                    overlayElements[i].style.marginLeft = '8.5vh'; 
+  //                 } else {
+  //                   overlayElements[i].style.height = '67.5vh'; 
+  //                 }
+  //               }
+        
+  //               map.setView(center, zoomLevel);
+  //             } else {
+  //               layerElement.style.transform = '';
+  //               const overlayElements = document.getElementsByClassName('map');
+  //               for (let i = 0; i < overlayElements.length; i++) {
+  //                 overlayElements[i].style.height = ''; 
+  //                 overlayElements[i].style.marginTop = ''; 
+  //                 overlayElements[i].style.marginLeft = ''; 
+  //               }
+  //             }
+  //           }
+  //         });
+  //       }
+        
+  //     };
+  
+  //     map.on('zoomend', handleZoomEnd);
+  
+  //     return () => {
+  //       map.off('zoomend', handleZoomEnd);
+  //     };
+  //   }, [map, geoJsonRef, center]);
+  
+  //   return null;
+  // };
   const getColorFromData = useCallback((feature) => {
     const properties = feature?.properties;
     const state_id = localStorageStateName === "All India/National" ? properties.lgd_state_id : null;
