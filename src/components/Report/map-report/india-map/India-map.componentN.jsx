@@ -116,7 +116,6 @@ export default function IndiaMapComponentN() {
       if (map && geoJsonRef.current) {
         const overlayElements = document.getElementsByClassName('map');
         const bounds = geoJsonRef.current.getBounds();
-  console.log(geoJsonId,"geoJsonId")
         if (geoJsonId === "india-states") {
           const zoomLevel = 4;
           const center = bounds.getCenter();
@@ -129,7 +128,6 @@ export default function IndiaMapComponentN() {
           const isSmallScreen = window.matchMedia('(max-width: 1399px) and (min-width: 1024px)').matches;
           for (let i = 0; i < overlayElements.length; i++) {
             if(isMediumScreen){
-              console.log("isMediumScreen")
               if(geoJsonId === "24"){
             
                 overlayElements[i].style.transform = 'scale(1.62)';
@@ -143,13 +141,12 @@ export default function IndiaMapComponentN() {
               }
               else if(geoJsonId === "12"){
               
-                overlayElements[i].style.transform = 'scale(1.40)';
+                overlayElements[i].style.transform = 'scale(1.17)';
               }
               else{
                 overlayElements[i].style.transform = 'scale(1.50)';
               }
             } else if(isSmallScreen){
-              console.log("isSmallScreen")
               if(geoJsonId === "24"){
             
                 overlayElements[i].style.transform = 'scale(1.45)';
@@ -166,7 +163,6 @@ export default function IndiaMapComponentN() {
               }
             }
           else{
-            console.log("normal")
             if(geoJsonId === "24"){
             
               overlayElements[i].style.transform = 'scale(1.15)';
@@ -382,7 +378,7 @@ export default function IndiaMapComponentN() {
     let tooltipContent;
     if (localStorageStateName === "All India/National") {
       setLoding(true)
-      tooltipContent = `<div><strong>State:</strong> ${properties?.lgd_state_name || 'N/A'}</div>`;
+      tooltipContent = `<div style={{transform:"scale(1.0)"}}><strong>State:</strong> ${properties?.lgd_state_name || 'N/A'}</div>`;
       if (matchingDatas?.dashIntData) {
         setLoding(false)
         if (handlesRef.current === "gross_enrollment_ratio") {
@@ -422,7 +418,7 @@ export default function IndiaMapComponentN() {
       }
 
     } else {
-      setLoding(true)
+      // setLoding(true)
       tooltipContent = `<div><strong>District:</strong> ${properties?.lgd_district_name || 'N/A'}</div>`;
       if (matchingDatas?.dashIntData) {
         setLoding(false)
