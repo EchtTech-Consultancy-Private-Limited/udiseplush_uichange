@@ -402,7 +402,7 @@ export default function IndiaMapComponentN() {
     const { color, isHighlightedDistrict } = getColorFromData(feature);
     return {
       color: isHighlightedDistrict ? "#003366" : "#1f2021",
-      weight: isHighlightedDistrict ? 7 : 1,
+      weight: isHighlightedDistrict ? 5 : 1,
       dashArray: isHighlightedDistrict ? '1, 10' : '1, 0',
       fillOpacity: 1,
       fillColor: color,
