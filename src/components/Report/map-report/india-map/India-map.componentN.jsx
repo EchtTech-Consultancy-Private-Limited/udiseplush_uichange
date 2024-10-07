@@ -107,6 +107,8 @@ export default function IndiaMapComponentN() {
 
   //   return null;
   // };
+
+
   const MapUpdater = ({ geoJsonRef }) => {
     const map = useMap();
   
@@ -114,7 +116,7 @@ export default function IndiaMapComponentN() {
       if (map && geoJsonRef.current) {
         const overlayElements = document.getElementsByClassName('map');
         const bounds = geoJsonRef.current.getBounds();
-  
+  console.log(geoJsonId,"geoJsonId")
         if (geoJsonId === "india-states") {
           const zoomLevel = 4;
           const center = bounds.getCenter();
@@ -138,6 +140,10 @@ export default function IndiaMapComponentN() {
               else if(geoJsonId === "30"){
               
                 overlayElements[i].style.transform = 'scale(1.99)';
+              }
+              else if(geoJsonId === "12"){
+              
+                overlayElements[i].style.transform = 'scale(1.40)';
               }
               else{
                 overlayElements[i].style.transform = 'scale(1.50)';
@@ -171,6 +177,10 @@ export default function IndiaMapComponentN() {
             else if(geoJsonId === "30"){
             
               overlayElements[i].style.transform = 'scale(2.0)';
+            }
+            else if(geoJsonId === "12"){
+              
+              overlayElements[i].style.transform = 'scale(1.37)';
             }
             else{
               overlayElements[i].style.transform = 'scale(1.50)';
