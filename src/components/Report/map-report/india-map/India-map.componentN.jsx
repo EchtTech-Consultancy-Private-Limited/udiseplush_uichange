@@ -21,6 +21,7 @@ import { handleShowDistrict } from "../../../../redux/slice/headerSlice";
 import { allFilter } from "../../../../redux/slice/schoolFilterSlice3016";
 import { fetchArchiveServicesGraphSchoolData, fetchArchiveServicesSchoolData } from "../../../../redux/thunks/archiveServicesThunk";
 import { useLocation } from "react-router-dom";
+import { Padding } from "@mui/icons-material";
 const COUNTRY_VIEW_ID = "india-states";
 
 export default function IndiaMapComponentN() {
@@ -123,13 +124,29 @@ export default function IndiaMapComponentN() {
           }
         } else {
           for (let i = 0; i < overlayElements.length; i++) {
-            overlayElements[i].style.transform = 'scale(1.45)';
+            console.log(geoJsonId, "geoJsonId")
+            if(geoJsonId === "24"){
+            
+              overlayElements[i].style.transform = 'scale(1.15)';
+            }else if(geoJsonId === "18"){
+            
+              overlayElements[i].style.transform = 'scale(1.05)';
+            }
+            else if(geoJsonId === "30"){
+            
+              overlayElements[i].style.transform = 'scale(2.0)';
+            }
+            else{
+              overlayElements[i].style.transform = 'scale(1.50)';
+            }
+            
           }
           map.fitBounds(bounds, {
-            paddingTopLeft: [10, 50],
-            paddingBottomRight: [5, 50],
-            maxZoom: 7.5,
-            minZoom: 7
+            paddingTopLeft: [20, 50],
+            paddingBottomRight: [20, 50],
+            // Padding:[200, 200],
+            maxZoom: 6.5,
+            minZoom: 6
           });
         }
       }
