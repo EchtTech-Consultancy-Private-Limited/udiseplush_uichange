@@ -261,7 +261,7 @@ export default function StudentDashboard() {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12 mb-4 p-0">
-                            <h2 className="heading-blue">{t("student_dashboard")}</h2>
+                            <h2 className="heading-blue">{t("message_on_map")}</h2>
                             <Breadcrumb />
                         </div>
                         <div className="col-md-12 col-lg-12 p-0">

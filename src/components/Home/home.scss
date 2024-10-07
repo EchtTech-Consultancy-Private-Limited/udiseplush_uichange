@@ -9,7 +9,7 @@
 
     .map-heading-map {
         display: flex;
-        align-items: flex-start;
+        align-items: center;
         justify-content: space-between;
     }
 
@@ -17,17 +17,33 @@
         background: #ffffff;
         border: 0;
         border-radius: 30px;
-        padding: 6px 10px;
-        font-size: 12px;
+        padding: 8px 10px !important;
+        font-size: 14px;
         color: #000000;
         font-weight: 600;
+        margin-top: 0px;
         display: flex;
         align-items: center;
-        margin-top: 5px;
+        text-align: center;
+        margin-right: 0 !important;
 
         .material-icons-round {
             font-size: 20px !important;
-            margin-right: 3px;
+            margin-right: 0px;
+
+            @media (max-width: 1599px) and (min-width: 1099px) {
+                font-size: 18px !important;
+            }
+        }
+
+        @media (max-width: 1599px) and (min-width: 1400px) {
+            padding: 6px 7px !important;
+            font-size: 12px;
+        }
+
+        @media (max-width: 1399px) and (min-width: 1024px) {
+            padding: 6px 7px !important;
+            font-size: 12px;
         }
 
     }
@@ -263,13 +279,24 @@
     z-index: 1;
     position: fixed;
     width: 38%;
+    height: 100%;
+    background: #ededed;
+    border-radius: 15px 15px 0px 0px;
 
-    @media (max-width: 1599px) and (min-width: 1400px) {
-    width: 40%;
+    @media(min-width: 1921px) {
+        width: 33.7% !important;
     }
-    
-    @media (max-width: 1399px) and (min-width: 1024px) {
-    width: 41%;
+    @media (max-width: 1599px) and (min-width: 1400px) {
+        width: 41.45% !important;
+        padding-right: 15px;
+    }
+    @media (max-width: 1399px) and (min-width: 1351px) {
+        width: 40% !important;
+        padding-right: 15px;
+    }
+    @media (max-width: 1350px) and (min-width: 1024px) {
+        width: 42.8% !important;
+        padding-right: 15px;
     }
 }
 
@@ -281,14 +308,15 @@
 .main-card-home:before {
     position: absolute;
     content: '';
-    width: 49%;
+    width: 45%;
     height: 100%;
     bottom: 0;
     z-index: 0;
 }
 
 .main-card-home::after {
-    background: #ededed;
+    // background: #ededed;
+    background: #fff;
     border-radius: 0px 30px 0px 0px;
 }
 
@@ -458,7 +486,9 @@ button.header-dropdown-btn.open-map-btn {
             display: flex;
             flex-wrap: wrap;
 
-            .srid-card-se{width: 100%;}
+            .srid-card-se {
+                width: 100%;
+            }
         }
 
         .card-box-impact.tab-for-graph {
@@ -794,7 +824,12 @@ button.header-dropdown-btn.open-map-btn {
         font-size: 15px !important;
     }
 }
+
 .updated-gross-text {
     font-size: 16px;
     font-weight: 600;
+}
+
+.border-r-b {
+    border-radius: 0 15px 0 0;
 }
