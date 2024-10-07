@@ -266,7 +266,26 @@ div#dijit_Dialog_0 {
 
 
 }
-
+.custom-tooltip {
+  transform: scale(1.0);
+  transform-origin: center;
+  max-width: 255px;
+  padding: 10px;
+  font-size: 10px;
+  background-color: #303841;;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+  color: white;
+  font-weight: 400;
+  border: none;
+  
+}
+.tooltip-content{
+  font-size: 10px;
+}
+.tooltip-content-text{
+  color: #ff9800;
+}
 .map {
   transform: scale(1.7);
   transform-origin: center;
@@ -309,11 +328,11 @@ div#dijit_Dialog_0 {
   width:100%;
 
   @media(max-width: 1599px) and (min-width: 1400px) {
-    height:78vh;
+    height:80vh;
   }
 
   @media (max-width: 1399px) and (min-width: 1024px) {
-    height:75vh;
+    height:77vh;
     top:7%;
   }
 

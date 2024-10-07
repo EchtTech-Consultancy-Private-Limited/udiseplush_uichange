@@ -58,16 +58,13 @@ import {
   removeAllDistrict,
 } from "../../../../redux/thunks/districtThunk";
 import { removeAllBlock } from "../../../../redux/thunks/blockThunk";
-import { handleSchoolFilterStateTest } from "../../../Home/filter/FilterDropdown3016";
 import L from "leaflet";
-import { handleShowDistrict } from "../../../../redux/slice/headerSlice";
 import { allFilter } from "../../../../redux/slice/schoolFilterSlice3016";
 import {
   fetchArchiveServicesGraphSchoolData,
   fetchArchiveServicesSchoolData,
 } from "../../../../redux/thunks/archiveServicesThunk";
 import { useLocation } from "react-router-dom";
-import { Padding } from "@mui/icons-material";
 const COUNTRY_VIEW_ID = "india-states";
 
 export default function IndiaMapComponentN() {
@@ -88,8 +85,6 @@ export default function IndiaMapComponentN() {
     (state) => state?.mapData?.grossEData,
     shallowEqual
   );
-
-  const grossEData = useSelector((state) => state?.mapData?.grossEData);
   const schoolFilter = useSelector(
     (state) => state?.schoolFilter,
     shallowEqual
@@ -99,11 +94,6 @@ export default function IndiaMapComponentN() {
     (state) => state.mapData.stateId,
     shallowEqual
   );
-  const selectedStateId = useSelector(
-    (state) => state.mapData.stateCodeForMap,
-    shallowEqual
-  );
-  const headerData = useSelector((state) => state?.header);
   const localStorageStateName = window.localStorage.getItem("map_state_name");
   const [handles, setHandles] = useState(handleSchemesEvent);
   const handlesRef = useRef(handles);
@@ -113,10 +103,6 @@ export default function IndiaMapComponentN() {
   );
   const dashData = useSelector(
     (state) => state?.MapStatsPercentage?.data?.data,
-    shallowEqual
-  );
-  const dashIntDataMapLoading = useSelector(
-    (state) => state?.MapStats.isLoading,
     shallowEqual
   );
   const districtUdice = useSelector(
@@ -242,7 +228,7 @@ export default function IndiaMapComponentN() {
               } else if (geoJsonId === "18") {
                 overlayElements[i].style.transform = "scale(1.05)";
               } else if (geoJsonId === "30") {
-                overlayElements[i].style.transform = "scale(2.0)";
+                overlayElements[i].style.transform = "scale(1.7)";
               } else if (geoJsonId === "12") {
                 overlayElements[i].style.transform = "scale(1.37)";
               } else if (geoJsonId === "33") {
@@ -272,66 +258,6 @@ export default function IndiaMapComponentN() {
     return null;
   };
 
-  // const MapUpdater = ({ geoJsonRef, center }) => {
-  //   const map = useMap();
-
-  //   useEffect(() => {
-  //     if (map && geoJsonRef.current) {
-  //       map.fitBounds(geoJsonRef.current.getBounds());
-  //     }
-
-  //     const handleZoomEnd = () => {
-  //       const zoomLevel = map.getZoom();
-  //       console.log(zoomLevel, 'Zoom Level');
-
-  //       if (geoJsonRef.current) {
-  //         geoJsonRef.current.eachLayer((layer) => {
-  //           const layerElement = layer?.getElement();
-
-  //           if (layerElement) {
-  //             console.log(layerElement, 'layerElement');
-  //             const isSmallScreen = window.matchMedia('(max-width: 1599px) and (min-width: 1400px)').matches;
-
-  //             if (zoomLevel >= 7) {
-  //               layerElement.style.transform = 'scale(0.8)';
-  //               const overlayElements = document.getElementsByClassName('map');
-
-  //               for (let i = 0; i < overlayElements.length; i++) {
-  //                 if (isSmallScreen) {
-  //                   console.log(isSmallScreen,"isSmallScreen")
-  //                   overlayElements[i].style.height = '67.5vh';
-  //                   overlayElements[i].style.marginTop = '8.5vh';
-  //                    overlayElements[i].style.marginLeft = '8.5vh';
-  //                 } else {
-  //                   overlayElements[i].style.height = '67.5vh';
-  //                 }
-  //               }
-
-  //               map.setView(center, zoomLevel);
-  //             } else {
-  //               layerElement.style.transform = '';
-  //               const overlayElements = document.getElementsByClassName('map');
-  //               for (let i = 0; i < overlayElements.length; i++) {
-  //                 overlayElements[i].style.height = '';
-  //                 overlayElements[i].style.marginTop = '';
-  //                 overlayElements[i].style.marginLeft = '';
-  //               }
-  //             }
-  //           }
-  //         });
-  //       }
-
-  //     };
-
-  //     map.on('zoomend', handleZoomEnd);
-
-  //     return () => {
-  //       map.off('zoomend', handleZoomEnd);
-  //     };
-  //   }, [map, geoJsonRef, center]);
-
-  //   return null;
-  // };
   const getColorFromData = useCallback(
     (feature) => {
       const properties = feature?.properties;
@@ -497,131 +423,134 @@ export default function IndiaMapComponentN() {
       let tooltipContent;
       if (localStorageStateName === "All India/National") {
         setLoding(true);
-        tooltipContent = `<div style={{transform:"scale(1.0)"}}><strong>State:</strong> ${
+        tooltipContent = `<div class="tooltip-content"><strong>State:</strong> <span class="tooltip-content-text">${
           properties?.lgd_state_name || "N/A"
-        }</div>`;
+        }</span></div>`;
         if (matchingDatas?.dashIntData) {
           setLoding(false);
           if (handlesRef.current === "gross_enrollment_ratio") {
             if (selectedEnrollmentType === "elementary") {
-              tooltipContent += `<br/><strong>Gross Enrollment Ratio Elementary:</strong> ${
+              tooltipContent += `<br/><strong>Gross Enrollment Ratio Elementary:</strong> <span class="tooltip-content-text">${
                 matchingDatas?.dashIntData?.gerElementary || "N/A"
-              }`;
+              }</span>`;
             } else if (selectedEnrollmentType === "secondary") {
-              tooltipContent += `<br/><strong>Gross Enrollment Ratio  Secondary:</strong> ${
+              tooltipContent += `<br/><strong>Gross Enrollment Ratio  Secondary:</strong> <span class="tooltip-content-text">${
                 matchingDatas?.dashIntData?.gerSec || "N/A"
-              }`;
+              }</span>`;
             }
           }
           if (handlesRef.current === "dropout_rate") {
             if (selectedDropoutType === "primary") {
-              tooltipContent += `<br/><strong>Dropout Rate Primary:</strong> ${
+              tooltipContent += `<br/><strong>Dropout Rate Primary:</strong> <span class="tooltip-content-text" > ${
                 matchingDatas?.dashIntData?.dropoutPry || "N/A"
-              }`;
+              }</span>`;
             } else if (selectedDropoutType === "secondary") {
-              tooltipContent += `<br/><strong>Dropout Rate Secondary:</strong> ${
+              tooltipContent += `<br/><strong>Dropout Rate Secondary:</strong> <span class="tooltip-content-text"> ${
                 matchingDatas?.dashIntData?.dropoutSec || "N/A"
-              }`;
+              }</span>`;
             }
           }
           if (handlesRef.current === "transition_rate") {
             if (selectedTransitionRate === "primaryToUpper") {
-              tooltipContent += `<br/><strong>Transition Rate Primary to Upper Primary:</strong> ${
+              tooltipContent += `<br/><strong>Transition Rate Primary to Upper Primary:</strong> <span class="tooltip-content-text">${
                 matchingDatas?.dashIntData?.transPryUPry || "N/A"
-              }`;
+              }</span>`;
             } else if (selectedTransitionRate === "upperToSec") {
-              tooltipContent += `<br/><strong>Transition Rate Upper Primary to Secondary:</strong> ${
+              tooltipContent += `<br/><strong>Transition Rate Upper Primary to Secondary:</strong><span class="tooltip-content-text"> ${
                 matchingDatas?.dashIntData?.transUPrySec || "N/A"
-              }`;
+              }</span>`;
             }
           }
           if (handlesRef.current === "pupil_teacher_ratio") {
             if (selectedPupilTeacherRatio === "primary") {
-              tooltipContent += `<br/><strong>Pupil Teacher Ratio Primary:</strong> ${
+              tooltipContent += `<br/><strong>Pupil Teacher Ratio Primary:</strong> <span class="tooltip-content-text"> ${
                 matchingDatas?.dashIntData?.ptrPry || "N/A"
-              }`;
+              }<span/>`;
             } else if (selectedPupilTeacherRatio === "upperPrimary") {
-              tooltipContent += `<br/><strong>Pupil Teacher Ratio Upper Primary:</strong> ${
+              tooltipContent += `<br/><strong>Pupil Teacher Ratio Upper Primary:</strong> <span class="tooltip-content-text"> ${
                 matchingDatas?.dashIntData?.ptrUPry || "N/A"
-              }`;
+              } </span>`;
             }
           }
           if (handlesRef.current === "schools_with_drinking_water") {
-            tooltipContent += `<br/><strong>Schools with Drinking Water:</strong> ${
+            tooltipContent += `<br/><strong>Schools with Drinking Water:</strong> <span class="tooltip-content-text">  ${
               matchingDatas?.dashData?.schWithDrinkWater || "N/A"
-            } %`;
+            } % </span>`;
           }
           if (handlesRef.current === "schools_with_electricity_connection") {
-            tooltipContent += `<br/><strong> Schools with Electricity Connection:</strong> ${
+            tooltipContent += `<br/><strong> Schools with Electricity Connection:</strong> <span class="tooltip-content-text"> ${
               matchingDatas?.dashData?.schWithElectricity || "N/A"
-            } %`;
+            } % </span>`;
           }
         }
       } else {
         // setLoding(true)
-        tooltipContent = `<div><strong>District:</strong> ${
+        tooltipContent = `<div class="tooltip-content"><strong>District:</strong> <span class="tooltip-content-text"> ${
           properties?.lgd_district_name || "N/A"
-        }</div>`;
+        } </span></div>`;
         if (matchingDatas?.dashIntData) {
           setLoding(false);
           if (handlesRef.current === "gross_enrollment_ratio") {
             if (selectedEnrollmentType === "elementary") {
-              tooltipContent += `<br/><strong>Gross Enrollment Ratio Elementary:</strong> ${
+              tooltipContent += `<br/><strong>Gross Enrollment Ratio Elementary:</strong> <span class="tooltip-content-text">${
                 matchingDatas?.dashIntData?.gerElementary || "N/A"
-              }`;
+              } </span>`;
             } else if (selectedEnrollmentType === "secondary") {
-              tooltipContent += `<br/><strong>Gross Enrollment Ratio  Secondary:</strong> ${
+              tooltipContent += `<br/><strong>Gross Enrollment Ratio  Secondary:</strong> <span class="tooltip-content-text">${
                 matchingDatas?.dashIntData?.gerSec || "N/A"
-              }`;
+              }</span>`;
             }
           }
           if (handlesRef.current === "dropout_rate") {
             if (selectedDropoutType === "primary") {
-              tooltipContent += `<br/><strong>Dropout Rate Primary:</strong> ${
+              tooltipContent += `<br/><strong>Dropout Rate Primary:</strong> <span class="tooltip-content-text">${
                 matchingDatas?.dashIntData?.dropoutPry || "N/A"
-              }`;
+              } </span>`;
             } else if (selectedDropoutType === "secondary") {
-              tooltipContent += `<br/><strong>Dropout Rate Secondary:</strong> ${
+              tooltipContent += `<br/><strong>Dropout Rate Secondary:</strong> <span class="tooltip-content-text">${
                 matchingDatas?.dashIntData?.dropoutSec || "N/A"
-              }`;
+              } </span>`;
             }
           }
           if (handlesRef.current === "transition_rate") {
             if (selectedTransitionRate === "primaryToUpper") {
-              tooltipContent += `<br/><strong>Transition Rate Primary to Upper Primary:</strong> ${
+              tooltipContent += `<br/><strong>Transition Rate Primary to Upper Primary:</strong> <span class="tooltip-content-text"> ${
                 matchingDatas?.dashIntData?.transPryUPry || "N/A"
-              }`;
+              } </span>`;
             } else if (selectedTransitionRate === "upperToSec") {
-              tooltipContent += `<br/><strong>Transition Rate Upper Primary to Secondary:</strong> ${
+              tooltipContent += `<br/><strong>Transition Rate Upper Primary to Secondary:</strong> <span class="tooltip-content-text"> ${
                 matchingDatas?.dashIntData?.transUPrySec || "N/A"
-              }`;
+              } </span>`;
             }
           }
           if (handlesRef.current === "pupil_teacher_ratio") {
             if (selectedPupilTeacherRatio === "primary") {
-              tooltipContent += `<br/><strong>Pupil Teacher Ratio Primary:</strong> ${
+              tooltipContent += `<br/><strong>Pupil Teacher Ratio Primary:</strong> <span class="tooltip-content-text"> ${
                 matchingDatas?.dashIntData?.ptrPry || "N/A"
-              }`;
+              } </span>`;
             } else if (selectedPupilTeacherRatio === "upperPrimary") {
-              tooltipContent += `<br/><strong>Pupil Teacher Ratio Upper Primary:</strong> ${
+              tooltipContent += `<br/><strong>Pupil Teacher Ratio Upper Primary:</strong> <span class="tooltip-content-text">${
                 matchingDatas?.dashIntData?.ptrUPry || "N/A"
-              }`;
+              }</span>`;
             }
           }
           if (handlesRef.current === "schools_with_drinking_water") {
-            tooltipContent += `<br/><strong>Schools with Drinking Water:</strong> ${
+            tooltipContent += `<br/><strong>Schools with Drinking Water:</strong> <span class="tooltip-content-text">${
               matchingDatas?.dashData?.schWithDrinkWater || "N/A"
-            } %`;
+            } % </span>`;
           }
           if (handlesRef.current === "schools_with_electricity_connection") {
-            tooltipContent += `<br/><strong> Schools with Electricity Connection:</strong> ${
+            tooltipContent += `<br/><strong> Schools with Electricity Connection:</strong> <span class="tooltip-content-text"> ${
               matchingDatas?.dashData?.schWithElectricity || "N/A"
-            } %`;
+            } % </span>`;
           }
         }
       }
 
-      layer.bindTooltip(tooltipContent, { sticky: false });
+      layer.bindTooltip(tooltipContent, {
+        sticky: false,
+        className: "custom-tooltip",
+      });
 
       // if (isHighlightedDistrict) {
       //   const bounds = layer.getBounds();
