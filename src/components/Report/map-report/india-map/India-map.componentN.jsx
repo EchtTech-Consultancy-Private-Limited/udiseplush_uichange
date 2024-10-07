@@ -111,15 +111,34 @@ export default function IndiaMapComponentN() {
   
     useEffect(() => {
       if (map && geoJsonRef.current) {
-        const zoomLevel = geoJsonId === "india-states" ? 4 : 6;
+        const overlayElements = document.getElementsByClassName('map');
         const bounds = geoJsonRef.current.getBounds();
-        const center = bounds.getCenter();
-        map.setView(center, zoomLevel);
+  
+        if (geoJsonId === "india-states") {
+          const zoomLevel = 4;
+          const center = bounds.getCenter();
+          map.setView(center, zoomLevel);
+          for (let i = 0; i < overlayElements.length; i++) {
+            overlayElements[i].style.transform = '';
+          }
+        } else {
+          for (let i = 0; i < overlayElements.length; i++) {
+            overlayElements[i].style.transform = 'scale(1.45)';
+          }
+          map.fitBounds(bounds, {
+            paddingTopLeft: [10, 50],
+            paddingBottomRight: [5, 50],
+            maxZoom: 7.5,
+            minZoom: 7
+          });
+        }
       }
     }, [map, geoJsonId, geoJsonRef]);
   
     return null;
   };
+  
+  
   
 
   // const MapUpdater = ({ geoJsonRef, center }) => {
@@ -684,7 +703,7 @@ export default function IndiaMapComponentN() {
             return null;
           })} */}
 
-      <MapUpdater geoJsonRef={geoJsonRef}   center={mapCenter}/>
+      <MapUpdater geoJsonRef={geoJsonRef}  geoJsonId={geoJsonId} center={mapCenter}/>
         </MapContainer>
       </div>
 
