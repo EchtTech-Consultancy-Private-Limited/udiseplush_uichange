@@ -129,15 +129,17 @@ export default function IndiaMapComponentN() {
 
         
               if (zoomLevel >= 7) {
-                layerElement.style.transform = 'scale(0.7)';
+                layerElement.style.transform = 'scale(0.8)';
                 const overlayElements = document.getElementsByClassName('map');
                 
                 for (let i = 0; i < overlayElements.length; i++) {
                   if (isSmallScreen) {
                     console.log(isSmallScreen,"isSmallScreen")
-                    overlayElements[i].style.height = '55.5vh'; 
+                    overlayElements[i].style.height = '67.5vh'; 
+                    overlayElements[i].style.marginTop = '8.5vh';  
+                     overlayElements[i].style.marginLeft = '8.5vh'; 
                   } else {
-                    overlayElements[i].style.height = '57.5vh'; 
+                    overlayElements[i].style.height = '67.5vh'; 
                   }
                 }
         
@@ -147,6 +149,8 @@ export default function IndiaMapComponentN() {
                 const overlayElements = document.getElementsByClassName('map');
                 for (let i = 0; i < overlayElements.length; i++) {
                   overlayElements[i].style.height = ''; 
+                  overlayElements[i].style.marginTop = ''; 
+                  overlayElements[i].style.marginLeft = ''; 
                 }
               }
             }
