@@ -123,8 +123,44 @@ export default function IndiaMapComponentN() {
             overlayElements[i].style.transform = '';
           }
         } else {
+          const isMediumScreen = window.matchMedia('(max-width: 1599px) and (min-width: 1400px)').matches;
+          const isSmallScreen = window.matchMedia('(max-width: 1399px) and (min-width: 1024px)').matches;
           for (let i = 0; i < overlayElements.length; i++) {
-            console.log(geoJsonId, "geoJsonId")
+            if(isMediumScreen){
+              console.log("isMediumScreen")
+              if(geoJsonId === "24"){
+            
+                overlayElements[i].style.transform = 'scale(1.62)';
+              }else if(geoJsonId === "18"){
+              
+                overlayElements[i].style.transform = 'scale(1.55)';
+              }
+              else if(geoJsonId === "30"){
+              
+                overlayElements[i].style.transform = 'scale(1.99)';
+              }
+              else{
+                overlayElements[i].style.transform = 'scale(1.50)';
+              }
+            } else if(isSmallScreen){
+              console.log("isSmallScreen")
+              if(geoJsonId === "24"){
+            
+                overlayElements[i].style.transform = 'scale(1.45)';
+              }else if(geoJsonId === "18"){
+              
+                overlayElements[i].style.transform = 'scale(1.35)';
+              }
+              else if(geoJsonId === "30"){
+              
+                overlayElements[i].style.transform = 'scale(1.99)';
+              }
+              else{
+                overlayElements[i].style.transform = 'scale(1.50)';
+              }
+            }
+          else{
+            console.log("normal")
             if(geoJsonId === "24"){
             
               overlayElements[i].style.transform = 'scale(1.15)';
@@ -139,6 +175,7 @@ export default function IndiaMapComponentN() {
             else{
               overlayElements[i].style.transform = 'scale(1.50)';
             }
+          }
             
           }
           map.fitBounds(bounds, {
