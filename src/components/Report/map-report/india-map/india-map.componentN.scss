@@ -298,7 +298,7 @@ div#dijit_Dialog_0 {
   justify-content: center;
   align-items: center;
   position: absolute;
-  top:5.5%;
+  top:0;
   left: 0;
   right: 0;
   bottom: 0;
@@ -309,7 +309,7 @@ div#dijit_Dialog_0 {
   width:100%;
 
   @media(max-width: 1599px) and (min-width: 1400px) {
-    height:76vh;
+    height:78vh;
   }
 
   @media (max-width: 1399px) and (min-width: 1024px) {
@@ -325,25 +325,12 @@ div#dijit_Dialog_0 {
   left: 19%;
 
   @media (max-width: 1599px) and (min-width: 1400px) {
-    top: 1.8%;
-    left: 18%;
-    
-    .backButton{
-      font-size: 10px;
-    padding: 4px 5px;
-    align-items: center;
-    }
-
+    top: 2.1%;
+  left: 20%;
   }
 
   @media (max-width: 1399px) and (min-width: 1024px) {
-    top: 2%;
-    left: 20%;   
-
-    .backButton{
-      font-size: 10px;
-    padding: 4px 5px;
-    align-items: center;
-    }
+    top: 2.2%;
+    left: 24%;
   }
 }

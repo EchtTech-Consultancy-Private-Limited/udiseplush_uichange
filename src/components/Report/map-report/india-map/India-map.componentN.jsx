@@ -51,11 +51,10 @@ export default function IndiaMapComponentN() {
   const [selectedDropoutType, setSelectedDropoutType] = useState("primary");
   const [selectedTransitionRate, setSelectedTransitionRate] = useState("primaryToUpper");
   const [selectedPupilTeacherRatio, setSelectedPupilTeacherRatio] = useState("primary");
-
+  const [loading, setLoding] = useState("true")
   useEffect(() => {
     setHandles(handleSchemesEvent);
   }, [handleSchemesEvent]);
-
   useEffect(() => {
     handlesRef.current = handles;
     if (geoJsonRef.current) {
@@ -97,17 +96,74 @@ export default function IndiaMapComponentN() {
     setMapData(data);
   }, []);
 
-  const MapUpdater = () => {
+  // const MapUpdater = () => {
+  //   const map = useMap();
+  //   useEffect(() => {
+  //     if (map && geoJsonRef.current) {
+  //       map.fitBounds(geoJsonRef.current.getBounds());
+  //     }
+  //   }, [map, geoJsonId, mapData, handles]);
+
+  //   return null;
+  // };
+
+  const MapUpdater = ({ geoJsonRef, center }) => {
     const map = useMap();
+  
     useEffect(() => {
       if (map && geoJsonRef.current) {
         map.fitBounds(geoJsonRef.current.getBounds());
       }
-    }, [map, geoJsonId, mapData, handles]);
+  
+      const handleZoomEnd = () => {
+        const zoomLevel = map.getZoom();
+        console.log(zoomLevel, 'Zoom Level');
+  
+        if (geoJsonRef.current) {
+          geoJsonRef.current.eachLayer((layer) => {
+            const layerElement = layer?.getElement();
+        
+            if (layerElement) {
+              console.log(layerElement, 'layerElement');
+              const isSmallScreen = window.matchMedia('(max-width: 1599px) and (min-width: 1400px)').matches;
 
+        
+              if (zoomLevel >= 7) {
+                layerElement.style.transform = 'scale(0.7)';
+                const overlayElements = document.getElementsByClassName('map');
+                
+                for (let i = 0; i < overlayElements.length; i++) {
+                  if (isSmallScreen) {
+                    console.log(isSmallScreen,"isSmallScreen")
+                    overlayElements[i].style.height = '55.5vh'; 
+                  } else {
+                    overlayElements[i].style.height = '57.5vh'; 
+                  }
+                }
+        
+                map.setView(center, zoomLevel);
+              } else {
+                layerElement.style.transform = '';
+                const overlayElements = document.getElementsByClassName('map');
+                for (let i = 0; i < overlayElements.length; i++) {
+                  overlayElements[i].style.height = ''; 
+                }
+              }
+            }
+          });
+        }
+        
+      };
+  
+      map.on('zoomend', handleZoomEnd);
+  
+      return () => {
+        map.off('zoomend', handleZoomEnd);
+      };
+    }, [map, geoJsonRef, center]);
+  
     return null;
   };
-
   const getColorFromData = useCallback((feature) => {
     const properties = feature?.properties;
     const state_id = localStorageStateName === "All India/National" ? properties.lgd_state_id : null;
@@ -223,8 +279,10 @@ export default function IndiaMapComponentN() {
 
     let tooltipContent;
     if (localStorageStateName === "All India/National") {
+      setLoding(true)
       tooltipContent = `<div><strong>State:</strong> ${properties?.lgd_state_name || 'N/A'}</div>`;
       if (matchingDatas?.dashIntData) {
+        setLoding(false)
         if (handlesRef.current === "gross_enrollment_ratio") {
           if (selectedEnrollmentType === "elementary") {
             tooltipContent += `<br/><strong>Gross Enrollment Ratio Elementary:</strong> ${matchingDatas?.dashIntData?.gerElementary || 'N/A'}`;
@@ -262,8 +320,10 @@ export default function IndiaMapComponentN() {
       }
 
     } else {
+      setLoding(true)
       tooltipContent = `<div><strong>District:</strong> ${properties?.lgd_district_name || 'N/A'}</div>`;
       if (matchingDatas?.dashIntData) {
+        setLoding(false)
         if (handlesRef.current === "gross_enrollment_ratio") {
           if (selectedEnrollmentType === "elementary") {
             tooltipContent += `<br/><strong>Gross Enrollment Ratio Elementary:</strong> ${matchingDatas?.dashIntData?.gerElementary || 'N/A'}`;
@@ -511,15 +571,8 @@ export default function IndiaMapComponentN() {
   };
 
 
-
-
-
-  const isReversed = handles === "dropout_rate" || handles === "pupil_teacher_ratio";
-
   return (
     <>
-
-
 
       <div className="mapMainContainer">
         <div className="d-flex justify-content-between align-items-center mt-2">
@@ -559,7 +612,7 @@ export default function IndiaMapComponentN() {
           )}
 
         </div>
-        {dashIntDataMapLoading && (
+        {loading && (
           <Box className="map-overley">
             <CircularProgress />
           </Box>
@@ -568,21 +621,21 @@ export default function IndiaMapComponentN() {
         <MapContainer
           className="map"
           center={mapCenter}
-          zoom={11}
-          zoomControl={false}
+          zoom={5}
           ref={mapRef}
+          zoomControl={false}
           scrollWheelZoom={false}
-          dragging={false} 
+          dragging={false}
           attributionControl={false}
         >
 
 
 
           {mapData && (
-            <GeoJSON className=""
+            <GeoJSON
+              className="map-interactive"
               data={geoJson}
               key={geoJsonId}
-              
               style={geoJSONStyle}
               onEachFeature={onEachFeature}
               ref={geoJsonRef}
@@ -612,7 +665,7 @@ export default function IndiaMapComponentN() {
             return null;
           })} */}
 
-          <MapUpdater />
+      <MapUpdater geoJsonRef={geoJsonRef}   center={mapCenter}/>
         </MapContainer>
       </div>
 
