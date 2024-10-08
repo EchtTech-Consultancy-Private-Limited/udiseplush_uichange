@@ -221,7 +221,7 @@ export default function IndiaMapComponentN() {
               } else if (geoJsonId === "30") {
                 overlayElements[i].style.transform = "scale(1.99)";
               } else {
-                overlayElements[i].style.transform = "scale(1.50)";
+                overlayElements[i].style.transform = "scale(1.25)";
               }
             } else {
               if (geoJsonId === "24") {
@@ -423,7 +423,7 @@ export default function IndiaMapComponentN() {
 
       let tooltipContent;
       if (localStorageStateName === "All India/National") {
-        setLoding(true);
+        // setLoding(true);
         tooltipContent = `<div class="tooltip-content"><strong>State:</strong> <span class="tooltip-content-text">${
           properties?.lgd_state_name || "N/A"
         }</span></div>`;
@@ -870,7 +870,7 @@ export default function IndiaMapComponentN() {
                 <option value="upperPrimary">Upper Primary</option>
               </select>
             )}
-          </div>
+        </div>
 
         <MapContainer
           className="map"
@@ -925,7 +925,7 @@ export default function IndiaMapComponentN() {
         </MapContainer>
       </div>
 
-      <div>
+      <div className="position-relative">
         <div className="d-flex justify-content-center align-items-center ps-2 pr-2">
           {handles !== "" && rangeMapping[handles] ? (
             <div className="show-color-meaning">

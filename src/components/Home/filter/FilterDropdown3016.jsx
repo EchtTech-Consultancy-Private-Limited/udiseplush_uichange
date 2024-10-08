@@ -214,7 +214,7 @@ export default function FilterDropdown3016() {
       handleAPICallAccordingToFilterMap(reserveUpdatedFilters)
     }
 
-    handleAPICallAccordingToFilter(filterObj)
+    // handleAPICallAccordingToFilter(filterObj)
 
    
     window.localStorage.setItem("year", year_report);
