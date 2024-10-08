@@ -432,33 +432,33 @@ export default function IndiaMapComponentN() {
             if (selectedEnrollmentType === "elementary") {
               tooltipContent += `<br/><strong>Gross Enrollment Ratio Elementary:</strong> <span class="tooltip-content-text">${
                 matchingDatas?.dashIntData?.gerElementary || "N/A"
-              }</span>`;
+              } % </span>`;
             } else if (selectedEnrollmentType === "secondary") {
               tooltipContent += `<br/><strong>Gross Enrollment Ratio  Secondary:</strong> <span class="tooltip-content-text">${
                 matchingDatas?.dashIntData?.gerSec || "N/A"
-              }</span>`;
+              } % </span>`;
             }
           }
           if (handlesRef.current === "dropout_rate") {
             if (selectedDropoutType === "primary") {
               tooltipContent += `<br/><strong>Dropout Rate Primary:</strong> <span class="tooltip-content-text" > ${
                 matchingDatas?.dashIntData?.dropoutPry || "N/A"
-              }</span>`;
+              } % </span>`;
             } else if (selectedDropoutType === "secondary") {
               tooltipContent += `<br/><strong>Dropout Rate Secondary:</strong> <span class="tooltip-content-text"> ${
                 matchingDatas?.dashIntData?.dropoutSec || "N/A"
-              }</span>`;
+              } % </span>`;
             }
           }
           if (handlesRef.current === "transition_rate") {
             if (selectedTransitionRate === "primaryToUpper") {
               tooltipContent += `<br/><strong>Transition Rate Primary to Upper Primary:</strong> <span class="tooltip-content-text">${
                 matchingDatas?.dashIntData?.transPryUPry || "N/A"
-              }</span>`;
+              } % </span>`;
             } else if (selectedTransitionRate === "upperToSec") {
               tooltipContent += `<br/><strong>Transition Rate Upper Primary to Secondary:</strong><span class="tooltip-content-text"> ${
                 matchingDatas?.dashIntData?.transUPrySec || "N/A"
-              }</span>`;
+              } % </span>`;
             }
           }
           if (handlesRef.current === "pupil_teacher_ratio") {
@@ -494,33 +494,33 @@ export default function IndiaMapComponentN() {
             if (selectedEnrollmentType === "elementary") {
               tooltipContent += `<br/><strong>Gross Enrollment Ratio Elementary:</strong> <span class="tooltip-content-text">${
                 matchingDatas?.dashIntData?.gerElementary || "N/A"
-              } </span>`;
+              } % </span>`;
             } else if (selectedEnrollmentType === "secondary") {
               tooltipContent += `<br/><strong>Gross Enrollment Ratio  Secondary:</strong> <span class="tooltip-content-text">${
                 matchingDatas?.dashIntData?.gerSec || "N/A"
-              }</span>`;
+              } % </span>`;
             }
           }
           if (handlesRef.current === "dropout_rate") {
             if (selectedDropoutType === "primary") {
               tooltipContent += `<br/><strong>Dropout Rate Primary:</strong> <span class="tooltip-content-text">${
                 matchingDatas?.dashIntData?.dropoutPry || "N/A"
-              } </span>`;
+              } % </span>`;
             } else if (selectedDropoutType === "secondary") {
               tooltipContent += `<br/><strong>Dropout Rate Secondary:</strong> <span class="tooltip-content-text">${
                 matchingDatas?.dashIntData?.dropoutSec || "N/A"
-              } </span>`;
+              } % </span>`;
             }
           }
           if (handlesRef.current === "transition_rate") {
             if (selectedTransitionRate === "primaryToUpper") {
               tooltipContent += `<br/><strong>Transition Rate Primary to Upper Primary:</strong> <span class="tooltip-content-text"> ${
                 matchingDatas?.dashIntData?.transPryUPry || "N/A"
-              } </span>`;
+              } % </span>`;
             } else if (selectedTransitionRate === "upperToSec") {
               tooltipContent += `<br/><strong>Transition Rate Upper Primary to Secondary:</strong> <span class="tooltip-content-text"> ${
                 matchingDatas?.dashIntData?.transUPrySec || "N/A"
-              } </span>`;
+              } % </span>`;
             }
           }
           if (handlesRef.current === "pupil_teacher_ratio") {
