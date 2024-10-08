@@ -109,6 +109,7 @@ export default function IndiaMapComponentN() {
     (state) => state.distBlockWise.blockUdiseCode
   );
   const headerSlice = useSelector((state) => state.header);
+  const selectedYearId=useSelector((state)=>state.header.selectYearId)
   const [selectedEnrollmentType, setSelectedEnrollmentType] =
     useState("elementary");
   const [selectedDropoutType, setSelectedDropoutType] = useState("primary");
