@@ -15,8 +15,8 @@ export default function HomeMap({ handleClass }) {
   }, []);
   
   const handleChangeClass = (class_value) => {
-    handleClass(class_value);
     scroll.scrollToTop();
+    handleClass(class_value);
   };
 
  
