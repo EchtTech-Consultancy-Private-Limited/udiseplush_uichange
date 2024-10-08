@@ -821,6 +821,55 @@ export default function IndiaMapComponentN() {
             <CircularProgress />
           </Box>
         )}
+        
+        <div className="map-dropdown">
+            {handleSchemesEvent === "gross_enrollment_ratio" && (
+              <select
+                value={selectedEnrollmentType}
+                onChange={(e) => setSelectedEnrollmentType(e.target.value)}
+                className="form-control"
+              >
+                <option value="elementary">Elementary</option>
+                <option value="secondary">Secondary</option>
+              </select>
+            )}
+
+            {handleSchemesEvent === "dropout_rate" && (
+              <select
+                value={selectedDropoutType}
+                onChange={(e) => setSelectedDropoutType(e.target.value)}
+                className="form-control"
+              >
+                <option value="primary">Primary</option>
+                <option value="secondary">Secondary</option>
+              </select>
+            )}
+
+            {handleSchemesEvent === "transition_rate" && (
+              <select
+                name=""
+                id=""
+                className="form-control"
+                value={selectedTransitionRate}
+                onChange={(e) => setSelectedTransitionRate(e.target.value)}
+              >
+                <option value="primaryToUpper">Primary to upper primary</option>
+                <option value="upperToSec">Upper primary to secondary</option>
+              </select>
+            )}
+            {handleSchemesEvent === "pupil_teacher_ratio" && (
+              <select
+                name=""
+                id=""
+                className="form-control"
+                value={selectedPupilTeacherRatio}
+                onChange={(e) => setSelectedPupilTeacherRatio(e.target.value)}
+              >
+                <option value="primary">Primary</option>
+                <option value="upperPrimary">Upper Primary</option>
+              </select>
+            )}
+          </div>
 
         <MapContainer
           className="map"
@@ -832,6 +881,7 @@ export default function IndiaMapComponentN() {
           dragging={false}
           attributionControl={false}
         >
+          
           {mapData && (
             <GeoJSON
               className="map-interactive"
@@ -875,7 +925,7 @@ export default function IndiaMapComponentN() {
       </div>
 
       <div>
-        <div className="d-flex justify-content-between align-items-center ps-2 pr-2">
+        <div className="d-flex justify-content-center align-items-center ps-2 pr-2">
           {handles !== "" && rangeMapping[handles] ? (
             <div className="show-color-meaning">
               {["dropout_rate", "pupil_teacher_ratio"].includes(handles) ? (
@@ -943,54 +993,7 @@ export default function IndiaMapComponentN() {
             </div>
           ) : null}
 
-          <div className="map-dropdown">
-            {handleSchemesEvent === "gross_enrollment_ratio" && (
-              <select
-                value={selectedEnrollmentType}
-                onChange={(e) => setSelectedEnrollmentType(e.target.value)}
-                className="form-control"
-              >
-                <option value="elementary">Elementary</option>
-                <option value="secondary">Secondary</option>
-              </select>
-            )}
-
-            {handleSchemesEvent === "dropout_rate" && (
-              <select
-                value={selectedDropoutType}
-                onChange={(e) => setSelectedDropoutType(e.target.value)}
-                className="form-control"
-              >
-                <option value="primary">Primary</option>
-                <option value="secondary">Secondary</option>
-              </select>
-            )}
-
-            {handleSchemesEvent === "transition_rate" && (
-              <select
-                name=""
-                id=""
-                className="form-control"
-                value={selectedTransitionRate}
-                onChange={(e) => setSelectedTransitionRate(e.target.value)}
-              >
-                <option value="primaryToUpper">Primary to upper primary</option>
-                <option value="upperToSec">Upper primary to secondary</option>
-              </select>
-            )}
-            {handleSchemesEvent === "pupil_teacher_ratio" && (
-              <select
-                name=""
-                id=""
-                className="form-control"
-                value={selectedPupilTeacherRatio}
-                onChange={(e) => setSelectedPupilTeacherRatio(e.target.value)}
-              >
-                <option value="primary">Primary</option>
-                <option value="upperPrimary">Upper Primary</option>
-              </select>
-            )}
-          </div>
+         
         </div>
       </div>
     </>

@@ -57,6 +57,11 @@ div#dijit_Dialog_0 {
     padding-right: 0px;
   }
 
+  @media (max-width: 767px) {
+    flex-wrap: wrap;
+    justify-content: start;
+  }
+
 }
 
 .show-color-first {
@@ -79,38 +84,38 @@ div#dijit_Dialog_0 {
 }
 
 .circle1 {
-  width: 15px;
+  width: 40px;
   height: 15px;
   background-color: #fcae91;
-  border-radius: 50%;
+  border-radius: 0;
 
 }
 
 .circle2 {
-  width: 15px;
+  width: 40px;
   height: 15px;
   background-color: #ffeda0;
-  border-radius: 50%;
+  border-radius: 0%;
 
 }
 
 .circle3 {
-  width: 15px;
+  width: 40px;
   height: 15px;
   background-color: #e3d1f8;
-  border-radius: 50%;
+  border-radius: 0%;
 
 }
 
 .circle4 {
-  width: 15px;
+  width: 40px;
   height: 15px;
   background-color: #c1d0b5;
-  border-radius: 50%;
+  border-radius: 0%;
 }
 
 .text {
-  color: black;
+  color: black; 
 }
 
 .loading {
@@ -210,13 +215,31 @@ div#dijit_Dialog_0 {
   width: 100%;
 }
 
-.map-dropdown {
+.map-dropdown {  
+    position: absolute;
+    right: 0;
+    // z-index: 9999;
+
+    @media (max-width: 1599px) and (min-width: 1400px) {
+      right: 4%;
+    }
+    
+    @media (max-width: 1399px) and (min-width: 1024px) {
+      right: 5%;
+    }
+
+    @media (max-width: 767px) {
+      position: static;
+    }
+  
+
   select {
     width: 200px;
     float: right;
     margin-right: 15px;
     // margin-top: 12px;
     appearance: auto;
+    cursor: pointer;
     // height: 38px;
 
     @media (max-width: 1599px) and (min-width: 1400px) {
@@ -233,6 +256,10 @@ div#dijit_Dialog_0 {
       // margin-top: 10px;
       // height: 30px;
       font-size: 12px;
+    }
+
+    @media (max-width: 767px) {
+      width: 150px;
     }
   }
 }
@@ -299,8 +326,7 @@ div#dijit_Dialog_0 {
     transform: scale(1.8);
     height: 71vh;
     width:100%;
-}
-
+   }
   @media (max-width: 1599px) and (min-width: 1400px) {
     transform: scale(1.25);
     height: 67.5vh;
@@ -310,6 +336,13 @@ div#dijit_Dialog_0 {
     transform: scale(1.1);
     height: 67vh;
   }
+
+  @media (max-width: 767px) {
+    transform: scale(.9);
+    height:60vh;
+  }
+
+
 }
 
 .map-interactive {
@@ -356,5 +389,17 @@ div#dijit_Dialog_0 {
   @media (max-width: 1399px) and (min-width: 1024px) {
     top: 2%;
     left: 21%;
+  }
+
+  @media (max-width: 767px) {
+    top: 1.2%;
+    left: 5%;
+  }
+  
+}
+
+@media screen and (max-width: 768px) {
+  .map-main-card .close-map-btn {
+      display: none !important;
   }
 }
