@@ -73,6 +73,7 @@ import {
   handleViewDataByShow,
   handleShowFilter,
   setReserveUpdatedFilter,
+  setSelectYearId,
 } from "../../../redux/slice/headerSlice";
 import mapJsonData from "../../../mapData/mapDatalatLong.json";
 import {
@@ -183,8 +184,8 @@ export default function FilterDropdown3016() {
     const year = parseInt(splittedArr[0]);
     const year_report = splittedArr[1];
     setSelectedYear(year_report);
+    dispatch(setSelectYearId(year))
     filterObj.yearId = year;
-
     setUpdateYearId(filterObj?.yearId);
     if (location.pathname !== "/") {
       filterObj.valueType = 1;
@@ -199,14 +200,20 @@ export default function FilterDropdown3016() {
     dispatch(setReserveUpdatedFilter(reserveUpdatedFilters));
     // dispatch(allFilter(filterObj));
     if (mapStateValue === nationalWiseName || mapStateValue === stateWiseName) {
+ 
       handleAPICallAccordingToFilter(filterObj);
+      filterObj.regionType=21
+      filterObj.dType=21
+      filterObj.dashboardRegionType=21
+      handleAPICallAccordingToFilterMap(filterObj)
     } else {
       handleAPICallAccordingToFilter(reserveUpdatedFilters);
+      reserveUpdatedFilters.regionType=22
+      reserveUpdatedFilters.dType=22
+      reserveUpdatedFilters.dashboardRegionType=22;
+      handleAPICallAccordingToFilterMap(reserveUpdatedFilters)
     }
 
-    handleAPICallAccordingToFilter(filterObj)
-
-    handleAPICallAccordingToFilterMap(reserveUpdatedFilters)
     window.localStorage.setItem("year", year_report);
     hideOpendFilterBox();
   };
@@ -405,9 +412,11 @@ export default function FilterDropdown3016() {
     window.localStorage.setItem("state", state_name);
     window.localStorage.setItem("map_state_name", state_name);
     window.localStorage.setItem("map_district_name", "District");
+   if(location.pathname === "/"){
     filterObj.regionType=22
     filterObj.dType=22
     filterObj.dashboardRegionType=22
+   }
      headerData.isViewDataByShow && handleAPICallAccordingToFilterMap(filterObj);
     dispatch(handleCurrentIndex(0));
     hideOpendFilterBox();
@@ -606,11 +615,6 @@ export default function FilterDropdown3016() {
 
 
   const handleAPICallAccordingToFilterMap = (obj) => {
-      
-      // obj.regionType=22
-      // obj.dType=22
-      // obj.dashboardRegionType=22
-      // console.log( obj,"featureIdfeatureId")
     dispatch(fetchMaptatsData(obj));
     dispatch(fetchMaptatsOtherData(obj));
   };
