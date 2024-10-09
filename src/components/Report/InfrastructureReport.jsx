@@ -17,7 +17,7 @@ import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { allFilter } from "../../redux/slice/schoolFilterSlice3016";
+import { allFilter } from "../../redux/slice/schoolFilterSlice";
 import {
   block,
   blockWiseName,
@@ -88,7 +88,7 @@ export default function Infrastructure({ id, type }) {
     }
     return school;
   });
-  const schoolFilter = useSelector((state) => state.schoolFilter3016);
+  const schoolFilter = useSelector((state) => state.schoolFilter);
   const distBlockWiseData = useSelector((state) => state.distBlockWise);
   const headerData = useSelector((state) => state.header);
   // const local_state = window.localStorage.getItem("state_wise");

@@ -59,7 +59,7 @@ import {
 } from "../../../../redux/thunks/districtThunk";
 import { removeAllBlock } from "../../../../redux/thunks/blockThunk";
 import L from "leaflet";
-import { allFilter } from "../../../../redux/slice/schoolFilterSlice3016";
+import { allFilter } from "../../../../redux/slice/schoolFilterSlice";
 import {
   fetchArchiveServicesGraphSchoolData,
   fetchArchiveServicesSchoolData,
@@ -90,6 +90,7 @@ export default function IndiaMapComponentN() {
     shallowEqual
   );
   let filterObj = structuredClone(schoolFilter);
+  localStorage.setItem("selectedYearId", filterObj.yearId)
   const selectedStateCode = useSelector(
     (state) => state.mapData.stateId,
     shallowEqual
@@ -105,6 +106,15 @@ export default function IndiaMapComponentN() {
     (state) => state?.MapStatsPercentage?.data?.data,
     shallowEqual
   );
+  const dashDataLoading = useSelector(
+    (state) => state?.MapStatsPercentage?.data?.status,
+    shallowEqual
+  );
+  const dashIntDataMapLoading = useSelector(
+    (state) => state?.MapStats?.data?.status,
+    shallowEqual
+  );
+
   const districtUdice = useSelector(
     (state) => state.distBlockWise.blockUdiseCode
   );
@@ -611,6 +621,10 @@ export default function IndiaMapComponentN() {
     (e) => {
       let StateName;
       let featureId;
+      
+      const selectYearId=localStorage.getItem("selectedYearId")
+      let filterObj = structuredClone(schoolFilter);
+      filterObj.yearId=selectYearId;
       if (e) {
         StateName = e?.target?.feature?.properties?.lgd_state_name;
         featureId = e?.target
@@ -628,7 +642,7 @@ export default function IndiaMapComponentN() {
             dCode: featureId,
             dashboardRegionType: 22,
             dashboardRegionCode: featureId,
-            yearId: 8,
+            yearId: selectYearId,
             valueType: 2,
           };
           if (localStorageStateName === "All India/National") {
@@ -655,12 +669,12 @@ export default function IndiaMapComponentN() {
             regionCode: 99,
             dCode: 99,
             regionType: 21,
-            yearId: 8,
+            yearId: selectYearId,
           };
           dispatch(fetchAllStateSchemesData(modifiedFilterObjs));
         } else if (StateName === stateWiseName) {
           const newDataObject = {
-            yearId: filterObj.yearId,
+            yearId: selectYearId,
             regionType: 21,
             regionCode: "99",
             dType: 21,
@@ -717,7 +731,7 @@ export default function IndiaMapComponentN() {
           dispatch(
             fetchDistrictDataByStateCode({
               state_code: featureId,
-              yearId: filterObj.yearId,
+              yearId: selectYearId,
             })
           );
           dispatch(removeAllDistrict());

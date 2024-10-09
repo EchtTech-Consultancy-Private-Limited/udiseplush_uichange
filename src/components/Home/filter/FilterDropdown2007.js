@@ -59,7 +59,7 @@ export default function FilterDropdown4000() {
   const stateData = useSelector((state) => state.state);
   const stateDataClone = useSelector((state) => state.state.dataClone);
   const yearData = useSelector((state) => state.year);
-  const schoolFilter = useSelector((state) => state.schoolFilterreport);
+  const schoolFilter = useSelector((state) => state.schoolFilter2007Slice);
   const districtData = useSelector((state) => state.distrct);
   const districtDataClone = useSelector((state) => state.distrct.dataClone);
   const blockData = useSelector((state) => state.block);

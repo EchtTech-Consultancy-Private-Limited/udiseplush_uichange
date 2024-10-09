@@ -39,7 +39,7 @@ import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import Highcharts, { color } from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { allFilter } from "../../redux/slice/schoolFilterSlice3016";
+import { allFilter } from "../../redux/slice/schoolFilterSlice";
 import { initialFilterSchoolData } from "../../constants/constants";
 import HC_more from "highcharts/highcharts-more";
 import FilterDropdown3016 from "../Home/filter/FilterDropdown3016";
@@ -100,7 +100,7 @@ export default function InfrastructureReport1005() {
     return school;
   });
 
-  const schoolFilter = useSelector((state) => state.schoolFilter3016);
+  const schoolFilter = useSelector((state) => state.schoolFilter);
   const headerData = useSelector((state) => state.header);
   // const local_state = window.localStorage.getItem("state_wise");
   const [local_state, setLocalStateName] = useState("All India/National");
