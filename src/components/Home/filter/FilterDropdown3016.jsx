@@ -180,47 +180,48 @@ export default function FilterDropdown3016() {
   }, []);
 
   const handleSchoolFilterYear = (e) => {
-    const [year, year_report] = e.split("@").map((val, idx) => idx === 0 ? parseInt(val) : val);
-    
+    const splittedArr = e.split("@");
+    const year = parseInt(splittedArr[0]);
+    const year_report = splittedArr[1];
     setSelectedYear(year_report);
-    dispatch(setSelectYearId(year));
-  
-    // Update filter object
+    dispatch(setSelectYearId(year))
     filterObj.yearId = year;
-    filterObj.valueType = location.pathname !== "/" ? 1 : 2;
     dispatch(allFilter(filterObj));
-    
-    setUpdateYearId(year);
+    let updatedyearId=filterObj.yearId
   
-    // Prepare reserve filter object
+    setUpdateYearId(filterObj?.yearId);
+    if (location.pathname !== "/") {
+      filterObj.valueType = 1;
+    } else {
+      filterObj.valueType = 2;
+    }
     const reserveUpdatedFilters = {
       ...reserveUpdatedFilter,
       yearId: year,
-      valueType: filterObj.valueType,
+      valueType: location.pathname !== "/" ? 1 : 2,
     };
     dispatch(setReserveUpdatedFilter(reserveUpdatedFilters));
+    
   
-    // Determine API call based on mapStateValue
-    const isNationalOrState = mapStateValue === nationalWiseName || mapStateValue === stateWiseName;
-    const updatedFilter = isNationalOrState ? filterObj : reserveUpdatedFilters;
-  
-    // Set region, dType, and dashboardRegionType based on conditions
-    const regionTypeValue = isNationalOrState ? 21 : 22;
-    updatedFilter.regionType = regionTypeValue;
-    updatedFilter.dType = regionTypeValue;
-    updatedFilter.dashboardRegionType = regionTypeValue;
-  
-    // Call API with the updated filters
-    handleAPICallAccordingToFilter(updatedFilter);
-    handleAPICallAccordingToFilterMap(updatedFilter);
-  
-    // Save the year in localStorage
+    if (mapStateValue === nationalWiseName || mapStateValue === stateWiseName) {
+ 
+      handleAPICallAccordingToFilter(filterObj);
+      filterObj.regionType=21
+      filterObj.dType=21
+      filterObj.dashboardRegionType=21
+      handleAPICallAccordingToFilterMap(filterObj)
+    } else {
+      handleAPICallAccordingToFilter(reserveUpdatedFilters);
+      reserveUpdatedFilters.regionType=22
+      reserveUpdatedFilters.dType=22
+      reserveUpdatedFilters.dashboardRegionType=22;
+      handleAPICallAccordingToFilterMap(reserveUpdatedFilters)
+    }
+   
     window.localStorage.setItem("year", year_report);
-  
-    // Hide the filter box
+   
     hideOpendFilterBox();
   };
-  
 
   const handleSchoolFilterState = (e) => {
     const splittedArr = e.split("@");
