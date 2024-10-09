@@ -198,6 +198,7 @@ export default function FilterDropdown3016() {
       valueType: location.pathname !== "/" ? 1 : 2,
     };
     dispatch(setReserveUpdatedFilter(reserveUpdatedFilters));
+    
     // dispatch(allFilter(filterObj));
     if (mapStateValue === nationalWiseName || mapStateValue === stateWiseName) {
  
@@ -262,7 +263,17 @@ export default function FilterDropdown3016() {
       dispatch(allFilter(filterObj));
       dispatch(mapFilter(filterObj));
       handleAPICallAccordingToFilter(filterObj);
-      handleAPICallAccordingToFilterMap(filterObj)
+      const newDataObject={
+        yearId: filterObj.yearId,
+        regionType: 21,
+        regionCode: "99",
+        dType: 21,
+        dCode: 99,
+        dashboardRegionType: 21,
+        dashboardRegionCode: state_code,
+        valueType: location.pathname !== "/" ? 1 : 2,
+      }
+      handleAPICallAccordingToFilterMap(newDataObject)
       const elements = document.querySelectorAll(".impact-box-content.active");
       elements.forEach((element) => {
         element.classList.remove("active");
@@ -298,7 +309,6 @@ export default function FilterDropdown3016() {
         yearId: 8,
       };
       dispatch(fetchAllStateSchemesData(modifiedFilterObjs));
-
     } else if (state_name === stateWiseName) {
       // State-wise filtering
       const newDataObject = {
@@ -615,6 +625,7 @@ export default function FilterDropdown3016() {
 
 
   const handleAPICallAccordingToFilterMap = (obj) => {
+    // dispatch(mapFilter(obj))
     dispatch(fetchMaptatsData(obj));
     dispatch(fetchMaptatsOtherData(obj));
   };

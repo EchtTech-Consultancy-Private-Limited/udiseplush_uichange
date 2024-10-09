@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import FilterDropdown3016 from "../components/Home/filter/FilterDropdown3016";
 import { handleShowDistrict, handleShowFilter } from "../redux/slice/headerSlice";
 import { fetchDashboardData, fetchMaptatsData, fetchMaptatsOtherData } from "../redux/thunks/dashboardThunk";
+import { modifiedFilterObjForReset } from "../constants/constants";
 
 const SchoolDashboard = lazy(() => import("../components/Home/SchoolDashboard"));
 const TeacherDashboard = lazy(() => import("../components/Home/TeacherDashboard"));
@@ -51,9 +52,18 @@ export default function Home() {
     };
 
     dispatch(fetchDashboardData(newDataObject));
-    dispatch(fetchMaptatsData(mapFilterObj));
-    mapFilterObj.valueType=2
-    dispatch(fetchMaptatsOtherData(mapFilterObj));
+    // if(header_name.headerName === "Education Dashboard"){
+    //   dispatch(fetchMaptatsData(mapFilterObj));
+    //   mapFilterObj.valueType=2
+    //   dispatch(fetchMaptatsOtherData(mapFilterObj));
+    //   console.log(mapFilterObj, "mapFilterObj")
+    // }else{
+    //   dispatch(fetchMaptatsData(modifiedFilterObjForReset));
+    //   dispatch(fetchMaptatsOtherData(modifiedFilterObjForReset));
+    // }
+    dispatch(fetchMaptatsData(modifiedFilterObjForReset));
+    dispatch(fetchMaptatsOtherData(modifiedFilterObjForReset));
+ 
   }, [header_name.headerName]);
 
   const { t } = useTranslation();

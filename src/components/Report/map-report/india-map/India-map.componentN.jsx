@@ -109,7 +109,7 @@ export default function IndiaMapComponentN() {
     (state) => state.distBlockWise.blockUdiseCode
   );
   const headerSlice = useSelector((state) => state.header);
-  const selectedYearId=useSelector((state)=>state.header.selectYearId)
+  const selectedYearId = useSelector((state) => state.header.selectYearId)
   const [selectedEnrollmentType, setSelectedEnrollmentType] =
     useState("elementary");
   const [selectedDropoutType, setSelectedDropoutType] = useState("primary");
@@ -211,7 +211,7 @@ export default function IndiaMapComponentN() {
               } else if (geoJsonId === "12") {
                 overlayElements[i].style.transform = "scale(1.17)";
               } else {
-                overlayElements[i].style.transform = "scale(1.50)";
+                overlayElements[i].style.transform = "scale(1.40)";
               }
             } else if (isSmallScreen) {
               if (geoJsonId === "24") {
@@ -275,15 +275,15 @@ export default function IndiaMapComponentN() {
         districtUdice.length >= 4 && district_ids.includes(districtUdice);
       const matchingDatas = state_id
         ? {
-            dashIntData: mapData?.dashIntDataMap?.find(
-              (item) => item.regionCd === state_id
-            ),
-            dashData: mapData?.dashData?.find(
-              (item) => item.regionCd === state_id
-            ),
-          }
+          dashIntData: mapData?.dashIntDataMap?.find(
+            (item) => item.regionCd === state_id
+          ),
+          dashData: mapData?.dashData?.find(
+            (item) => item.regionCd === state_id
+          ),
+        }
         : district_id
-        ? {
+          ? {
             dashIntData: mapData?.dashIntDataMap?.find(
               (item) => item.regionCd === district_id
             ),
@@ -291,25 +291,25 @@ export default function IndiaMapComponentN() {
               (item) => item.regionCd === district_id
             ),
           }
-        : null;
+          : null;
       const getColor = (a, thresholds, reversed = false) => {
         var normalizedA = a;
         if (reversed) {
           return normalizedA <= thresholds[0]
             ? "#c1d0b5"
             : normalizedA <= thresholds[1]
-            ? "#e3d1f8"
-            : normalizedA <= thresholds[2]
-            ? "#ffeda0"
-            : "#fcae91";
+              ? "#e3d1f8"
+              : normalizedA <= thresholds[2]
+                ? "#ffeda0"
+                : "#fcae91";
         } else {
           return normalizedA <= thresholds[0]
             ? "#fcae91"
             : normalizedA <= thresholds[1]
-            ? "#ffeda0"
-            : normalizedA <= thresholds[2]
-            ? "#e3d1f8"
-            : "#c1d0b5";
+              ? "#ffeda0"
+              : normalizedA <= thresholds[2]
+                ? "#e3d1f8"
+                : "#c1d0b5";
         }
       };
 
@@ -403,15 +403,15 @@ export default function IndiaMapComponentN() {
           : null;
       const matchingDatas = state_id
         ? {
-            dashIntData: mapData?.dashIntDataMap?.find(
-              (item) => item.regionCd === state_id
-            ),
-            dashData: mapData?.dashData?.find(
-              (item) => item.regionCd === state_id
-            ),
-          }
+          dashIntData: mapData?.dashIntDataMap?.find(
+            (item) => item.regionCd === state_id
+          ),
+          dashData: mapData?.dashData?.find(
+            (item) => item.regionCd === state_id
+          ),
+        }
         : district_id
-        ? {
+          ? {
             dashIntData: mapData?.dashIntDataMap?.find(
               (item) => item.regionCd === district_id
             ),
@@ -419,133 +419,115 @@ export default function IndiaMapComponentN() {
               (item) => item.regionCd === district_id
             ),
           }
-        : null;
+          : null;
 
       let tooltipContent;
       if (localStorageStateName === "All India/National") {
-        // setLoding(true);
-        tooltipContent = `<div class="tooltip-content"><strong>State:</strong> <span class="tooltip-content-text">${
-          properties?.lgd_state_name || "N/A"
-        }</span></div>`;
+        setLoding(true);
+        tooltipContent = `<div class="tooltip-content"><strong>State:</strong> <span class="tooltip-content-text">${properties?.lgd_state_name || "N/A"
+          }</span></div>`;
         if (matchingDatas?.dashIntData) {
           setLoding(false);
           if (handlesRef.current === "gross_enrollment_ratio") {
             if (selectedEnrollmentType === "elementary") {
-              tooltipContent += `<br/><strong>Gross Enrollment Ratio Elementary:</strong> <span class="tooltip-content-text">${
-                matchingDatas?.dashIntData?.gerElementary || "N/A"
-              } % </span>`;
+              tooltipContent += `<br/><strong>Gross Enrollment Ratio Elementary:</strong> <span class="tooltip-content-text">${matchingDatas?.dashIntData?.gerElementary || "N/A"
+                } % </span>`;
             } else if (selectedEnrollmentType === "secondary") {
-              tooltipContent += `<br/><strong>Gross Enrollment Ratio  Secondary:</strong> <span class="tooltip-content-text">${
-                matchingDatas?.dashIntData?.gerSec || "N/A"
-              } % </span>`;
+              tooltipContent += `<br/><strong>Gross Enrollment Ratio  Secondary:</strong> <span class="tooltip-content-text">${matchingDatas?.dashIntData?.gerSec || "N/A"
+                } % </span>`;
             }
           }
           if (handlesRef.current === "dropout_rate") {
             if (selectedDropoutType === "primary") {
-              tooltipContent += `<br/><strong>Dropout Rate Primary:</strong> <span class="tooltip-content-text" > ${
-                matchingDatas?.dashIntData?.dropoutPry || "N/A"
-              } % </span>`;
+              tooltipContent += `<br/><strong>Dropout Rate Primary:</strong> <span class="tooltip-content-text" > ${matchingDatas?.dashIntData?.dropoutPry || "N/A"
+                } % </span>`;
             } else if (selectedDropoutType === "secondary") {
-              tooltipContent += `<br/><strong>Dropout Rate Secondary:</strong> <span class="tooltip-content-text"> ${
-                matchingDatas?.dashIntData?.dropoutSec || "N/A"
-              } % </span>`;
+              tooltipContent += `<br/><strong>Dropout Rate Secondary:</strong> <span class="tooltip-content-text"> ${matchingDatas?.dashIntData?.dropoutSec || "N/A"
+                } % </span>`;
             }
           }
           if (handlesRef.current === "transition_rate") {
             if (selectedTransitionRate === "primaryToUpper") {
-              tooltipContent += `<br/><strong>Transition Rate Primary to Upper Primary:</strong> <span class="tooltip-content-text">${
-                matchingDatas?.dashIntData?.transPryUPry || "N/A"
-              } % </span>`;
+              tooltipContent += `<br/><strong>Transition Rate Primary to Upper Primary:</strong> <span class="tooltip-content-text">${matchingDatas?.dashIntData?.transPryUPry || "N/A"
+                } % </span>`;
             } else if (selectedTransitionRate === "upperToSec") {
-              tooltipContent += `<br/><strong>Transition Rate Upper Primary to Secondary:</strong><span class="tooltip-content-text"> ${
-                matchingDatas?.dashIntData?.transUPrySec || "N/A"
-              } % </span>`;
+              tooltipContent += `<br/><strong>Transition Rate Upper Primary to Secondary:</strong><span class="tooltip-content-text"> ${matchingDatas?.dashIntData?.transUPrySec || "N/A"
+                } % </span>`;
             }
           }
           if (handlesRef.current === "pupil_teacher_ratio") {
             if (selectedPupilTeacherRatio === "primary") {
-              tooltipContent += `<br/><strong>Pupil Teacher Ratio Primary:</strong> <span class="tooltip-content-text"> ${
-                matchingDatas?.dashIntData?.ptrPry || "N/A"
-              }<span/>`;
+              tooltipContent += `<br/><strong>Pupil Teacher Ratio Primary:</strong> <span class="tooltip-content-text"> ${matchingDatas?.dashIntData?.ptrPry || "N/A"
+                }<span/>`;
             } else if (selectedPupilTeacherRatio === "upperPrimary") {
-              tooltipContent += `<br/><strong>Pupil Teacher Ratio Upper Primary:</strong> <span class="tooltip-content-text"> ${
-                matchingDatas?.dashIntData?.ptrUPry || "N/A"
-              } </span>`;
+              tooltipContent += `<br/><strong>Pupil Teacher Ratio Upper Primary:</strong> <span class="tooltip-content-text"> ${matchingDatas?.dashIntData?.ptrUPry || "N/A"
+                } </span>`;
             }
           }
           if (handlesRef.current === "schools_with_drinking_water") {
-            tooltipContent += `<br/><strong>Schools with Drinking Water:</strong> <span class="tooltip-content-text">  ${
-              matchingDatas?.dashData?.schWithDrinkWater || "N/A"
-            } % </span>`;
+            tooltipContent += `<br/><strong>Schools with Drinking Water:</strong> <span class="tooltip-content-text">  ${matchingDatas?.dashData?.schWithDrinkWater || "N/A"
+              } % </span>`;
           }
           if (handlesRef.current === "schools_with_electricity_connection") {
-            tooltipContent += `<br/><strong> Schools with Electricity Connection:</strong> <span class="tooltip-content-text"> ${
-              matchingDatas?.dashData?.schWithElectricity || "N/A"
-            } % </span>`;
+            tooltipContent += `<br/><strong> Schools with Electricity Connection:</strong> <span class="tooltip-content-text"> ${matchingDatas?.dashData?.schWithElectricity || "N/A"
+              } % </span>`;
           }
         }
+
       } else {
+
+        tooltipContent = `<div class="tooltip-content"><strong>District:</strong> <span class="tooltip-content-text"> ${properties?.lgd_district_name || "N/A"
+          } </span></div>`;
         // setLoding(true)
-        tooltipContent = `<div class="tooltip-content"><strong>District:</strong> <span class="tooltip-content-text"> ${
-          properties?.lgd_district_name || "N/A"
-        } </span></div>`;
         if (matchingDatas?.dashIntData) {
           setLoding(false);
           if (handlesRef.current === "gross_enrollment_ratio") {
             if (selectedEnrollmentType === "elementary") {
-              tooltipContent += `<br/><strong>Gross Enrollment Ratio Elementary:</strong> <span class="tooltip-content-text">${
-                matchingDatas?.dashIntData?.gerElementary || "N/A"
-              } % </span>`;
+              tooltipContent += `<br/><strong>Gross Enrollment Ratio Elementary:</strong> <span class="tooltip-content-text">${matchingDatas?.dashIntData?.gerElementary || "N/A"
+                } % </span>`;
             } else if (selectedEnrollmentType === "secondary") {
-              tooltipContent += `<br/><strong>Gross Enrollment Ratio  Secondary:</strong> <span class="tooltip-content-text">${
-                matchingDatas?.dashIntData?.gerSec || "N/A"
-              } % </span>`;
+              tooltipContent += `<br/><strong>Gross Enrollment Ratio  Secondary:</strong> <span class="tooltip-content-text">${matchingDatas?.dashIntData?.gerSec || "N/A"
+                } % </span>`;
             }
           }
           if (handlesRef.current === "dropout_rate") {
             if (selectedDropoutType === "primary") {
-              tooltipContent += `<br/><strong>Dropout Rate Primary:</strong> <span class="tooltip-content-text">${
-                matchingDatas?.dashIntData?.dropoutPry || "N/A"
-              } % </span>`;
+              tooltipContent += `<br/><strong>Dropout Rate Primary:</strong> <span class="tooltip-content-text">${matchingDatas?.dashIntData?.dropoutPry || "N/A"
+                } % </span>`;
             } else if (selectedDropoutType === "secondary") {
-              tooltipContent += `<br/><strong>Dropout Rate Secondary:</strong> <span class="tooltip-content-text">${
-                matchingDatas?.dashIntData?.dropoutSec || "N/A"
-              } % </span>`;
+              tooltipContent += `<br/><strong>Dropout Rate Secondary:</strong> <span class="tooltip-content-text">${matchingDatas?.dashIntData?.dropoutSec || "N/A"
+                } % </span>`;
             }
           }
           if (handlesRef.current === "transition_rate") {
             if (selectedTransitionRate === "primaryToUpper") {
-              tooltipContent += `<br/><strong>Transition Rate Primary to Upper Primary:</strong> <span class="tooltip-content-text"> ${
-                matchingDatas?.dashIntData?.transPryUPry || "N/A"
-              } % </span>`;
+              tooltipContent += `<br/><strong>Transition Rate Primary to Upper Primary:</strong> <span class="tooltip-content-text"> ${matchingDatas?.dashIntData?.transPryUPry || "N/A"
+                } % </span>`;
             } else if (selectedTransitionRate === "upperToSec") {
-              tooltipContent += `<br/><strong>Transition Rate Upper Primary to Secondary:</strong> <span class="tooltip-content-text"> ${
-                matchingDatas?.dashIntData?.transUPrySec || "N/A"
-              } % </span>`;
+              tooltipContent += `<br/><strong>Transition Rate Upper Primary to Secondary:</strong> <span class="tooltip-content-text"> ${matchingDatas?.dashIntData?.transUPrySec || "N/A"
+                } % </span>`;
             }
           }
           if (handlesRef.current === "pupil_teacher_ratio") {
             if (selectedPupilTeacherRatio === "primary") {
-              tooltipContent += `<br/><strong>Pupil Teacher Ratio Primary:</strong> <span class="tooltip-content-text"> ${
-                matchingDatas?.dashIntData?.ptrPry || "N/A"
-              } </span>`;
+              tooltipContent += `<br/><strong>Pupil Teacher Ratio Primary:</strong> <span class="tooltip-content-text"> ${matchingDatas?.dashIntData?.ptrPry || "N/A"
+                } </span>`;
             } else if (selectedPupilTeacherRatio === "upperPrimary") {
-              tooltipContent += `<br/><strong>Pupil Teacher Ratio Upper Primary:</strong> <span class="tooltip-content-text">${
-                matchingDatas?.dashIntData?.ptrUPry || "N/A"
-              }</span>`;
+              tooltipContent += `<br/><strong>Pupil Teacher Ratio Upper Primary:</strong> <span class="tooltip-content-text">${matchingDatas?.dashIntData?.ptrUPry || "N/A"
+                }</span>`;
             }
           }
           if (handlesRef.current === "schools_with_drinking_water") {
-            tooltipContent += `<br/><strong>Schools with Drinking Water:</strong> <span class="tooltip-content-text">${
-              matchingDatas?.dashData?.schWithDrinkWater || "N/A"
-            } % </span>`;
+            tooltipContent += `<br/><strong>Schools with Drinking Water:</strong> <span class="tooltip-content-text">${matchingDatas?.dashData?.schWithDrinkWater || "N/A"
+              } % </span>`;
           }
           if (handlesRef.current === "schools_with_electricity_connection") {
-            tooltipContent += `<br/><strong> Schools with Electricity Connection:</strong> <span class="tooltip-content-text"> ${
-              matchingDatas?.dashData?.schWithElectricity || "N/A"
-            } % </span>`;
+            tooltipContent += `<br/><strong> Schools with Electricity Connection:</strong> <span class="tooltip-content-text"> ${matchingDatas?.dashData?.schWithElectricity || "N/A"
+              } % </span>`;
           }
+
         }
+
       }
 
       layer.bindTooltip(tooltipContent, {
@@ -822,54 +804,54 @@ export default function IndiaMapComponentN() {
             <CircularProgress />
           </Box>
         )}
-        
+
         <div className="map-dropdown">
-            {handleSchemesEvent === "gross_enrollment_ratio" && (
-              <select
-                value={selectedEnrollmentType}
-                onChange={(e) => setSelectedEnrollmentType(e.target.value)}
-                className="form-control"
-              >
-                <option value="elementary">Elementary</option>
-                <option value="secondary">Secondary</option>
-              </select>
-            )}
+          {handleSchemesEvent === "gross_enrollment_ratio" && (
+            <select
+              value={selectedEnrollmentType}
+              onChange={(e) => setSelectedEnrollmentType(e.target.value)}
+              className="form-control"
+            >
+              <option value="elementary">Elementary</option>
+              <option value="secondary">Secondary</option>
+            </select>
+          )}
 
-            {handleSchemesEvent === "dropout_rate" && (
-              <select
-                value={selectedDropoutType}
-                onChange={(e) => setSelectedDropoutType(e.target.value)}
-                className="form-control"
-              >
-                <option value="primary">Primary</option>
-                <option value="secondary">Secondary</option>
-              </select>
-            )}
+          {handleSchemesEvent === "dropout_rate" && (
+            <select
+              value={selectedDropoutType}
+              onChange={(e) => setSelectedDropoutType(e.target.value)}
+              className="form-control"
+            >
+              <option value="primary">Primary</option>
+              <option value="secondary">Secondary</option>
+            </select>
+          )}
 
-            {handleSchemesEvent === "transition_rate" && (
-              <select
-                name=""
-                id=""
-                className="form-control"
-                value={selectedTransitionRate}
-                onChange={(e) => setSelectedTransitionRate(e.target.value)}
-              >
-                <option value="primaryToUpper">Primary to upper primary</option>
-                <option value="upperToSec">Upper primary to secondary</option>
-              </select>
-            )}
-            {handleSchemesEvent === "pupil_teacher_ratio" && (
-              <select
-                name=""
-                id=""
-                className="form-control"
-                value={selectedPupilTeacherRatio}
-                onChange={(e) => setSelectedPupilTeacherRatio(e.target.value)}
-              >
-                <option value="primary">Primary</option>
-                <option value="upperPrimary">Upper Primary</option>
-              </select>
-            )}
+          {handleSchemesEvent === "transition_rate" && (
+            <select
+              name=""
+              id=""
+              className="form-control"
+              value={selectedTransitionRate}
+              onChange={(e) => setSelectedTransitionRate(e.target.value)}
+            >
+              <option value="primaryToUpper">Primary to upper primary</option>
+              <option value="upperToSec">Upper primary to secondary</option>
+            </select>
+          )}
+          {handleSchemesEvent === "pupil_teacher_ratio" && (
+            <select
+              name=""
+              id=""
+              className="form-control"
+              value={selectedPupilTeacherRatio}
+              onChange={(e) => setSelectedPupilTeacherRatio(e.target.value)}
+            >
+              <option value="primary">Primary</option>
+              <option value="upperPrimary">Upper Primary</option>
+            </select>
+          )}
         </div>
 
         <MapContainer
@@ -882,7 +864,7 @@ export default function IndiaMapComponentN() {
           dragging={false}
           attributionControl={false}
         >
-          
+
           {mapData && (
             <GeoJSON
               className="map-interactive"
@@ -994,7 +976,7 @@ export default function IndiaMapComponentN() {
             </div>
           ) : null}
 
-         
+
         </div>
       </div>
     </>
