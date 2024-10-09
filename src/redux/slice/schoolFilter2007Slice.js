@@ -30,3 +30,5 @@ const schoolFilterSlice = createSlice({
 
 export const { changeYearFilter, changeDistrictFilter, changeStateFilter, allFilter } = schoolFilterSlice.actions
 export default schoolFilterSlice.reducer
+
+
