@@ -10,15 +10,12 @@ import archiveServicesYearSliceManagementWise from "./slice/archiveServicesYearS
 import archiveServicesGraphSlice from "./slice/archiveServicesGraphSlice";
 import archiveServicesPieGraphSlice from "./slice/archiveServicesPieGraphSlice";
 import schoolFilterSlice from "./slice/schoolFilterSlice";
-import schoolFilterSlices from "./slice/schoolFilterSlicereport";
-import testschoolFilterSlice from "./slice/testschoolFilterSlice";
 import darkLightMode from "./slice/darkLightModeSlice";
 import dataGridAPISlice from "./slice/dataGridAPISlice";
 import dashboardSlice from "./slice/dashboardSlice";
 import dashboardFilterSlice from "./slice/dashboardFilter.slice";
 import Column3016Slice from "./slice/Column3016Slice";
 import DistBlockWiseSlice from "./slice/DistBlockWiseSlice";
-import schoolFilterSlice3016 from "./slice/schoolFilterSlice3016";
 import mapSlice from "./slice/mapSlice";
 import dashboardTeacherStatSlice from "./slice/dashboardTeacherStatSlice";
 import dashboardSchoolStatsSlice from "./slice/dashboardSchoolStatsSlice";
@@ -41,8 +38,6 @@ const store = configureStore({
     mapData: mapSlice,
     schoolFilter: schoolFilterSlice,
     mapFilters:mapFilterSlice,
-    schoolFilterreport: schoolFilterSlices,
-    schoolFilter3016: schoolFilterSlice3016,
     schoolFilter2007Slice: schoolFilter2007Slice,
     state: stateSlice,
     distrct: districtSlice,
@@ -58,7 +53,6 @@ const store = configureStore({
     toggle: darkLightMode,
     column: dataGridAPISlice,
     column3016: Column3016Slice,
-    testschoolFilter: testschoolFilterSlice,
     dashboard: dashboardSlice,
     dashboardFilter: dashboardFilterSlice,
     distBlockWise: DistBlockWiseSlice,

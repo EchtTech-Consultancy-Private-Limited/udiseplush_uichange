@@ -30,13 +30,9 @@ import {
   fetchStudentStatsData,
   fetchTeachersStatsData,
   fetchAllStateSchemesData,
-  fetchSchoolStatsIntData,
   fetchStudentStatsIntData,
 } from "../../redux/thunks/dashboardThunk";
-import { handleShowDistrict } from "../../redux/slice/headerSlice";
-import { removeDateYear } from "../../redux/thunks/yearThunk";
 import { useLocation } from "react-router-dom";
-
 import { GlobalLoading } from "../GlobalLoading/GlobalLoading";
 import { EducationDashboardGraphA } from "./EducationDashboardGraphA";
 import { EducationDashboardGraphB } from "./EducationDashboardGraphB";
@@ -184,10 +180,6 @@ export default function EducationDashboard() {
   useSelector((state) => state?.studentStats?.data?.data?.[0]) || {};
   const dashIntDataStudent =
     useSelector((state) => state?.studentIntStats?.data?.data?.[0]) || {};
-  const SchemesData =
-    useSelector((state) => state?.schemesAllState?.data?.data) || {};
-  const [tabsState, setTabsState] = useState("School");
-  const [tabsInfraState, setTabsInfraState] = useState("girl_toilet");
   const totalTeachers =
     parseInt(dashData?.totTeachersMale) +
       parseInt(dashData?.totTeachersFemale) || 0;

@@ -16,7 +16,7 @@ import {
 } from "../../utils/index";
 import Breadcrumb from "./Breadcrumb";
 import { fetchArchiveServicesGraphSchoolData } from "../../redux/thunks/archiveServicesThunk";
-import { allFilter } from "../../redux/slice/schoolFilterSlice3016";
+import { allFilter } from "../../redux/slice/schoolFilterSlice";
 import { intialIndiaWiseFilterSchData } from "../../constants/constants";
 
 import { GlobalLoading } from "../GlobalLoading/GlobalLoading";

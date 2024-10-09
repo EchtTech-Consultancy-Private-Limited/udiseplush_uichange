@@ -78,7 +78,7 @@ export default function TeacherReport2008() {
   const [local_district, setLocalDistrictName] = useState("District");
   const [local_block, setLocalBlockName] = useState("Block");
   const [isScrollComplete, setIsScrollComplete] = useState(false);
-  const schoolFilter = useSelector((state) => state.schoolFilter3016);
+  const schoolFilter = useSelector((state) => state.schoolFilter);
   const filterObj = structuredClone(schoolFilter);
   const headerData = useSelector((state) => state.header);
   const local_year = window.localStorage.getItem("year");

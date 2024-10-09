@@ -57,7 +57,7 @@ export default function InfrastructureReportPieGraph3013() {
   }, [school_data, categoryMappings]);
   const selectedleble = useSelector((state) => state.header.selectedField3013graph.label)
   const headerData = useSelector((state) => state.header);
-  const schoolFilter = useSelector((state) => state.schoolFilter3016);
+  const schoolFilter = useSelector((state) => state.schoolFilter);
   const filterObj = structuredClone(schoolFilter);
   const [arrGroupedschManagementBroadData, setArrGroupedschManagementBroadData] = useState([]);
   const [arrGroupedschCategoryBroadData, setArrGroupedschCategoryBroadData] = useState([]);

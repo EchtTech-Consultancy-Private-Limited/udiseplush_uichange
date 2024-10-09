@@ -105,7 +105,7 @@ export default function InfrastructureReport1003() {
   const [local_state, setLocalStateName] = useState("All India/National");
   const [local_district, setLocalDistrictName] = useState("District");
   const [local_block, setLocalBlockName] = useState("Block");
-  const schoolFilter = useSelector((state) => state.schoolFilter3016);
+  const schoolFilter = useSelector((state) => state.sc);
   const filterObj = structuredClone(schoolFilter);
   const [showTransposed, setShowTransposeds] = useState(false);
   const [customColumnNames, setCustomColumns] = useState("");
