@@ -604,6 +604,7 @@ export default function IndiaMapComponentN() {
   const handleAPICallAccordingToFilter = (obj) => {
     // if (geoJsonId === "india-states") {
     if (headerSlice.headerName === "Education Dashboard") {
+      console.log("fetchDashboardData")
       dispatch(fetchDashboardData(obj));
       dispatch(fetchSchoolStatsData(obj));
       dispatch(fetchSchoolStatsIntData(obj));
@@ -653,6 +654,7 @@ export default function IndiaMapComponentN() {
             valueType: 2,
           };
           if (localStorageStateName === "All India/National") {
+            console.log("render This")
             dispatch(fetchMaptatsData(modifiedFilterObj));
             dispatch(fetchMaptatsOtherData(modifiedFilterObj));
           }
@@ -670,6 +672,7 @@ export default function IndiaMapComponentN() {
           handleAPICallAccordingToFilter(filterObj);
           dispatch(fetchMaptatsData(filterObj));
           filterObj.valueType = 2;
+          console.log("render This")
           dispatch(fetchMaptatsOtherData(filterObj));
           dispatch(removeAllDistrict());
           const modifiedFilterObjs = {
@@ -713,6 +716,7 @@ export default function IndiaMapComponentN() {
             handleAPICallAccordingToFilter(newDataObject);
             dispatch(fetchMaptatsData(newDataObject));
             filterObj.valueType = 2;
+            console.log("render This")
             dispatch(fetchMaptatsOtherData(newDataObject));
           }
 
@@ -807,6 +811,7 @@ export default function IndiaMapComponentN() {
                   );
                   window.localStorage.setItem("state", "All India/National");
                   dispatch(fetchMaptatsData(modifiedFilterObjForReset));
+                  console.log("render This")
                   dispatch(fetchMaptatsOtherData(modifiedFilterObjForReset));
                   handleAPICallAccordingToFilter(
                     modifiedFilterObjResetDashboard

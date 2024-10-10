@@ -191,17 +191,17 @@ export default function EducationDashboard() {
   const filterObj = structuredClone(schoolFilter);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchStudentStatsIntData(filterObj));
-  }, [dispatch, schoolFilter]);
+  // useEffect(() => {
+  //   dispatch(fetchStudentStatsIntData(filterObj));
+  // }, [dispatch, schoolFilter]);
   useEffect(() => {
     const updatedFilterObj = { ...filterObj, valueType: 2 };
-
     dispatch(fetchSchoolStatsData(updatedFilterObj));
     dispatch(fetchStudentStatsData(updatedFilterObj))
     dispatch(fetchTeachersStatsData(updatedFilterObj));
     dispatch(fetchDashboardData(updatedFilterObj));
     dispatch(fetchAllStateSchemesData(filterObj));
+    dispatch(fetchStudentStatsIntData(filterObj)); // add here
   }, [dispatch, schoolFilter]);
 
   useEffect(() => {
