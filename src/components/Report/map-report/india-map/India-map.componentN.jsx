@@ -65,6 +65,7 @@ import {
   fetchArchiveServicesSchoolData,
 } from "../../../../redux/thunks/archiveServicesThunk";
 import { useLocation } from "react-router-dom";
+import { setReserveUpdatedFilter } from "../../../../redux/slice/headerSlice";
 const COUNTRY_VIEW_ID = "india-states";
 
 export default function IndiaMapComponentN() {
@@ -128,9 +129,15 @@ export default function IndiaMapComponentN() {
   const [selectedPupilTeacherRatio, setSelectedPupilTeacherRatio] =
     useState("primary");
   const [loading, setLoding] = useState("true");
+  const mapStateValue = localStorage.getItem("map_state_name");
   useEffect(() => {
     setHandles(handleSchemesEvent);
   }, [handleSchemesEvent]);
+ 
+  useEffect(()=>{
+      dispatch(setReserveUpdatedFilter(filterObj));
+  }, [selectedYearId])
+
   useEffect(() => {
     handlesRef.current = handles;
     if (geoJsonRef.current) {
