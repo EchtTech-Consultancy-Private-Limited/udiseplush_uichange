@@ -186,10 +186,10 @@ export default function FilterDropdown3016() {
     setSelectedYear(year_report);
     dispatch(setSelectYearId(year))
     filterObj.yearId = year;
-    //  dispatch(allFilter(filterObj));
-    const updatedFilterObj = { yearId: year };
-    dispatch(allFilter(updatedFilterObj));
-    setUpdateYearId(updatedFilterObj?.yearId);
+     dispatch(allFilter(filterObj));
+    // const updatedFilterObj = { yearId: year };
+    // dispatch(allFilter(updatedFilterObj));
+    setUpdateYearId(filterObj?.yearId);
     if (location.pathname !== "/") {
       filterObj.valueType = 1;
     } else {
@@ -200,6 +200,7 @@ export default function FilterDropdown3016() {
       yearId: year,
       valueType: location.pathname !== "/" ? 1 : 2,
     };
+    console.log(reserveUpdatedFilters, "reserveUpdatedFilters")
     dispatch(setReserveUpdatedFilter(reserveUpdatedFilters));
     if (mapStateValue === nationalWiseName || mapStateValue === stateWiseName) {
       handleAPICallAccordingToFilter(filterObj);
