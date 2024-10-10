@@ -186,11 +186,9 @@ export default function FilterDropdown3016() {
     setSelectedYear(year_report);
     dispatch(setSelectYearId(year))
     filterObj.yearId = year;
-  //  dispatch(allFilter(filterObj));
-  
-  const updatedFilterObj = { yearId: year };
-  dispatch(allFilter(updatedFilterObj));
-
+    //  dispatch(allFilter(filterObj));
+    const updatedFilterObj = { yearId: year };
+    dispatch(allFilter(updatedFilterObj));
     setUpdateYearId(updatedFilterObj?.yearId);
     if (location.pathname !== "/") {
       filterObj.valueType = 1;
@@ -204,22 +202,19 @@ export default function FilterDropdown3016() {
     };
     dispatch(setReserveUpdatedFilter(reserveUpdatedFilters));
     if (mapStateValue === nationalWiseName || mapStateValue === stateWiseName) {
- 
       handleAPICallAccordingToFilter(filterObj);
-      filterObj.regionType=21
-      filterObj.dType=21
-      filterObj.dashboardRegionType=21
+      filterObj.regionType = 21
+      filterObj.dType = 21
+      filterObj.dashboardRegionType = 21
       handleAPICallAccordingToFilterMap(filterObj)
     } else {
       handleAPICallAccordingToFilter(reserveUpdatedFilters);
-      reserveUpdatedFilters.regionType=22
-      reserveUpdatedFilters.dType=22
-      reserveUpdatedFilters.dashboardRegionType=22;
+      reserveUpdatedFilters.regionType = 22
+      reserveUpdatedFilters.dType = 22
+      reserveUpdatedFilters.dashboardRegionType = 22;
       handleAPICallAccordingToFilterMap(reserveUpdatedFilters)
     }
-   
     window.localStorage.setItem("year", year_report);
-   
     hideOpendFilterBox();
   };
 
@@ -267,7 +262,7 @@ export default function FilterDropdown3016() {
       dispatch(allFilter(filterObj));
       dispatch(mapFilter(filterObj));
       handleAPICallAccordingToFilter(filterObj);
-      const newDataObject={
+      const newDataObject = {
         yearId: filterObj.yearId,
         regionType: 21,
         regionCode: "99",
@@ -392,7 +387,7 @@ export default function FilterDropdown3016() {
         const district_data = state_code + "@" + districtWiseName;
         handleSchoolFilterDistrict(district_data);
       }
-    
+
       // if (headerData.isViewDataByShow && location.pathname === "/") {
       //   const district_data = state_code + "@" + districtWiseName;
       //   console.log(district_data, "district_data")
@@ -426,12 +421,12 @@ export default function FilterDropdown3016() {
     window.localStorage.setItem("state", state_name);
     window.localStorage.setItem("map_state_name", state_name);
     window.localStorage.setItem("map_district_name", "District");
-   if(location.pathname === "/"){
-    filterObj.regionType=22
-    filterObj.dType=22
-    filterObj.dashboardRegionType=22
-   }
-     headerData.isViewDataByShow && handleAPICallAccordingToFilterMap(filterObj);
+    if (location.pathname === "/") {
+      filterObj.regionType = 22
+      filterObj.dType = 22
+      filterObj.dashboardRegionType = 22
+    }
+    headerData.isViewDataByShow && handleAPICallAccordingToFilterMap(filterObj);
     dispatch(handleCurrentIndex(0));
     hideOpendFilterBox();
   };
@@ -630,6 +625,7 @@ export default function FilterDropdown3016() {
 
   const handleAPICallAccordingToFilterMap = (obj) => {
     // dispatch(mapFilter(obj))
+    console.log("render This")
     dispatch(fetchMaptatsData(obj));
     dispatch(fetchMaptatsOtherData(obj));
   };

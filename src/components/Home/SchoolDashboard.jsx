@@ -194,17 +194,21 @@ export default function SchoolDashboard() {
     dispatch(fetchSchoolStatsIntData(filterObj)).then((res) => {
       handleMgtWiseGraph(res?.payload?.data[0]);
     });
+    filterObj.valueType = 2;
+    dispatch(fetchSchoolStatsData(filterObj)).then((res) => {  // add here
+      handleMgtWiseGraph(res?.payload?.data[0]);
+    });
   }, [dispatch, schoolFilter]);
   useEffect(() => {
     setGroupedStats(dashData);
   }, [dashData]);
   // This dispatch for decimal value
-  useEffect(() => {
-    filterObj.valueType = 2;
-    dispatch(fetchSchoolStatsData(filterObj)).then((res) => {
-      handleMgtWiseGraph(res?.payload?.data[0]);
-    });
-  }, [dispatch, schoolFilter]);
+  // useEffect(() => {
+  //   filterObj.valueType = 2;
+  //   dispatch(fetchSchoolStatsData(filterObj)).then((res) => {
+  //     handleMgtWiseGraph(res?.payload?.data[0]);
+  //   });
+  // }, [dispatch, schoolFilter]);
   useEffect(() => {
     dispatch(allFilter(intialIndiaWiseFilterSchData));
     dispatch(fetchArchiveServicesGraphSchoolData(intialIndiaWiseFilterSchData));

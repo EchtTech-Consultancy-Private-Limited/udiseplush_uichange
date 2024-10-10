@@ -216,12 +216,15 @@ export default function TeacherDashboard() {
         dispatch(fetchTeachersStatsData(filterObj)).then((res) => {
             handleMgtWiseGraph(res?.payload?.data[0]);
         });
-    }, [dispatch, schoolFilter]);
-    useEffect(() => {
-        dispatch(fetchTeachersStatsIntData(filterObj)).then((res) => {
+        dispatch(fetchTeachersStatsIntData(filterObj)).then((res) => {     // add here
             handleMgtWiseIntGraph(res?.payload?.data[0]);
         });
     }, [dispatch, schoolFilter]);
+    // useEffect(() => {
+    //     dispatch(fetchTeachersStatsIntData(filterObj)).then((res) => {
+    //         handleMgtWiseIntGraph(res?.payload?.data[0]);
+    //     });
+    // }, [dispatch, schoolFilter]);
     useEffect(() => {
         handleMgtWiseGraph(dashData)
     }, [i18n.language,dashData]);
