@@ -165,7 +165,6 @@ export default function StudentDashboard() {
     // }, [dispatch, schoolFilter,header_name.headerName]);
     useEffect(() => {
         const updatedFilterObj = { ...filterObj, valueType: 2 };
-        console.log("fetchStudentStatsData")
         if(header_name.headerName === "Student Dashboard" ){
             dispatch(fetchStudentStatsData(updatedFilterObj)).then((res) => {
                 handleMgtWiseGraph(res?.payload?.data[0]);

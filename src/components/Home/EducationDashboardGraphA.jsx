@@ -175,17 +175,14 @@ export function EducationDashboardGraphA({
 
     setTabsState(e);
   };
-console.log(schoolFilter, "schoolFilter")
   useEffect(() => {
     const updatedFilterObj = { ...filterObj, valueType: 2 };
     dispatch(fetchStudentStatsData(updatedFilterObj)).then((res) => {
       handleMgtWiseGraph(res?.payload?.data[0]);
     });
-    console.log("fetchStudentStatsData",updatedFilterObj)
     dispatch(fetchDashboardData(updatedFilterObj)).then((res) => {
       handleMgtWiseGraph(res?.payload?.data[0]);
     });
-    console.log("fetchDashboardData",updatedFilterObj)
   }, [dispatch, schoolFilter]);
 
   useEffect(() => {
