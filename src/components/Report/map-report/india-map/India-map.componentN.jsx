@@ -65,7 +65,7 @@ import {
   fetchArchiveServicesSchoolData,
 } from "../../../../redux/thunks/archiveServicesThunk";
 import { useLocation } from "react-router-dom";
-import { setMapLoader, setReserveUpdatedFilter } from "../../../../redux/slice/headerSlice";
+import { setMapLoader, setonDrilldownMap, setReserveUpdatedFilter } from "../../../../redux/slice/headerSlice";
 const COUNTRY_VIEW_ID = "india-states";
 
 export default function IndiaMapComponentN() {
@@ -132,6 +132,7 @@ export default function IndiaMapComponentN() {
   const [selectedPupilTeacherRatio, setSelectedPupilTeacherRatio] =
     useState("primary");
   const [loading, setLoding] = useState("true");
+
   //const loading = useSelector((state => state?.header?.mapLoader))
   useEffect(() => {
     setHandles(handleSchemesEvent);
@@ -402,9 +403,13 @@ export default function IndiaMapComponentN() {
   );
 
   useEffect(() => {
-    setLoding(true);
-  }, [schoolFilter,selectedYearId]);
-
+    if (selectedYearId) {
+      setLoding(true);
+      setTimeout(() => {
+        setLoding(false);
+      }, 1000);
+    }
+  }, [schoolFilter, selectedYearId]);
   const updateFeatureStyleAndTooltip = useCallback(
     (feature, layer) => {
       const { color, isHighlightedDistrict } = getColorFromData(feature);
@@ -451,7 +456,8 @@ export default function IndiaMapComponentN() {
         setLoding(true)
         tooltipContent = `<div class="tooltip-content"><strong>State:</strong> <span class="tooltip-content-text">${properties?.lgd_state_name || "N/A"
           }</span></div>`;
-        if (matchingDatas?.dashIntData) {
+        if (matchingDatas?.dashIntData && matchingDatas?.dashData) {
+          setLoding(false)
           //dispatch(setMapLoader(false))
           if (handlesRef.current === "gross_enrollment_ratio") {
             if (selectedEnrollmentType === "elementary") {
@@ -497,18 +503,19 @@ export default function IndiaMapComponentN() {
             tooltipContent += `<br/><strong> Schools with Electricity Connection:</strong> <span class="tooltip-content-text"> ${matchingDatas?.dashData?.schWithElectricity || "N/A"
               } % </span>`;
           }
-          setLoding(false)
+
         }
 
       } else {
 
         tooltipContent = `<div class="tooltip-content"><strong>District:</strong> <span class="tooltip-content-text"> ${properties?.lgd_district_name || "N/A"
           } </span></div>`;
-     //   setLoding(false)
+        //   setLoding(false)
         // dispatch(setMapLoader(true))
 
-        if (matchingDatas?.dashIntData) {
-          dispatch(setMapLoader(false))
+        if (matchingDatas?.dashIntData && matchingDatas?.dashData) {
+          // dispatch(setMapLoader(false))
+          setLoding(false)
           if (handlesRef.current === "gross_enrollment_ratio") {
             if (selectedEnrollmentType === "elementary") {
               tooltipContent += `<br/><strong>Gross Enrollment Ratio Elementary:</strong> <span class="tooltip-content-text">${matchingDatas?.dashIntData?.gerElementary || "N/A"
@@ -555,9 +562,9 @@ export default function IndiaMapComponentN() {
           }
 
         }
-        setLoding(false)
+
       }
- 
+
       layer.bindTooltip(tooltipContent, {
         sticky: false,
         className: "custom-tooltip",
@@ -567,7 +574,7 @@ export default function IndiaMapComponentN() {
       //   const bounds = layer.getBounds();
       //   mapRef.current.fitBounds(bounds, { padding: [20, 20] });
       // }
-   
+
     },
     [
       getColorFromData,
@@ -583,10 +590,11 @@ export default function IndiaMapComponentN() {
   );
 
   useEffect(() => {
-    if(schoolFilter.regionCode.length>=4 || header_name.headerName === "School Dashboard"){
+    if (schoolFilter.regionCode.length >= 4 || header_name.headerName === "School Dashboard") {
       setLoding(false);
     }
   }, [schoolFilter, header_name.headerName]);
+
   const geoJSONStyle = useCallback(
     (feature) => {
       const { color, isHighlightedDistrict } = getColorFromData(feature);
@@ -640,6 +648,7 @@ export default function IndiaMapComponentN() {
       dispatch(fetchStudentStatsData(obj));
       dispatch(fetchStudentStatsIntData(obj));
     }
+
   };
   // };
   const onDrillDown = useCallback(
@@ -650,6 +659,7 @@ export default function IndiaMapComponentN() {
       const selectYearId = localStorage.getItem("selectedYearId")
       let filterObj = structuredClone(schoolFilter);
       filterObj.yearId = selectYearId;
+      dispatch(setonDrilldownMap(true))
       if (e) {
         StateName = e?.target?.feature?.properties?.lgd_state_name;
         featureId = e?.target
@@ -769,6 +779,7 @@ export default function IndiaMapComponentN() {
       }
       // window.localStorage.setItem("state", StateName);
     },
+
     [dispatch, schoolFilter, localStorageStateName, geoJsonId]
   );
 
