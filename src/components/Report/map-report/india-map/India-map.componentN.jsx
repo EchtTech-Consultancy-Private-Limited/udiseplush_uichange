@@ -65,7 +65,7 @@ import {
   fetchArchiveServicesSchoolData,
 } from "../../../../redux/thunks/archiveServicesThunk";
 import { useLocation } from "react-router-dom";
-import { setReserveUpdatedFilter } from "../../../../redux/slice/headerSlice";
+import { setMapLoader, setReserveUpdatedFilter } from "../../../../redux/slice/headerSlice";
 const COUNTRY_VIEW_ID = "india-states";
 
 export default function IndiaMapComponentN() {
@@ -91,7 +91,9 @@ export default function IndiaMapComponentN() {
     shallowEqual
   );
   let filterObj = structuredClone(schoolFilter);
-  localStorage.setItem("selectedYearId", filterObj.yearId)
+  useEffect(() => {
+    localStorage.setItem("selectedYearId", filterObj.yearId);
+  }, [filterObj.yearId]);
   const selectedStateCode = useSelector(
     (state) => state.mapData.stateId,
     shallowEqual
@@ -115,12 +117,12 @@ export default function IndiaMapComponentN() {
     (state) => state?.MapStats?.data?.status,
     shallowEqual
   );
-
+  console.log(dashDataLoading, dashIntDataMapLoading, "dashIntDataMapLoading")
   const districtUdice = useSelector(
     (state) => state.distBlockWise.blockUdiseCode
   );
   const headerSlice = useSelector((state) => state.header);
-  const selectedYearId = useSelector((state) => state.header.selectYearId)
+  const selectedYearId = useSelector((state) => state.header.selectYearId, shallowEqual);
   const [selectedEnrollmentType, setSelectedEnrollmentType] =
     useState("elementary");
   const [selectedDropoutType, setSelectedDropoutType] = useState("primary");
@@ -128,14 +130,15 @@ export default function IndiaMapComponentN() {
     useState("primaryToUpper");
   const [selectedPupilTeacherRatio, setSelectedPupilTeacherRatio] =
     useState("primary");
-  const [loading, setLoding] = useState("true");
-  const mapStateValue = localStorage.getItem("map_state_name");
+  // const [loading, setLoding] = useState("true");
+  const loading = useSelector((state => state.header.mapLoader))
+console.log(loading, "loadingloading")
   useEffect(() => {
     setHandles(handleSchemesEvent);
   }, [handleSchemesEvent]);
- 
-  useEffect(()=>{
-      dispatch(setReserveUpdatedFilter(filterObj));
+
+  useEffect(() => {
+    dispatch(setReserveUpdatedFilter(filterObj));
   }, [selectedYearId])
 
   useEffect(() => {
@@ -440,11 +443,11 @@ export default function IndiaMapComponentN() {
 
       let tooltipContent;
       if (localStorageStateName === "All India/National") {
-        setLoding(true);
+        dispatch(setMapLoader(true))
         tooltipContent = `<div class="tooltip-content"><strong>State:</strong> <span class="tooltip-content-text">${properties?.lgd_state_name || "N/A"
           }</span></div>`;
         if (matchingDatas?.dashIntData) {
-          setLoding(false);
+          dispatch(setMapLoader(false))
           if (handlesRef.current === "gross_enrollment_ratio") {
             if (selectedEnrollmentType === "elementary") {
               tooltipContent += `<br/><strong>Gross Enrollment Ratio Elementary:</strong> <span class="tooltip-content-text">${matchingDatas?.dashIntData?.gerElementary || "N/A"
@@ -496,8 +499,10 @@ export default function IndiaMapComponentN() {
         tooltipContent = `<div class="tooltip-content"><strong>District:</strong> <span class="tooltip-content-text"> ${properties?.lgd_district_name || "N/A"
           } </span></div>`;
         // setLoding(true)
+        // dispatch(setMapLoader(true))
+        
         if (matchingDatas?.dashIntData) {
-          setLoding(false);
+          dispatch(setMapLoader(false))
           if (handlesRef.current === "gross_enrollment_ratio") {
             if (selectedEnrollmentType === "elementary") {
               tooltipContent += `<br/><strong>Gross Enrollment Ratio Elementary:</strong> <span class="tooltip-content-text">${matchingDatas?.dashIntData?.gerElementary || "N/A"
@@ -604,7 +609,6 @@ export default function IndiaMapComponentN() {
   const handleAPICallAccordingToFilter = (obj) => {
     // if (geoJsonId === "india-states") {
     if (headerSlice.headerName === "Education Dashboard") {
-      console.log("fetchDashboardData")
       dispatch(fetchDashboardData(obj));
       dispatch(fetchSchoolStatsData(obj));
       dispatch(fetchSchoolStatsIntData(obj));
@@ -629,10 +633,10 @@ export default function IndiaMapComponentN() {
     (e) => {
       let StateName;
       let featureId;
-      
-      const selectYearId=localStorage.getItem("selectedYearId")
+
+      const selectYearId = localStorage.getItem("selectedYearId")
       let filterObj = structuredClone(schoolFilter);
-      filterObj.yearId=selectYearId;
+      filterObj.yearId = selectYearId;
       if (e) {
         StateName = e?.target?.feature?.properties?.lgd_state_name;
         featureId = e?.target
@@ -654,7 +658,6 @@ export default function IndiaMapComponentN() {
             valueType: 2,
           };
           if (localStorageStateName === "All India/National") {
-            console.log("render This")
             dispatch(fetchMaptatsData(modifiedFilterObj));
             dispatch(fetchMaptatsOtherData(modifiedFilterObj));
           }
@@ -672,7 +675,6 @@ export default function IndiaMapComponentN() {
           handleAPICallAccordingToFilter(filterObj);
           dispatch(fetchMaptatsData(filterObj));
           filterObj.valueType = 2;
-          console.log("render This")
           dispatch(fetchMaptatsOtherData(filterObj));
           dispatch(removeAllDistrict());
           const modifiedFilterObjs = {
@@ -716,7 +718,6 @@ export default function IndiaMapComponentN() {
             handleAPICallAccordingToFilter(newDataObject);
             dispatch(fetchMaptatsData(newDataObject));
             filterObj.valueType = 2;
-            console.log("render This")
             dispatch(fetchMaptatsOtherData(newDataObject));
           }
 
@@ -811,7 +812,6 @@ export default function IndiaMapComponentN() {
                   );
                   window.localStorage.setItem("state", "All India/National");
                   dispatch(fetchMaptatsData(modifiedFilterObjForReset));
-                  console.log("render This")
                   dispatch(fetchMaptatsOtherData(modifiedFilterObjForReset));
                   handleAPICallAccordingToFilter(
                     modifiedFilterObjResetDashboard
@@ -825,6 +825,7 @@ export default function IndiaMapComponentN() {
             </div>
           )}
         </div>
+        {/* !dashDataLoading && !dashIntDataMapLoading &&  */}
         {loading && (
           <Box className="map-overley">
             <CircularProgress />

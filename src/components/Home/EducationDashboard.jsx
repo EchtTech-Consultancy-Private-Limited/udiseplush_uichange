@@ -197,7 +197,7 @@ export default function EducationDashboard() {
   useEffect(() => {
     const updatedFilterObj = { ...filterObj, valueType: 2 };
     dispatch(fetchSchoolStatsData(updatedFilterObj));
-    dispatch(fetchStudentStatsData(updatedFilterObj))
+     dispatch(fetchStudentStatsData(updatedFilterObj))
     dispatch(fetchTeachersStatsData(updatedFilterObj));
     dispatch(fetchDashboardData(updatedFilterObj));
     dispatch(fetchAllStateSchemesData(filterObj));

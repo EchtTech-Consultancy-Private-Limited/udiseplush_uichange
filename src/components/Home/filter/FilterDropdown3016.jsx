@@ -109,6 +109,8 @@ export default function FilterDropdown3016() {
   const [selectedBlockClone, setSelectedBlockClone] = useState(block);
   const [isDashbtnDisabled, setIsDashbtnDisabled] = useState(true);
   const [is3016btnDisabled, setIs3016btnDisabled] = useState(true);
+  const [restDashData,setRestDashData] = useState(false)
+  console.log(restDashData, "RestDashData")
   const show = useSelector((state) => state.header.show);
   const distBlockWiseData = useSelector((state) => state.distBlockWise);
   let filterObj = structuredClone(schoolFilter);
@@ -186,10 +188,11 @@ export default function FilterDropdown3016() {
     setSelectedYear(year_report);
     dispatch(setSelectYearId(year))
     filterObj.yearId = year;
-     dispatch(allFilter(filterObj));
+     setUpdateYearId(year);
+    dispatch(allFilter(filterObj));
     // const updatedFilterObj = { yearId: year };
     // dispatch(allFilter(updatedFilterObj));
-    setUpdateYearId(filterObj?.yearId);
+  
     if (location.pathname !== "/") {
       filterObj.valueType = 1;
     } else {
@@ -200,7 +203,6 @@ export default function FilterDropdown3016() {
       yearId: year,
       valueType: location.pathname !== "/" ? 1 : 2,
     };
-    console.log(reserveUpdatedFilters, "reserveUpdatedFilters")
     dispatch(setReserveUpdatedFilter(reserveUpdatedFilters));
     if (mapStateValue === nationalWiseName || mapStateValue === stateWiseName) {
       handleAPICallAccordingToFilter(filterObj);
@@ -215,6 +217,7 @@ export default function FilterDropdown3016() {
       reserveUpdatedFilters.dashboardRegionType = 22;
       handleAPICallAccordingToFilterMap(reserveUpdatedFilters)
     }
+    
     window.localStorage.setItem("year", year_report);
     hideOpendFilterBox();
   };
@@ -593,7 +596,7 @@ export default function FilterDropdown3016() {
 
     hideOpendFilterBox();
   };
-
+  console.log(restDashData,"dfdfdfdfdfdfdf")
   /*----------Call API According to Filter-----------*/
   const handleAPICallAccordingToFilter = (obj) => {
     if (location.pathname !== "/") {
@@ -601,32 +604,37 @@ export default function FilterDropdown3016() {
       // dispatch(fetchArchiveServicesPtR(obj));
       // dispatch(fetchArchiveServicesTeacherDataSocialCatGender(obj));
     } else {
-      if (headerSlice.headerName === "Education Dashboard") {
-        dispatch(fetchDashboardData(obj));
-        dispatch(fetchSchoolStatsData(obj));
-        dispatch(fetchSchoolStatsIntData(obj));
-        dispatch(fetchTeachersStatsData(obj));
-        dispatch(fetchTeachersStatsIntData(obj));
-        dispatch(fetchStudentStatsData(obj));
-        dispatch(fetchStudentStatsIntData(obj));
-      } else if (headerSlice.headerName === "School Dashboard") {
-        dispatch(fetchSchoolStatsData(obj));
-        dispatch(fetchSchoolStatsIntData(obj));
-        dispatch(fetchArchiveServicesGraphSchoolData(obj));
-      } else if (headerSlice.headerName === "Teacher Dashboard") {
-        dispatch(fetchTeachersStatsData(obj));
-        dispatch(fetchTeachersStatsIntData(obj));
-      } else {
-        dispatch(fetchStudentStatsData(obj));
-        dispatch(fetchStudentStatsIntData(obj));
+      console.log(restDashData,"dfdfdfdfdfdfdf")
+      if(restDashData === true){
+        console.log("dfdfdfdfdfdfdf")
+        if (headerSlice.headerName === "Education Dashboard") {
+          dispatch(fetchDashboardData(obj));
+          dispatch(fetchSchoolStatsData(obj));
+          dispatch(fetchSchoolStatsIntData(obj));
+          dispatch(fetchTeachersStatsData(obj));
+          dispatch(fetchTeachersStatsIntData(obj));
+          dispatch(fetchStudentStatsData(obj));
+          dispatch(fetchStudentStatsIntData(obj));
+        } else if (headerSlice.headerName === "School Dashboard") {
+          dispatch(fetchSchoolStatsData(obj));
+          dispatch(fetchSchoolStatsIntData(obj));
+          dispatch(fetchArchiveServicesGraphSchoolData(obj));
+        } else if (headerSlice.headerName === "Teacher Dashboard") {
+          dispatch(fetchTeachersStatsData(obj));
+          dispatch(fetchTeachersStatsIntData(obj));
+        } else {
+          dispatch(fetchStudentStatsData(obj));
+          dispatch(fetchStudentStatsIntData(obj));
+        }
       }
+   
     }
+   
   };
 
 
   const handleAPICallAccordingToFilterMap = (obj) => {
     // dispatch(mapFilter(obj))
-    console.log("render This")
     dispatch(fetchMaptatsData(obj));
     dispatch(fetchMaptatsOtherData(obj));
   };
@@ -706,6 +714,7 @@ export default function FilterDropdown3016() {
   };
   /*-------------End Here----------------*/
   const hideOpendFilterBox = () => {
+    console.log("khjdjdhsdhs")
     const boxes = document.querySelectorAll(".dropdown-menu");
     boxes.forEach((box) => {
       box.classList.remove("show");
@@ -762,6 +771,7 @@ export default function FilterDropdown3016() {
     //   if (bmapElement) {
     //     bmapElement.innerHTML = "";
     //   }
+  
     dispatch(removeAllDistrict());
     dispatch(removeAllBlock());
     setSelectedYear("2021-22");
@@ -776,8 +786,15 @@ export default function FilterDropdown3016() {
       dispatch(updateMapLoaded(false));
       dispatch(handleShowDistrict(false));
     }
+    setRestDashData(true)
   };
-
+  useEffect(() => {
+    if (restDashData) {
+      handleAPICallAccordingToFilterMap(modifiedFilterObjForReset)
+      handleAPICallAccordingToFilter(modifiedFilterObjResetDashboard);
+      setRestDashData(false)
+    }
+  }, [restDashData]);
   const handleReset3016 = () => {
     dispatch(removeAllDistrict());
     dispatch(removeAllBlock());

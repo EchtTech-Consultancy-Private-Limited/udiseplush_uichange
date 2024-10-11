@@ -24,7 +24,8 @@ const headerSlice = createSlice({
       label: "Land Available"
     },
     pieGraph3013mngSchSelected:"School Management",
-    selectYearId:8
+    selectYearId:8,
+    mapLoader:true
 
   },
   reducers: {
@@ -90,8 +91,11 @@ const headerSlice = createSlice({
     setSelectYearId(state, action) {
       state.selectYearId = action.payload
     },
+    setMapLoader(state, action){
+      state.mapLoader = action.payload
+    }
   },
 })
 
-export const { updateHeaderName, removeBeforeAfterClass, handleViewDataByShow, handleRegionName, handleShowDistrict, handleCurrentIndex, handleDisableBtn, handleShowFilter, handleActiveTabs, handleSelectYear, setReserveUpdatedFilter, setArrGroupedGraph3013Data, setSelectedField3013graph,setpieGraph3013mngSchSelected,setSelectYearId } = headerSlice.actions
+export const { updateHeaderName, removeBeforeAfterClass, handleViewDataByShow, handleRegionName, handleShowDistrict, handleCurrentIndex, handleDisableBtn, handleShowFilter, handleActiveTabs, handleSelectYear, setReserveUpdatedFilter, setArrGroupedGraph3013Data, setSelectedField3013graph,setpieGraph3013mngSchSelected,setSelectYearId, setMapLoader } = headerSlice.actions
 export default headerSlice.reducer

@@ -50,7 +50,6 @@ export default function Home() {
       dashboardRegionType: 10,
       dashboardRegionCode: "09",
     };
-    console.log("fetchDashboardData", newDataObject)
     // dispatch(fetchDashboardData(newDataObject));
     // if(header_name.headerName === "Education Dashboard"){
     //   dispatch(fetchMaptatsData(mapFilterObj));
@@ -61,7 +60,6 @@ export default function Home() {
     //   dispatch(fetchMaptatsData(modifiedFilterObjForReset));
     //   dispatch(fetchMaptatsOtherData(modifiedFilterObjForReset));
     // }
-    console.log("render This", modifiedFilterObjForReset)
     dispatch(fetchMaptatsData(modifiedFilterObjForReset));
     dispatch(fetchMaptatsOtherData(modifiedFilterObjForReset));
  
