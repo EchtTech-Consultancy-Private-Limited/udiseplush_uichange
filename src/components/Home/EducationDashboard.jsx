@@ -202,7 +202,7 @@ export default function EducationDashboard() {
     dispatch(fetchDashboardData(updatedFilterObj));
     dispatch(fetchAllStateSchemesData(filterObj));
     dispatch(fetchStudentStatsIntData(filterObj)); // add here
-  }, [dispatch, schoolFilter]);
+  }, []);
 
   useEffect(() => {
     handleEducationGender(dashIntDataStudent);

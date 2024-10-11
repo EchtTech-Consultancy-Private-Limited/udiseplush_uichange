@@ -173,7 +173,7 @@ export default function StudentDashboard() {
             dispatch(fetchStudentStatsIntData(filterObj)) // add here
         }
       
-    }, [dispatch, schoolFilter,header_name.headerName]);
+    }, [header_name.headerName]);
 
 
     useEffect(() => {

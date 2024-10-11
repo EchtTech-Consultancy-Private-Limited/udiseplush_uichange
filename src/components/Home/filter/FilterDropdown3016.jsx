@@ -596,7 +596,7 @@ export default function FilterDropdown3016() {
 
     hideOpendFilterBox();
   };
-  console.log(restDashData,"dfdfdfdfdfdfdf")
+
   /*----------Call API According to Filter-----------*/
   const handleAPICallAccordingToFilter = (obj) => {
     if (location.pathname !== "/") {
@@ -604,9 +604,8 @@ export default function FilterDropdown3016() {
       // dispatch(fetchArchiveServicesPtR(obj));
       // dispatch(fetchArchiveServicesTeacherDataSocialCatGender(obj));
     } else {
-      console.log(restDashData,"dfdfdfdfdfdfdf")
-      if(restDashData === true){
-        console.log("dfdfdfdfdfdfdf")
+      // if(restDashData === true){
+  
         if (headerSlice.headerName === "Education Dashboard") {
           dispatch(fetchDashboardData(obj));
           dispatch(fetchSchoolStatsData(obj));
@@ -626,7 +625,7 @@ export default function FilterDropdown3016() {
           dispatch(fetchStudentStatsData(obj));
           dispatch(fetchStudentStatsIntData(obj));
         }
-      }
+      // }
    
     }
    
@@ -788,13 +787,13 @@ export default function FilterDropdown3016() {
     }
     setRestDashData(true)
   };
-  useEffect(() => {
-    if (restDashData) {
-      handleAPICallAccordingToFilterMap(modifiedFilterObjForReset)
-      handleAPICallAccordingToFilter(modifiedFilterObjResetDashboard);
-      setRestDashData(false)
-    }
-  }, [restDashData]);
+  // useEffect(() => {
+  //   if (restDashData) {
+  //     handleAPICallAccordingToFilterMap(modifiedFilterObjForReset)
+  //     handleAPICallAccordingToFilter(modifiedFilterObjResetDashboard);
+  //     setRestDashData(false)
+  //   }
+  // }, [restDashData]);
   const handleReset3016 = () => {
     dispatch(removeAllDistrict());
     dispatch(removeAllBlock());
