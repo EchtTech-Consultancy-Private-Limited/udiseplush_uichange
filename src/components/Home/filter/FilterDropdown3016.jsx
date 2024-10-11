@@ -109,8 +109,6 @@ export default function FilterDropdown3016() {
   const [selectedBlockClone, setSelectedBlockClone] = useState(block);
   const [isDashbtnDisabled, setIsDashbtnDisabled] = useState(true);
   const [is3016btnDisabled, setIs3016btnDisabled] = useState(true);
-  const [restDashData,setRestDashData] = useState(false)
-  console.log(restDashData, "RestDashData")
   const show = useSelector((state) => state.header.show);
   const distBlockWiseData = useSelector((state) => state.distBlockWise);
   let filterObj = structuredClone(schoolFilter);
@@ -216,8 +214,7 @@ export default function FilterDropdown3016() {
       reserveUpdatedFilters.dType = 22
       reserveUpdatedFilters.dashboardRegionType = 22;
       handleAPICallAccordingToFilterMap(reserveUpdatedFilters)
-    }
-    
+    }  
     window.localStorage.setItem("year", year_report);
     hideOpendFilterBox();
   };
@@ -713,7 +710,6 @@ export default function FilterDropdown3016() {
   };
   /*-------------End Here----------------*/
   const hideOpendFilterBox = () => {
-    console.log("khjdjdhsdhs")
     const boxes = document.querySelectorAll(".dropdown-menu");
     boxes.forEach((box) => {
       box.classList.remove("show");
@@ -785,15 +781,9 @@ export default function FilterDropdown3016() {
       dispatch(updateMapLoaded(false));
       dispatch(handleShowDistrict(false));
     }
-    setRestDashData(true)
+  
   };
-  // useEffect(() => {
-  //   if (restDashData) {
-  //     handleAPICallAccordingToFilterMap(modifiedFilterObjForReset)
-  //     handleAPICallAccordingToFilter(modifiedFilterObjResetDashboard);
-  //     setRestDashData(false)
-  //   }
-  // }, [restDashData]);
+ 
   const handleReset3016 = () => {
     dispatch(removeAllDistrict());
     dispatch(removeAllBlock());

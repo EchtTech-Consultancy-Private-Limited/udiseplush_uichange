@@ -99,6 +99,7 @@ export default function IndiaMapComponentN() {
     shallowEqual
   );
   const localStorageStateName = window.localStorage.getItem("map_state_name");
+  const mapDisValue = window.localStorage.getItem("map_district_name");
   const [handles, setHandles] = useState(handleSchemesEvent);
   const handlesRef = useRef(handles);
   const dashIntDataMap = useSelector(
@@ -117,7 +118,7 @@ export default function IndiaMapComponentN() {
     (state) => state?.MapStats?.data?.status,
     shallowEqual
   );
-  console.log(dashDataLoading, dashIntDataMapLoading, "dashIntDataMapLoading")
+  const header_name = useSelector((state) => state.header);
   const districtUdice = useSelector(
     (state) => state.distBlockWise.blockUdiseCode
   );
@@ -130,9 +131,8 @@ export default function IndiaMapComponentN() {
     useState("primaryToUpper");
   const [selectedPupilTeacherRatio, setSelectedPupilTeacherRatio] =
     useState("primary");
-  // const [loading, setLoding] = useState("true");
-  const loading = useSelector((state => state.header.mapLoader))
-console.log(loading, "loadingloading")
+  const [loading, setLoding] = useState("true");
+  //const loading = useSelector((state => state?.header?.mapLoader))
   useEffect(() => {
     setHandles(handleSchemesEvent);
   }, [handleSchemesEvent]);
@@ -401,6 +401,10 @@ console.log(loading, "loadingloading")
     ]
   );
 
+  useEffect(() => {
+    setLoding(true);
+  }, [schoolFilter,selectedYearId]);
+
   const updateFeatureStyleAndTooltip = useCallback(
     (feature, layer) => {
       const { color, isHighlightedDistrict } = getColorFromData(feature);
@@ -443,11 +447,12 @@ console.log(loading, "loadingloading")
 
       let tooltipContent;
       if (localStorageStateName === "All India/National") {
-        dispatch(setMapLoader(true))
+        // dispatch(setMapLoader(true))
+        setLoding(true)
         tooltipContent = `<div class="tooltip-content"><strong>State:</strong> <span class="tooltip-content-text">${properties?.lgd_state_name || "N/A"
           }</span></div>`;
         if (matchingDatas?.dashIntData) {
-          dispatch(setMapLoader(false))
+          //dispatch(setMapLoader(false))
           if (handlesRef.current === "gross_enrollment_ratio") {
             if (selectedEnrollmentType === "elementary") {
               tooltipContent += `<br/><strong>Gross Enrollment Ratio Elementary:</strong> <span class="tooltip-content-text">${matchingDatas?.dashIntData?.gerElementary || "N/A"
@@ -492,15 +497,16 @@ console.log(loading, "loadingloading")
             tooltipContent += `<br/><strong> Schools with Electricity Connection:</strong> <span class="tooltip-content-text"> ${matchingDatas?.dashData?.schWithElectricity || "N/A"
               } % </span>`;
           }
+          setLoding(false)
         }
 
       } else {
 
         tooltipContent = `<div class="tooltip-content"><strong>District:</strong> <span class="tooltip-content-text"> ${properties?.lgd_district_name || "N/A"
           } </span></div>`;
-        // setLoding(true)
+     //   setLoding(false)
         // dispatch(setMapLoader(true))
-        
+
         if (matchingDatas?.dashIntData) {
           dispatch(setMapLoader(false))
           if (handlesRef.current === "gross_enrollment_ratio") {
@@ -549,9 +555,9 @@ console.log(loading, "loadingloading")
           }
 
         }
-
+        setLoding(false)
       }
-
+ 
       layer.bindTooltip(tooltipContent, {
         sticky: false,
         className: "custom-tooltip",
@@ -561,6 +567,7 @@ console.log(loading, "loadingloading")
       //   const bounds = layer.getBounds();
       //   mapRef.current.fitBounds(bounds, { padding: [20, 20] });
       // }
+   
     },
     [
       getColorFromData,
@@ -571,9 +578,15 @@ console.log(loading, "loadingloading")
       selectedDropoutType,
       selectedTransitionRate,
       selectedPupilTeacherRatio,
+
     ]
   );
 
+  useEffect(() => {
+    if(schoolFilter.regionCode.length>=4 || header_name.headerName === "School Dashboard"){
+      setLoding(false);
+    }
+  }, [schoolFilter, header_name.headerName]);
   const geoJSONStyle = useCallback(
     (feature) => {
       const { color, isHighlightedDistrict } = getColorFromData(feature);
