@@ -219,7 +219,7 @@ export default function TeacherDashboard() {
         dispatch(fetchTeachersStatsIntData(filterObj)).then((res) => {     // add here
             handleMgtWiseIntGraph(res?.payload?.data[0]);
         });
-    }, [dispatch, schoolFilter]);
+    }, []);
     // useEffect(() => {
     //     dispatch(fetchTeachersStatsIntData(filterObj)).then((res) => {
     //         handleMgtWiseIntGraph(res?.payload?.data[0]);

@@ -183,7 +183,7 @@ export function EducationDashboardGraphA({
     dispatch(fetchDashboardData(updatedFilterObj)).then((res) => {
       handleMgtWiseGraph(res?.payload?.data[0]);
     });
-  }, [dispatch, schoolFilter]);
+  }, []);
 
   useEffect(() => {
     if (tabsState === "School") {
