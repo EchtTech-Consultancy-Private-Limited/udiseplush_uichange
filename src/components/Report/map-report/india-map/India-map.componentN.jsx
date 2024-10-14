@@ -19,7 +19,9 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Box from "@mui/material/Box";
 import * as topojson from "topojson-client";
 import "../india-map/india-map.componentN.scss";
-import india from "../../../../json-data/india.json";
+//import indiaMapJson from "../../../../json-data/india2021-2022.json";
+import india2021_2022 from "../../../../json-data/india2021-2022.json";
+import india2020_2021 from "../../../../json-data/india2020-2021.json"
 import { getColor, layersUtils, getCenterOfGeoJson } from "./MapUtilsN";
 import "leaflet/dist/leaflet.css";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
@@ -76,10 +78,32 @@ export default function IndiaMapComponentN() {
     dashIntDataMap: null,
     dashData: null,
   });
-  const geoJson = useMemo(
-    () => topojson.feature(india, india.objects[geoJsonId]),
-    [geoJsonId]
-  );
+  const selectedYearId = useSelector((state) => state.header.selectYearId, shallowEqual);
+  const [indiaMapJson, setIndiaMapJson] = useState(india2021_2022)
+  const selectedState = localStorage.getItem("state")
+  useEffect(() => {
+    switch (selectedYearId) {
+      case 8:
+        setIndiaMapJson(india2021_2022);
+        break;
+      case 7:
+        setIndiaMapJson(india2020_2021);
+        break;
+      default:
+        setIndiaMapJson(india2021_2022);
+        break;
+    }
+  }, [selectedYearId, selectedState]);
+
+  const geoJson = useMemo(() => {
+    if (indiaMapJson && indiaMapJson.objects[geoJsonId]) {
+      return topojson.feature(indiaMapJson, indiaMapJson.objects[geoJsonId]);
+    } else {
+      console.error("India map JSON or GeoJSON ID not found.");
+      return null;
+    }
+  }, [indiaMapJson, geoJsonId]);
+
   const mapRef = useRef(null);
   const geoJsonRef = useRef(null);
   const handleSchemesEvent = useSelector(
@@ -123,7 +147,7 @@ export default function IndiaMapComponentN() {
     (state) => state.distBlockWise.blockUdiseCode
   );
   const headerSlice = useSelector((state) => state.header);
-  const selectedYearId = useSelector((state) => state.header.selectYearId, shallowEqual);
+
   const [selectedEnrollmentType, setSelectedEnrollmentType] =
     useState("elementary");
   const [selectedDropoutType, setSelectedDropoutType] = useState("primary");
@@ -668,7 +692,7 @@ export default function IndiaMapComponentN() {
       }
 
       if (localStorageStateName === "All India/National") {
-        if (india.objects[featureId]) {
+        if (indiaMapJson.objects[featureId]) {
           setGeoJsonId(featureId);
           const modifiedFilterObj = {
             regionCode: featureId,
