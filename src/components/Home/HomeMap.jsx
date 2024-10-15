@@ -4,8 +4,9 @@ import IndiaMapComponent from "../Report/map-report/india-map/India-map.componen
 import { useTranslation } from "react-i18next";
 import IndiaMapComponentN from "../Report/map-report/india-map/India-map.componentN";
 import { useSelector } from "react-redux";
+import { ScrollToTopOnMount } from "../Scroll/ScrollToTopOnMount";
 
-
+import { animateScroll as scroll } from 'react-scroll';
 
 export default function HomeMap({ handleClass }) {
   useEffect(() => {
@@ -14,6 +15,7 @@ export default function HomeMap({ handleClass }) {
   }, []);
   
   const handleChangeClass = (class_value) => {
+    scroll.scrollToTop();
     handleClass(class_value);
   };
 

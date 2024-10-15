@@ -31,7 +31,7 @@ import {
   updateFilterDistrict,
 } from "../../../redux/thunks/districtThunk";
 import { fetchYearData } from "../../../redux/thunks/yearThunk";
-import { allFilter } from "../../../redux/slice/schoolFilterSlice3016";
+import { allFilter } from "../../../redux/slice/schoolFilterSlice";
 import {
   updateUdiseBlockCode,
   updateUdiseDistrictCode,

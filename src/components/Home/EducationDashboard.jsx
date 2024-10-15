@@ -30,13 +30,9 @@ import {
   fetchStudentStatsData,
   fetchTeachersStatsData,
   fetchAllStateSchemesData,
-  fetchSchoolStatsIntData,
   fetchStudentStatsIntData,
 } from "../../redux/thunks/dashboardThunk";
-import { handleShowDistrict } from "../../redux/slice/headerSlice";
-import { removeDateYear } from "../../redux/thunks/yearThunk";
 import { useLocation } from "react-router-dom";
-
 import { GlobalLoading } from "../GlobalLoading/GlobalLoading";
 import { EducationDashboardGraphA } from "./EducationDashboardGraphA";
 import { EducationDashboardGraphB } from "./EducationDashboardGraphB";
@@ -184,10 +180,6 @@ export default function EducationDashboard() {
   useSelector((state) => state?.studentStats?.data?.data?.[0]) || {};
   const dashIntDataStudent =
     useSelector((state) => state?.studentIntStats?.data?.data?.[0]) || {};
-  const SchemesData =
-    useSelector((state) => state?.schemesAllState?.data?.data) || {};
-  const [tabsState, setTabsState] = useState("School");
-  const [tabsInfraState, setTabsInfraState] = useState("girl_toilet");
   const totalTeachers =
     parseInt(dashData?.totTeachersMale) +
       parseInt(dashData?.totTeachersFemale) || 0;
@@ -199,17 +191,17 @@ export default function EducationDashboard() {
   const filterObj = structuredClone(schoolFilter);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchStudentStatsIntData(filterObj));
-  }, [dispatch, schoolFilter]);
+  // useEffect(() => {
+  //   dispatch(fetchStudentStatsIntData(filterObj));
+  // }, [dispatch, schoolFilter]);
   useEffect(() => {
     const updatedFilterObj = { ...filterObj, valueType: 2 };
-
     dispatch(fetchSchoolStatsData(updatedFilterObj));
     dispatch(fetchStudentStatsData(updatedFilterObj))
     dispatch(fetchTeachersStatsData(updatedFilterObj));
     dispatch(fetchDashboardData(updatedFilterObj));
     dispatch(fetchAllStateSchemesData(filterObj));
+    dispatch(fetchStudentStatsIntData(filterObj)); // add here
   }, [dispatch, schoolFilter]);
 
   useEffect(() => {

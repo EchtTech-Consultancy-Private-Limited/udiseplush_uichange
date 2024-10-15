@@ -55,6 +55,13 @@ div#dijit_Dialog_0 {
 
   @media (max-width: 1399px) and (min-width: 1024px) {
     padding-right: 0px;
+    position: absolute !important;   
+    bottom: 2% !important;
+  }
+
+  @media (max-width: 767px) {
+    flex-wrap: wrap;
+    justify-content: start;
   }
 
 }
@@ -79,34 +86,34 @@ div#dijit_Dialog_0 {
 }
 
 .circle1 {
-  width: 15px;
+  width: 40px;
   height: 15px;
   background-color: #fcae91;
-  border-radius: 50%;
+  border-radius: 0;
 
 }
 
 .circle2 {
-  width: 15px;
+  width: 40px;
   height: 15px;
   background-color: #ffeda0;
-  border-radius: 50%;
+  border-radius: 0%;
 
 }
 
 .circle3 {
-  width: 15px;
+  width: 40px;
   height: 15px;
   background-color: #e3d1f8;
-  border-radius: 50%;
+  border-radius: 0%;
 
 }
 
 .circle4 {
-  width: 15px;
+  width: 40px;
   height: 15px;
   background-color: #c1d0b5;
-  border-radius: 50%;
+  border-radius: 0%;
 }
 
 .text {
@@ -211,12 +218,30 @@ div#dijit_Dialog_0 {
 }
 
 .map-dropdown {
+  position: absolute;
+  right: 0;
+  // z-index: 9999;
+
+  @media (max-width: 1599px) and (min-width: 1400px) {
+    right: 4%;
+  }
+
+  @media (max-width: 1399px) and (min-width: 1024px) {
+    right: 5%;
+  }
+
+  @media (max-width: 767px) {
+    position: static;
+  }
+
+
   select {
     width: 200px;
     float: right;
     margin-right: 15px;
     // margin-top: 12px;
     appearance: auto;
+    cursor: pointer;
     // height: 38px;
 
     @media (max-width: 1599px) and (min-width: 1400px) {
@@ -233,6 +258,10 @@ div#dijit_Dialog_0 {
       // margin-top: 10px;
       // height: 30px;
       font-size: 12px;
+    }
+
+    @media (max-width: 767px) {
+      width: 150px;
     }
   }
 }
@@ -265,26 +294,31 @@ div#dijit_Dialog_0 {
 
 
 }
+
 .custom-tooltip {
   transform: scale(1.0);
   transform-origin: center;
   max-width: 255px;
   padding: 10px;
   font-size: 10px;
-  background-color: #303841;;
+  background-color: #303841;
+  ;
   border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   color: white;
   font-weight: 400;
   border: none;
-  
+
 }
-.tooltip-content{
+
+.tooltip-content {
   font-size: 10px;
 }
-.tooltip-content-text{
+
+.tooltip-content-text {
   color: #ff9800;
 }
+
 .map {
   transform: scale(1.7);
   transform-origin: center;
@@ -293,13 +327,13 @@ div#dijit_Dialog_0 {
   pointer-events: none;
   /* Prevent the map from blocking other UI elements */
   height: 71vh;
-  width:100%;
+  width: 100%;
 
   @media(min-width: 1921px) {
     transform: scale(1.8);
     height: 71vh;
-    width:100%;
-}
+    width: 100%;
+  }
 
   @media (max-width: 1599px) and (min-width: 1400px) {
     transform: scale(1.25);
@@ -307,9 +341,16 @@ div#dijit_Dialog_0 {
   }
 
   @media (max-width: 1399px) and (min-width: 1024px) {
-    transform: scale(1.1);
-    height: 67vh;
+    transform: scale(.96);
+    height: 71vh;
   }
+
+  @media (max-width: 767px) {
+    transform: scale(.9);
+    height: 60vh;
+  }
+
+
 }
 
 .map-interactive {
@@ -317,28 +358,28 @@ div#dijit_Dialog_0 {
   /* Restore pointer events for interactive map elements */
 }
 
-.map-overley{
+.map-overley {
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
-  top:0;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background:rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.8);
   border-radius: 5px;
   z-index: 1000;
-  height:82vh;
-  width:100%;
+  height: 82vh;
+  width: 100%;
 
   @media(max-width: 1599px) and (min-width: 1400px) {
-    height:80vh;
+    height: 80vh;
   }
 
   @media (max-width: 1399px) and (min-width: 1024px) {
-    height:77vh;
-    top:7%;
+    height: 77vh;
+    top: 7%;
   }
 
 }
@@ -350,11 +391,23 @@ div#dijit_Dialog_0 {
 
   @media (max-width: 1599px) and (min-width: 1400px) {
     top: 1.8%;
-  left: 20%;
+    left: 20%;
   }
 
   @media (max-width: 1399px) and (min-width: 1024px) {
     top: 2%;
     left: 21%;
+  }
+
+  @media (max-width: 767px) {
+    top: 1.2%;
+    left: 5%;
+  }
+
+}
+
+@media screen and (max-width: 768px) {
+  .map-main-card .close-map-btn {
+    display: none !important;
   }
 }

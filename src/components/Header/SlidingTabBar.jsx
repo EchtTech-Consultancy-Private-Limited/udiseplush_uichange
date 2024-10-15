@@ -7,8 +7,6 @@ import { useLocation, Link, useNavigate } from "react-router-dom";
 import { urls } from "../../constants/constants";
 import { useSelector } from "react-redux";
 import {useTranslation} from "react-i18next";
-import { updateMapLoaded } from "../../redux/slice/mapSlice";
-import { fetchAllStateSchemesData } from "../../redux/thunks/dashboardThunk";
 
 export default function SlidingTabBar() {
   const header_name = useSelector((state) => state.header);
