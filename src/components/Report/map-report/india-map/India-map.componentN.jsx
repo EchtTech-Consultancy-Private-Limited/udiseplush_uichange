@@ -71,6 +71,7 @@ import { setMapLoader, setonDrilldownMap, setReserveUpdatedFilter } from "../../
 const COUNTRY_VIEW_ID = "india-states";
 
 export default function IndiaMapComponentN() {
+  console.log("change when i select year")
   const location = useLocation();
   const dispatch = useDispatch();
   const [geoJsonId, setGeoJsonId] = useState(COUNTRY_VIEW_ID);
@@ -78,6 +79,7 @@ export default function IndiaMapComponentN() {
     dashIntDataMap: null,
     dashData: null,
   });
+  const selectedDistrict = localStorage.getItem("map_district_name")
   const selectedYearId = useSelector((state) => state.header.selectYearId, shallowEqual);
   const [indiaMapJson, setIndiaMapJson] = useState(india2021_2022)
   const selectedState = localStorage.getItem("state")
@@ -90,11 +92,12 @@ export default function IndiaMapComponentN() {
         setIndiaMapJson(india2020_2021);
         break;
       default:
-        setIndiaMapJson(india2021_2022);
-        break;
+        //setIndiaMapJson(india2021_2022);
+       // break;
     }
   }, [selectedYearId, selectedState]);
 
+  
   const geoJson = useMemo(() => {
     if (indiaMapJson && indiaMapJson.objects[geoJsonId]) {
       return topojson.feature(indiaMapJson, indiaMapJson.objects[geoJsonId]);
@@ -201,28 +204,18 @@ export default function IndiaMapComponentN() {
   const mapCenter = useMemo(() => getCenterOfGeoJson(geoJson), [geoJson]);
 
   useEffect(() => {
-    if (selectedStateCode) {
-      setGeoJsonId(selectedStateCode);
-    }
     if (localStorageStateName === "All India/National") {
       setGeoJsonId(COUNTRY_VIEW_ID);
+    } else if (selectedStateCode) {
+      setGeoJsonId(selectedStateCode);
     }
-  }, [selectedStateCode, localStorageStateName, handles]);
+  }, [selectedStateCode, localStorageStateName, handles, selectedYearId]);
 
   const initializeMap = useCallback((data) => {
     setMapData(data);
-  }, []);
+  }, [setMapData]); // Generally safe to keep this empty
+  
 
-  // const MapUpdater = () => {
-  //   const map = useMap();
-  //   useEffect(() => {
-  //     if (map && geoJsonRef.current) {
-  //       map.fitBounds(geoJsonRef.current.getBounds());
-  //     }
-  //   }, [map, geoJsonId, mapData, handles]);
-
-  //   return null;
-  // };
 
   const MapUpdater = ({ geoJsonRef }) => {
     const map = useMap();
@@ -315,9 +308,10 @@ export default function IndiaMapComponentN() {
         localStorageStateName !== "All India/National"
           ? properties.udiseDistrictCode
           : null;
-      const district_ids = properties.udiseDistrictCode || [];
+      const district_ids = properties?.udiseDistrictCode || [];
       const isHighlightedDistrict =
-        districtUdice.length >= 4 && district_ids.includes(districtUdice);
+        districtUdice.length >= 4 && district_ids.includes(districtUdice) && selectedDistrict !== "District";
+      console.log(isHighlightedDistrict, "isHighlightedDistrict")
       const matchingDatas = state_id
         ? {
           dashIntData: mapData?.dashIntDataMap?.find(
@@ -423,6 +417,7 @@ export default function IndiaMapComponentN() {
       selectedDropoutType,
       selectedTransitionRate,
       selectedPupilTeacherRatio,
+      selectedYearId
     ]
   );
 
@@ -609,7 +604,7 @@ export default function IndiaMapComponentN() {
       selectedDropoutType,
       selectedTransitionRate,
       selectedPupilTeacherRatio,
-
+      selectedYearId
     ]
   );
 
@@ -684,6 +679,7 @@ export default function IndiaMapComponentN() {
       let filterObj = structuredClone(schoolFilter);
       filterObj.yearId = selectYearId;
       dispatch(setonDrilldownMap(true))
+      console.log(setonDrilldownMap, "setonDrilldownMap")
       if (e) {
         StateName = e?.target?.feature?.properties?.lgd_state_name;
         featureId = e?.target
@@ -873,61 +869,11 @@ export default function IndiaMapComponentN() {
             </div>
           )}
         </div>
-        {/* !dashDataLoading && !dashIntDataMapLoading &&  */}
         {loading && (
           <Box className="map-overley">
             <CircularProgress />
           </Box>
         )}
-
-        <div className="map-dropdown">
-          {handleSchemesEvent === "gross_enrollment_ratio" && (
-            <select
-              value={selectedEnrollmentType}
-              onChange={(e) => setSelectedEnrollmentType(e.target.value)}
-              className="form-control"
-            >
-              <option value="elementary">Elementary</option>
-              <option value="secondary">Secondary</option>
-            </select>
-          )}
-
-          {handleSchemesEvent === "dropout_rate" && (
-            <select
-              value={selectedDropoutType}
-              onChange={(e) => setSelectedDropoutType(e.target.value)}
-              className="form-control"
-            >
-              <option value="primary">Primary</option>
-              <option value="secondary">Secondary</option>
-            </select>
-          )}
-
-          {handleSchemesEvent === "transition_rate" && (
-            <select
-              name=""
-              id=""
-              className="form-control"
-              value={selectedTransitionRate}
-              onChange={(e) => setSelectedTransitionRate(e.target.value)}
-            >
-              <option value="primaryToUpper">Primary to upper primary</option>
-              <option value="upperToSec">Upper primary to secondary</option>
-            </select>
-          )}
-          {handleSchemesEvent === "pupil_teacher_ratio" && (
-            <select
-              name=""
-              id=""
-              className="form-control"
-              value={selectedPupilTeacherRatio}
-              onChange={(e) => setSelectedPupilTeacherRatio(e.target.value)}
-            >
-              <option value="primary">Primary</option>
-              <option value="upperPrimary">Upper Primary</option>
-            </select>
-          )}
-        </div>
 
         <MapContainer
           className="map"
@@ -939,7 +885,6 @@ export default function IndiaMapComponentN() {
           dragging={false}
           attributionControl={false}
         >
-
           {mapData && (
             <GeoJSON
               className="map-interactive"
@@ -982,8 +927,8 @@ export default function IndiaMapComponentN() {
         </MapContainer>
       </div>
 
-      <div className="position-relative">
-        <div className="d-flex justify-content-center align-items-center ps-2 pr-2">
+      <div>
+        <div className="d-flex justify-content-between align-items-center ps-2 pr-2">
           {handles !== "" && rangeMapping[handles] ? (
             <div className="show-color-meaning">
               {["dropout_rate", "pupil_teacher_ratio"].includes(handles) ? (
@@ -1051,7 +996,54 @@ export default function IndiaMapComponentN() {
             </div>
           ) : null}
 
+          <div className="map-dropdown">
+            {handleSchemesEvent === "gross_enrollment_ratio" && (
+              <select
+                value={selectedEnrollmentType}
+                onChange={(e) => setSelectedEnrollmentType(e.target.value)}
+                className="form-control"
+              >
+                <option value="elementary">Elementary</option>
+                <option value="secondary">Secondary</option>
+              </select>
+            )}
 
+            {handleSchemesEvent === "dropout_rate" && (
+              <select
+                value={selectedDropoutType}
+                onChange={(e) => setSelectedDropoutType(e.target.value)}
+                className="form-control"
+              >
+                <option value="primary">Primary</option>
+                <option value="secondary">Secondary</option>
+              </select>
+            )}
+
+            {handleSchemesEvent === "transition_rate" && (
+              <select
+                name=""
+                id=""
+                className="form-control"
+                value={selectedTransitionRate}
+                onChange={(e) => setSelectedTransitionRate(e.target.value)}
+              >
+                <option value="primaryToUpper">Primary to upper primary</option>
+                <option value="upperToSec">Upper primary to secondary</option>
+              </select>
+            )}
+            {handleSchemesEvent === "pupil_teacher_ratio" && (
+              <select
+                name=""
+                id=""
+                className="form-control"
+                value={selectedPupilTeacherRatio}
+                onChange={(e) => setSelectedPupilTeacherRatio(e.target.value)}
+              >
+                <option value="primary">Primary</option>
+                <option value="upperPrimary">Upper Primary</option>
+              </select>
+            )}
+          </div>
         </div>
       </div>
     </>

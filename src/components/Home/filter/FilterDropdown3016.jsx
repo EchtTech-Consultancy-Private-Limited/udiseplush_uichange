@@ -136,7 +136,8 @@ export default function FilterDropdown3016() {
   useEffect(() => {
     filterObj = structuredClone(schoolFilter);
   }, [schoolFilter]);
-
+const stateId=useSelector((state=>state.mapData.stateId))
+console.log(stateId, "stateId")
   useEffect(() => {
     setJsonStateData(mapJsonData.stateData);
     const queryString = window.location.href;
@@ -183,6 +184,7 @@ export default function FilterDropdown3016() {
     const splittedArr = e.split("@");
     const year = parseInt(splittedArr[0]);
     const year_report = splittedArr[1];
+    
     setSelectedYear(year_report);
     dispatch(setSelectYearId(year))
     filterObj.yearId = year;
@@ -208,13 +210,14 @@ export default function FilterDropdown3016() {
     };
    
     dispatch(setReserveUpdatedFilter(reserveUpdatedFilters));
+   
     if (mapStateValue === nationalWiseName || mapStateValue === stateWiseName) {
       handleAPICallAccordingToFilter(filterObj);
       filterObj.regionType = 21
       filterObj.dType = 21
       filterObj.dashboardRegionType = 21
       handleAPICallAccordingToFilterMap(filterObj)
-    } else if(onDrillDownStatus){
+    } else if(onDrillDownStatus && location.pathname === "/"){
       handleAPICallAccordingToFilter(reserveUpdatedFilterss);
       reserveUpdatedFilterss.regionType = 22
       reserveUpdatedFilterss.dType = 22
@@ -228,7 +231,27 @@ export default function FilterDropdown3016() {
       reserveUpdatedFilters.dashboardRegionType = 22;
       handleAPICallAccordingToFilterMap(reserveUpdatedFilters)
     }
+    dispatch(removeAllDistrict());
+    window.localStorage.setItem("map_district_name", "District");
+    console.log(mapStateValue,"jdjdsjdsdjsj")
+    if (mapStateValue !== nationalWiseName ){
+      console.log(stateId,"jdjdsjdsdjsj")
+      dispatch(setSelectedStateCode(stateId));
+    // dispatch(updateUdiseDistrictCode(stateId));
+     dispatch(
+      fetchDistrictDataByStateCode({
+        state_code: stateId || null,
+        yearId: reserveUpdatedFilters.yearId,
+      })
+    );
+    }
+    
     window.localStorage.setItem("year", year_report);
+    if(location.pathname !== "/"){
+      dispatch(removeAllBlock())
+      window.localStorage.setItem("block", "Block");
+    }
+    
     hideOpendFilterBox();
   };
 
@@ -479,7 +502,7 @@ export default function FilterDropdown3016() {
         yearId: 8,
       };
 
-      dispatch(setReserveUpdatedFilter(updatedFilterObj));
+     // dispatch(setReserveUpdatedFilter(updatedFilterObj));
       dispatch(allFilter(filterObj));
       dispatch(mapFilter(filterObj));
       handleAPICallAccordingToFilter(filterObj);
@@ -528,7 +551,7 @@ export default function FilterDropdown3016() {
           yearId: filterObj.yearId,
         })
       );
-      dispatch(setReserveUpdatedFilter(updatedFilterObj));
+     // dispatch(setReserveUpdatedFilter(updatedFilterObj));
       dispatch(allFilter(filterObj));
       dispatch(mapFilter(filterObj));
       setSelectedBlockClone(district_name);
@@ -573,7 +596,7 @@ export default function FilterDropdown3016() {
         managementCode: 0,
         yearId: 8,
       };
-      dispatch(setReserveUpdatedFilter(updatedFilterObj));
+     // dispatch(setReserveUpdatedFilter(updatedFilterObj));
       dispatch(allFilter(filterObj));
       dispatch(mapFilter(filterObj));
       handleAPICallAccordingToFilter(filterObj);
@@ -593,7 +616,7 @@ export default function FilterDropdown3016() {
         managementCode: 0,
         yearId: 8,
       };
-      dispatch(setReserveUpdatedFilter(updatedFilterObj));
+//dispatch(setReserveUpdatedFilter(updatedFilterObj));
       dispatch(allFilter(filterObj));
       dispatch(mapFilter(filterObj));
       handleAPICallAccordingToFilter(filterObj);
