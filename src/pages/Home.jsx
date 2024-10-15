@@ -63,7 +63,7 @@ export default function Home() {
     dispatch(fetchMaptatsData(modifiedFilterObjForReset));
     dispatch(fetchMaptatsOtherData(modifiedFilterObjForReset));
  
-  }, [header_name.headerName]);
+  }, []);
 
   const { t } = useTranslation();
 

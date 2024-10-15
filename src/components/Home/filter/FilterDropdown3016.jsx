@@ -109,8 +109,6 @@ export default function FilterDropdown3016() {
   const [selectedBlockClone, setSelectedBlockClone] = useState(block);
   const [isDashbtnDisabled, setIsDashbtnDisabled] = useState(true);
   const [is3016btnDisabled, setIs3016btnDisabled] = useState(true);
-  const [restDashData,setRestDashData] = useState(false)
-  console.log(restDashData, "RestDashData")
   const show = useSelector((state) => state.header.show);
   const distBlockWiseData = useSelector((state) => state.distBlockWise);
   let filterObj = structuredClone(schoolFilter);
@@ -121,7 +119,7 @@ export default function FilterDropdown3016() {
     (state) => state.state.selectedStateCode
   );
   const [updateYearId, setUpdateYearId] = useState(filterObj.yearId);
-
+  const onDrillDownStatus=useSelector((state)=>state.header.onDrilldownMap)
   //window.localStorage.setItem("state", selectedState);
 
   useEffect(() => {
@@ -203,6 +201,12 @@ export default function FilterDropdown3016() {
       yearId: year,
       valueType: location.pathname !== "/" ? 1 : 2,
     };
+    const reserveUpdatedFilterss = {
+      ...filterObj,
+      yearId: year,
+      valueType: location.pathname !== "/" ? 1 : 2,
+    };
+   
     dispatch(setReserveUpdatedFilter(reserveUpdatedFilters));
     if (mapStateValue === nationalWiseName || mapStateValue === stateWiseName) {
       handleAPICallAccordingToFilter(filterObj);
@@ -210,14 +214,20 @@ export default function FilterDropdown3016() {
       filterObj.dType = 21
       filterObj.dashboardRegionType = 21
       handleAPICallAccordingToFilterMap(filterObj)
-    } else {
+    } else if(onDrillDownStatus){
+      handleAPICallAccordingToFilter(reserveUpdatedFilterss);
+      reserveUpdatedFilterss.regionType = 22
+      reserveUpdatedFilterss.dType = 22
+      reserveUpdatedFilterss.dashboardRegionType = 22;
+      handleAPICallAccordingToFilterMap(reserveUpdatedFilterss)
+    }  
+    else{
       handleAPICallAccordingToFilter(reserveUpdatedFilters);
       reserveUpdatedFilters.regionType = 22
       reserveUpdatedFilters.dType = 22
       reserveUpdatedFilters.dashboardRegionType = 22;
       handleAPICallAccordingToFilterMap(reserveUpdatedFilters)
     }
-    
     window.localStorage.setItem("year", year_report);
     hideOpendFilterBox();
   };
@@ -713,7 +723,6 @@ export default function FilterDropdown3016() {
   };
   /*-------------End Here----------------*/
   const hideOpendFilterBox = () => {
-    console.log("khjdjdhsdhs")
     const boxes = document.querySelectorAll(".dropdown-menu");
     boxes.forEach((box) => {
       box.classList.remove("show");
@@ -785,15 +794,9 @@ export default function FilterDropdown3016() {
       dispatch(updateMapLoaded(false));
       dispatch(handleShowDistrict(false));
     }
-    setRestDashData(true)
+  
   };
-  // useEffect(() => {
-  //   if (restDashData) {
-  //     handleAPICallAccordingToFilterMap(modifiedFilterObjForReset)
-  //     handleAPICallAccordingToFilter(modifiedFilterObjResetDashboard);
-  //     setRestDashData(false)
-  //   }
-  // }, [restDashData]);
+ 
   const handleReset3016 = () => {
     dispatch(removeAllDistrict());
     dispatch(removeAllBlock());

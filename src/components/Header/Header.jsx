@@ -34,8 +34,8 @@ const Header = () => {
 
   const changeLanguage = (e) => {
     const selectedLanguage = e.target.value;
-    localStorage.setItem("selectedLanguage", selectedLanguage); // Save selected language to local storage
-    i18n.changeLanguage(selectedLanguage); // Change the language in i18n
+    localStorage.setItem("selectedLanguage", selectedLanguage); 
+    i18n.changeLanguage(selectedLanguage);
   };
 
   useEffect(() => {

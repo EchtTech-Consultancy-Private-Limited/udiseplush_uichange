@@ -6,7 +6,6 @@ const fetchDashboardData = createAsyncThunk(
   "dashboard/fetchDashboardData",
 
   async ({yearId, dashboardRegionType, dashboardRegionCode}) => {
-    console.log("check times")
     const response = await externalUtilityv1.post(`summarised-stats/public`,{
       yearId:yearId,
       regionType:dashboardRegionType,
@@ -20,7 +19,6 @@ const fetchSchoolStatsData = createAsyncThunk(
   "dashboard/fetchSchoolStatsData",
 
   async ({yearId, dType, dCode,valueType }) => {
-    console.log("check times")
     const response = await externalUtilityv1.post(`schools-summarised-stats/public`,{
       yearId:yearId,
       regionType:dType,
@@ -36,7 +34,6 @@ const fetchSchoolStatsDataYear = createAsyncThunk(
   "dashboard/fetchSchoolStatsDataYear",
 
   async ({ dType, dCode,valueType }) => {
-    console.log("check times")
     const response = await externalUtilityv1.post(`schools-summarised-stats/public`,{
       regionType:dType,
       regionCode:dCode,
@@ -52,7 +49,6 @@ const fetchSchoolStatsIntData = createAsyncThunk(
   "dashboard/fetchSchoolStatsIntData",
 
   async ({yearId, dType, dCode }) => {
-    console.log("check times")
     const response = await externalUtilityv1.post(`schools-summarised-stats/public`,{
       yearId:yearId,
       regionType:dType,
@@ -66,7 +62,6 @@ const fetchTeachersStatsData = createAsyncThunk(
   "dashboard/fetchTeachersStatsData",
 
   async ({yearId, dType, dCode,valueType }) => {
-    console.log("check times")
     const response = await externalUtilityv1.post(`teachers-summarised-stats/public`,
     {
       yearId:yearId,
@@ -81,7 +76,6 @@ const fetchTeachersStatsIntData = createAsyncThunk(
   "dashboard/fetchTeachersStatsIntData",
 
   async ({yearId, dType, dCode }) => {
-    console.log("check times")
     const response = await externalUtilityv1.post(`teachers-summarised-stats/public`,
     {
       yearId:yearId,
@@ -96,7 +90,6 @@ const fetchStudentStatsData = createAsyncThunk(
   "dashboard/fetchStudentsStatsData",
 
   async ({yearId, dType, dCode, valueType }) => {
-    console.log("check times")
     const response = await externalUtilityv1.post(`students-summarised-stats/public`,
       {
         yearId:yearId,
@@ -112,7 +105,6 @@ const fetchStudentStatsIntData = createAsyncThunk(
   "dashboard/fetchStudentStatsIntData",
 
   async ({yearId, dType, dCode }) => {
-    console.log("check times")
     const response = await externalUtilityv1.post(`students-summarised-stats/public`,
       {
         yearId:yearId,
@@ -129,7 +121,6 @@ const fetchMaptatsData = createAsyncThunk(
   "dashboard/fetchMaptatsData",
 
   async ({yearId, dType, dCode, valueType }) => {
-    console.log("check times")
     const response = await externalUtilityv1.post(`students-summarised-stats/public`,
       {
         yearId:yearId,
@@ -147,7 +138,6 @@ const fetchMaptatsOtherData = createAsyncThunk(
   "dashboard/fetchMaptatsOtherData",
 
   async ({yearId, dType, dCode, valueType }) => {
-    console.log("check times")
     const response = await externalUtilityv1.post(`summarised-stats/public`,
       {
         yearId:yearId,
@@ -167,7 +157,6 @@ const fetchAllStateSchemesData = createAsyncThunk(
   "dashboard/fetchAllStateSchemesData",
 
   async ({yearId, regionType, dCode}) => {
-    console.log("check times")
     const response = await externalUtilityv1.post(`students-summarised-stats/public`,
       {
         yearId:yearId,
