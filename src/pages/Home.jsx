@@ -50,7 +50,7 @@ export default function Home() {
       dashboardRegionType: 10,
       dashboardRegionCode: "09",
     };
-    // dispatch(fetchDashboardData(newDataObject));
+   // dispatch(fetchDashboardData(newDataObject));
     // if(header_name.headerName === "Education Dashboard"){
     //   dispatch(fetchMaptatsData(mapFilterObj));
     //   mapFilterObj.valueType=2

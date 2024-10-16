@@ -137,7 +137,6 @@ export default function FilterDropdown3016() {
     filterObj = structuredClone(schoolFilter);
   }, [schoolFilter]);
 const stateId=useSelector((state=>state.mapData.stateId))
-console.log(stateId, "stateId")
   useEffect(() => {
     setJsonStateData(mapJsonData.stateData);
     const queryString = window.location.href;
@@ -184,76 +183,92 @@ console.log(stateId, "stateId")
     const splittedArr = e.split("@");
     const year = parseInt(splittedArr[0]);
     const year_report = splittedArr[1];
-    
-    setSelectedYear(year_report);
-    dispatch(setSelectYearId(year))
-    filterObj.yearId = year;
-     setUpdateYearId(year);
-    dispatch(allFilter(filterObj));
-    // const updatedFilterObj = { yearId: year };
-    // dispatch(allFilter(updatedFilterObj));
   
-    if (location.pathname !== "/") {
-      filterObj.valueType = 1;
-    } else {
-      filterObj.valueType = 2;
-    }
-    const reserveUpdatedFilters = {
-      ...reserveUpdatedFilter,
-      yearId: year,
-      valueType: location.pathname !== "/" ? 1 : 2,
-    };
-    const reserveUpdatedFilterss = {
+    setSelectedYear(year_report);
+    dispatch(setSelectYearId(year));
+    setUpdateYearId(year);
+  
+    // Clone filterObj to avoid direct mutations
+    let updatedFilterObj = {
       ...filterObj,
       yearId: year,
       valueType: location.pathname !== "/" ? 1 : 2,
     };
-   
-    dispatch(setReserveUpdatedFilter(reserveUpdatedFilters));
-   
-    if (mapStateValue === nationalWiseName || mapStateValue === stateWiseName) {
-      handleAPICallAccordingToFilter(filterObj);
-      filterObj.regionType = 21
-      filterObj.dType = 21
-      filterObj.dashboardRegionType = 21
-      handleAPICallAccordingToFilterMap(filterObj)
-    } else if(onDrillDownStatus && location.pathname === "/"){
-      handleAPICallAccordingToFilter(reserveUpdatedFilterss);
-      reserveUpdatedFilterss.regionType = 22
-      reserveUpdatedFilterss.dType = 22
-      reserveUpdatedFilterss.dashboardRegionType = 22;
-      handleAPICallAccordingToFilterMap(reserveUpdatedFilterss)
-    }  
-    else{
-      handleAPICallAccordingToFilter(reserveUpdatedFilters);
-      reserveUpdatedFilters.regionType = 22
-      reserveUpdatedFilters.dType = 22
-      reserveUpdatedFilters.dashboardRegionType = 22;
-      handleAPICallAccordingToFilterMap(reserveUpdatedFilters)
+  
+    // Clone reserveUpdatedFilter to avoid direct mutations
+    let updatedReserveFilter = {
+      ...reserveUpdatedFilter,
+      yearId: year,
+      valueType: location.pathname !== "/" ? 1 : 2,
+    };
+   let updatedReserveFilterforDashboard ={
+    ...reserveUpdatedFilter,
+    yearId: year,
+    valueType: location.pathname !== "/" ? 1 : 2,
+   }
+    dispatch(allFilter(updatedFilterObj));
+    dispatch(setReserveUpdatedFilter(updatedReserveFilter));
+  
+    // Handle mapStateValue cases
+    if (mapStateValue === nationalWiseName) {
+      handleAPICallAccordingToFilter(updatedFilterObj);
+      updatedFilterObj = {
+        ...updatedFilterObj,
+        regionType: 21,
+        dType: 21,
+        dashboardRegionType: 21,
+      };
+      handleAPICallAccordingToFilterMap(updatedFilterObj);
+    } else if (onDrillDownStatus && location.pathname === "/") {
+      updatedReserveFilter = {
+        ...updatedReserveFilter,
+        regionType: 22,
+        dType: 22,
+        dashboardRegionType: 22,
+      };
+      handleAPICallAccordingToFilter(updatedReserveFilter);
+      handleAPICallAccordingToFilterMap(updatedReserveFilter);
+    } else {
+      updatedReserveFilter = {
+        ...updatedReserveFilter,
+        regionType: 22,
+        dType: 22,
+        dashboardRegionType: 22,
+      };
+       updatedReserveFilterforDashboard = {
+        ...updatedReserveFilter,
+        regionType: 11,
+        dType: 11,
+        dashboardRegionType: 11,
+      };
+      handleAPICallAccordingToFilter(updatedReserveFilterforDashboard);
+      handleAPICallAccordingToFilterMap(updatedReserveFilter);
     }
+  
+    // Clear district data
     dispatch(removeAllDistrict());
     window.localStorage.setItem("map_district_name", "District");
-    console.log(mapStateValue,"jdjdsjdsdjsj")
-    if (mapStateValue !== nationalWiseName ){
-      console.log(stateId,"jdjdsjdsdjsj")
+  
+    if (mapStateValue !== nationalWiseName) {
       dispatch(setSelectedStateCode(stateId));
-    // dispatch(updateUdiseDistrictCode(stateId));
-     dispatch(
-      fetchDistrictDataByStateCode({
-        state_code: stateId || null,
-        yearId: reserveUpdatedFilters.yearId,
-      })
-    );
+      dispatch(
+        fetchDistrictDataByStateCode({
+          state_code: stateId,
+          yearId: updatedReserveFilter?.yearId,
+        })
+      );
     }
-    
+  
     window.localStorage.setItem("year", year_report);
-    if(location.pathname !== "/"){
-      dispatch(removeAllBlock())
+  
+    if (location.pathname !== "/") {
+      dispatch(removeAllBlock());
       window.localStorage.setItem("block", "Block");
     }
-    
+  
     hideOpendFilterBox();
   };
+  
 
   const handleSchoolFilterState = (e) => {
     const splittedArr = e.split("@");
@@ -638,7 +653,6 @@ console.log(stateId, "stateId")
       // dispatch(fetchArchiveServicesTeacherDataSocialCatGender(obj));
     } else {
       // if(restDashData === true){
-  
         if (headerSlice.headerName === "Education Dashboard") {
           dispatch(fetchDashboardData(obj));
           dispatch(fetchSchoolStatsData(obj));
@@ -806,13 +820,18 @@ console.log(stateId, "stateId")
     dispatch(removeAllDistrict());
     dispatch(removeAllBlock());
     setSelectedYear("2021-22");
+    dispatch(setSelectYearId(8))
+     setUpdateYearId("2021-22");
     setSelectedBlock(block);
     // setIsStateSelected(false);
-    window.localStorage.setItem("map_district_name", "District");
     window.localStorage.setItem("map_state_name", "All India/National");
+    window.localStorage.setItem("map_district_name", "District");
+
     handleAPICallAccordingToFilterMap(modifiedFilterObjForReset)
     // dispatch(fetchDashboardData(modifiedFilterObj));
     handleAPICallAccordingToFilter(modifiedFilterObjResetDashboard);
+    dispatch(setReserveUpdatedFilter(modifiedFilterObjResetDashboard));
+    dispatch(allFilter(modifiedFilterObjResetDashboard));
     if (mapStateValue !== "All India/National") {
       dispatch(updateMapLoaded(false));
       dispatch(handleShowDistrict(false));
