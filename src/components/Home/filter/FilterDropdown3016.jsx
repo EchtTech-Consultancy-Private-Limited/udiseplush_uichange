@@ -179,6 +179,8 @@ const stateId=useSelector((state=>state.mapData.stateId))
     };
   }, []);
 
+
+
   const handleSchoolFilterYear = (e) => {
     const splittedArr = e.split("@");
     const year = parseInt(splittedArr[0]);
@@ -193,6 +195,11 @@ const stateId=useSelector((state=>state.mapData.stateId))
       ...filterObj,
       yearId: year,
       valueType: location.pathname !== "/" ? 1 : 2,
+      regionCode :stateId,
+      dCode : stateId,
+      dashboardRegionCode:stateId,
+
+
     };
   
     // Clone reserveUpdatedFilter to avoid direct mutations
@@ -200,11 +207,18 @@ const stateId=useSelector((state=>state.mapData.stateId))
       ...reserveUpdatedFilter,
       yearId: year,
       valueType: location.pathname !== "/" ? 1 : 2,
+      regionCode :stateId,
+      dCode : stateId,
+      dashboardRegionCode:stateId,
     };
    let updatedReserveFilterforDashboard ={
     ...reserveUpdatedFilter,
     yearId: year,
     valueType: location.pathname !== "/" ? 1 : 2,
+    regionCode :stateId,
+    dCode : stateId,
+    dashboardRegionCode:stateId,
+
    }
     dispatch(allFilter(updatedFilterObj));
     dispatch(setReserveUpdatedFilter(updatedReserveFilter));
@@ -241,12 +255,18 @@ const stateId=useSelector((state=>state.mapData.stateId))
         dType: 11,
         dashboardRegionType: 11,
       };
+
+
+
+
       handleAPICallAccordingToFilter(updatedReserveFilterforDashboard);
       handleAPICallAccordingToFilterMap(updatedReserveFilter);
     }
   
     // Clear district data
     dispatch(removeAllDistrict());
+
+
     window.localStorage.setItem("map_district_name", "District");
   
     if (mapStateValue !== nationalWiseName) {
@@ -273,6 +293,8 @@ const stateId=useSelector((state=>state.mapData.stateId))
   const handleSchoolFilterState = (e) => {
     const splittedArr = e.split("@");
     const state_code = splittedArr[0];
+
+
     const state_name = splittedArr[1];
     const lat = splittedArr[2];
     const long = splittedArr[3];
