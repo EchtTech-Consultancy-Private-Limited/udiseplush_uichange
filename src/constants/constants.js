@@ -39,7 +39,7 @@ export const modifiedFilterObjResetDashboard = {
   dashboardRegionType: 10,
   locationCode: 0,
   managementCode: 0,
-  regionCode: "11",
+  regionCode: 99,
   regionType: 21,
   dType: 10, //21statewise //10 for all india
   dCode: 99, // 11statewise //99 for all india
