@@ -620,10 +620,10 @@ export default function IndiaMapComponentN() {
   );
 
   useEffect(() => {
-    if (schoolFilter.regionCode.length >= 4 || header_name.headerName === "School Dashboard") {
+    if (schoolFilter?.regionCode?.length >= 4 || header_name?.headerName === "School Dashboard") {
       setLoding(false);
     }
-  }, [schoolFilter, header_name.headerName]);
+  }, [schoolFilter, header_name?.headerName]);
 
   const geoJSONStyle = useCallback(
     (feature) => {

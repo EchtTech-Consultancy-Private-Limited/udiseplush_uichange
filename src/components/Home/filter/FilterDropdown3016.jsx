@@ -115,7 +115,6 @@ export default function FilterDropdown3016() {
   const reserveUpdatedFilter = useSelector(
     (state) => state.header.reserveUpdatedFilter
   );
-  console.log(reserveUpdatedFilter, "reserveUpdatedFilter")
   const selectedStateCode = useSelector(
     (state) => state.state.selectedStateCode
   );
@@ -180,187 +179,116 @@ const stateId=useSelector((state=>state.mapData.stateId))
     };
   }, []);
 
-  // const handleSchoolFilterYear = (e) => {
-  //   const splittedArr = e.split("@");
-  //   const year = parseInt(splittedArr[0]);
-  //   const year_report = splittedArr[1];
-  
-  //   setSelectedYear(year_report);
-  //   dispatch(setSelectYearId(year));
-  //   setUpdateYearId(year);
-  
-  //   // Clone filterObj to avoid direct mutations
-  //   let updatedFilterObj = {
-  //     ...filterObj,
-  //     yearId: year,
-  //     valueType: location.pathname !== "/" ? 1 : 2,
-  //   };
-  
-  //   // Clone reserveUpdatedFilter to avoid direct mutations
-  //   let updatedReserveFilter = {
-  //     ...reserveUpdatedFilter,
-  //     yearId: year,
-  //     valueType: location.pathname !== "/" ? 1 : 2,
-  //   };
-  //  let updatedReserveFilterforDashboard ={
-  //   ...reserveUpdatedFilter,
-  //   yearId: year,
-  //   valueType: location.pathname !== "/" ? 1 : 2,
-  //  }
-  //  console.log(updatedReserveFilterforDashboard, "updatedReserveFilterforDashboard")
-  //   dispatch(allFilter(updatedFilterObj));
-  //   dispatch(setReserveUpdatedFilter(updatedReserveFilter));
-  
-  //   // Handle mapStateValue cases
-  //   if (mapStateValue === nationalWiseName) {
-  //     handleAPICallAccordingToFilter(updatedFilterObj);
-  //     updatedFilterObj = {
-  //       ...updatedFilterObj,
-  //       regionType: 21,
-  //       dType: 21,
-  //       dashboardRegionType: 21,
-  //     };
-  //     handleAPICallAccordingToFilterMap(updatedFilterObj);
-  //   } else if (onDrillDownStatus && location.pathname === "/") {
-  //     updatedReserveFilter = {
-  //       ...updatedReserveFilter,
-  //       regionType: 22,
-  //       dType: 22,
-  //       dashboardRegionType: 22,
-  //     };
-  //     handleAPICallAccordingToFilter(updatedReserveFilter);
-  //     handleAPICallAccordingToFilterMap(updatedReserveFilter);
-  //   } else {
-  //     updatedReserveFilter = {
-  //       ...updatedReserveFilter,
-  //       regionType: 22,
-  //       dType: 22,
-  //       dashboardRegionType: 22,
-  //     };
-  //      updatedReserveFilterforDashboard = {
-  //       ...updatedReserveFilter,
-  //       regionType: 11,
-  //       dType: 11,
-  //       dashboardRegionType: 11,
-  //     };
-  //     console.log(updatedReserveFilterforDashboard, "updatedReserveFilterforDashboard")
-  //     handleAPICallAccordingToFilter(updatedReserveFilterforDashboard);
-  //     handleAPICallAccordingToFilterMap(updatedReserveFilter);
-  //   }
-  
-  //   // Clear district data
-  //   dispatch(removeAllDistrict());
-  //   window.localStorage.setItem("map_district_name", "District");
-  
-  //   if (mapStateValue !== nationalWiseName) {
-  //     dispatch(setSelectedStateCode(stateId));
-  //     dispatch(
-  //       fetchDistrictDataByStateCode({
-  //         state_code: stateId,
-  //         yearId: updatedReserveFilter?.yearId,
-  //       })
-  //     );
-  //   }
-  
-  //   window.localStorage.setItem("year", year_report);
-  
-  //   if (location.pathname !== "/") {
-  //     dispatch(removeAllBlock());
-  //     window.localStorage.setItem("block", "Block");
-  //   }
-  
-  //   hideOpendFilterBox();
-  // };
- 
+
+
   const handleSchoolFilterYear = (e) => {
     const splittedArr = e.split("@");
     const year = parseInt(splittedArr[0]);
     const year_report = splittedArr[1];
-    dispatch(removeAllDistrict());
-    setSelectedYear(year_report);
-    dispatch(setSelectYearId(year))
-    filterObj.yearId = year;
-     setUpdateYearId(year);
-     console.log(filterObj, "filterObj")
-   // dispatch(allFilter(filterObj));
-    // const updatedFilterObj = { yearId: year };
-    // dispatch(allFilter(updatedFilterObj));
   
-    if (location.pathname !== "/") {
-      filterObj.valueType = 1;
-    } else {
-      filterObj.valueType = 2;
-    }
-    let reserveUpdatedFilters = {
-      ...reserveUpdatedFilter,
-      yearId: year,
-      valueType: location.pathname !== "/" ? 1 : 2,
-    };
-    let reserveUpdatedFilterss = {
+    setSelectedYear(year_report);
+    dispatch(setSelectYearId(year));
+    setUpdateYearId(year);
+  
+    // Clone filterObj to avoid direct mutations
+    let updatedFilterObj = {
       ...filterObj,
       yearId: year,
       valueType: location.pathname !== "/" ? 1 : 2,
+      regionCode :stateId,
+      dCode : stateId,
+      dashboardRegionCode:stateId,
+
+
     };
-    let updatedReserveFilterforDashboard ={
-        ...reserveUpdatedFilter,
-        yearId: year,
-        valueType: location.pathname !== "/" ? 1 : 2,
-       }
-    dispatch(setReserveUpdatedFilter(reserveUpdatedFilters));
-   
+  
+    // Clone reserveUpdatedFilter to avoid direct mutations
+    let updatedReserveFilter = {
+      ...reserveUpdatedFilter,
+      yearId: year,
+      valueType: location.pathname !== "/" ? 1 : 2,
+      regionCode :stateId,
+      dCode : stateId,
+      dashboardRegionCode:stateId,
+    };
+   let updatedReserveFilterforDashboard ={
+    ...reserveUpdatedFilter,
+    yearId: year,
+    valueType: location.pathname !== "/" ? 1 : 2,
+    regionCode :stateId,
+    dCode : stateId,
+    dashboardRegionCode:stateId,
+
+   }
+    dispatch(allFilter(updatedFilterObj));
+    dispatch(setReserveUpdatedFilter(updatedReserveFilter));
+  
+    // Handle mapStateValue cases
     if (mapStateValue === nationalWiseName) {
-      handleAPICallAccordingToFilter(filterObj);
-      filterObj.regionType = 21
-      filterObj.dType = 21
-      filterObj.dashboardRegionType = 21
-      handleAPICallAccordingToFilterMap(filterObj)
-    } else if(onDrillDownStatus && location.pathname === "/"){
-      handleAPICallAccordingToFilter(reserveUpdatedFilterss);
-      reserveUpdatedFilterss.regionType = 22
-      reserveUpdatedFilterss.dType = 22
-      reserveUpdatedFilterss.dashboardRegionType = 22;
-      handleAPICallAccordingToFilterMap(reserveUpdatedFilterss)
-    }  
-    else{
-      updatedReserveFilterforDashboard = {
-              ...reserveUpdatedFilter,
-              regionType: 11,
-              dType: 11,
-              dashboardRegionType: 11,
-            };
+      handleAPICallAccordingToFilter(updatedFilterObj);
+      updatedFilterObj = {
+        ...updatedFilterObj,
+        regionType: 21,
+        dType: 21,
+        dashboardRegionType: 21,
+      };
+      handleAPICallAccordingToFilterMap(updatedFilterObj);
+    } else if (onDrillDownStatus && location.pathname === "/") {
+      updatedReserveFilter = {
+        ...updatedReserveFilter,
+        regionType: 22,
+        dType: 22,
+        dashboardRegionType: 22,
+      };
+      handleAPICallAccordingToFilter(updatedReserveFilter);
+      handleAPICallAccordingToFilterMap(updatedReserveFilter);
+    } else {
+      updatedReserveFilter = {
+        ...updatedReserveFilter,
+        regionType: 22,
+        dType: 22,
+        dashboardRegionType: 22,
+      };
+       updatedReserveFilterforDashboard = {
+        ...updatedReserveFilter,
+        regionType: 11,
+        dType: 11,
+        dashboardRegionType: 11,
+      };
+
       handleAPICallAccordingToFilter(updatedReserveFilterforDashboard);
-      reserveUpdatedFilters.regionType = 22
-      reserveUpdatedFilters.dType = 22
-      reserveUpdatedFilters.dashboardRegionType = 22;
-      handleAPICallAccordingToFilterMap(reserveUpdatedFilters)
+      handleAPICallAccordingToFilterMap(updatedReserveFilter);
     }
-   
+  
+    // Clear district data
+    dispatch(removeAllDistrict());
     window.localStorage.setItem("map_district_name", "District");
-    if (mapStateValue !== nationalWiseName ){
+    if (mapStateValue !== nationalWiseName) {
       dispatch(setSelectedStateCode(stateId));
-    // dispatch(updateUdiseDistrictCode(stateId));
-    //  dispatch(
-    //   fetchDistrictDataByStateCode({
-    //     state_code: stateId,
-    //     yearId: reserveUpdatedFilters?.yearId,
-    //   })
-    // );
+      dispatch(
+        fetchDistrictDataByStateCode({
+          state_code: stateId,
+          yearId: updatedReserveFilter?.yearId,
+        })
+      );
     }
-    
+  
     window.localStorage.setItem("year", year_report);
-    if(location.pathname !== "/"){
-      dispatch(removeAllBlock())
+  
+    if (location.pathname !== "/") {
+      dispatch(removeAllBlock());
       window.localStorage.setItem("block", "Block");
     }
-    
+  
     hideOpendFilterBox();
   };
-
-     
+  
 
   const handleSchoolFilterState = (e) => {
     const splittedArr = e.split("@");
     const state_code = splittedArr[0];
+
+
     const state_name = splittedArr[1];
     const lat = splittedArr[2];
     const long = splittedArr[3];
