@@ -113,7 +113,6 @@ export default function FilterDropdown3016() {
   const show = useSelector((state) => state.header.show);
   const distBlockWiseData = useSelector((state) => state.distBlockWise);
   let filterObj = structuredClone(schoolFilter);
-  console.log(filterObj, "filterObjssss")
   const reserveUpdatedFilter = useSelector(
     (state) => state.header.reserveUpdatedFilter
   );

@@ -33,7 +33,7 @@ import { removeAllBlock } from "../../redux/thunks/blockThunk";
 export default function InfrastructureReportPieGraph3013() {
 
   const location = useLocation();
-  const queryString = location.search; // Using location.search to get query parameters
+  const queryString = location.search; 
   const urlParams = new URLSearchParams(queryString);
 
   const paramValue = urlParams.get("type");
@@ -91,6 +91,7 @@ export default function InfrastructureReportPieGraph3013() {
   }, [data]);
 
   const handleCustomKeyInAPIResponse = () => {
+ 
     const arr = updatedSchoolData.map((item) => {
       let appendedObj = { ...item };
 
@@ -122,7 +123,6 @@ export default function InfrastructureReportPieGraph3013() {
 
       return appendedObj;
     });
-
     setData(arr);
   };
 
@@ -413,9 +413,10 @@ export default function InfrastructureReportPieGraph3013() {
   useEffect(() => {
     if (headerData.activeTab === "graph") {
       //  dispatch(allFilter(initialFilterPieGraphSchoolData));
+      initialFilterPieGraphSchoolData.yearId=filterObj.yearId
       dispatch(fetchArchiveServicesPieGraphSchoolData(initialFilterPieGraphSchoolData));
     }
-  }, [headerData.activeTab]);
+  }, [headerData.activeTab,schoolFilter]);
   const colorMapSch = {
     "Primary (PRY)": "#f5bf55",
     "Upper Primary (UPR)": "#e6694a",
