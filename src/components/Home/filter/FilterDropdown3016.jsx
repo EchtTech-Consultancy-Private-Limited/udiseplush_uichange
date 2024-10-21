@@ -178,110 +178,54 @@ const stateId=useSelector((state=>state.mapData.stateId))
       targetElement.removeEventListener("click", handleEvent);
     };
   }, []);
-
+  const resetDashboard = (yearId, yearReport, modifiedFilterObjForReset, modifiedFilterObjResetDashboard) => {
+    sessionStorage.setItem("handle", "");
+    dispatch(removeAllDistrict());
+    dispatch(removeAllBlock());
+    setSelectedYear(yearReport);
+    dispatch(setSelectYearId(yearId));
+    setUpdateYearId(yearId);
+    
+    setSelectedBlock(block);
+    
+    window.localStorage.setItem("map_state_name", "All India/National");
+    window.localStorage.setItem("map_district_name", "District");
+    window.localStorage.setItem("year", yearReport);
+  
+    handleAPICallAccordingToFilterMap(modifiedFilterObjForReset);
+    handleAPICallAccordingToFilter(modifiedFilterObjResetDashboard);
+    
+    dispatch(setReserveUpdatedFilter(modifiedFilterObjResetDashboard));
+    dispatch(allFilter(modifiedFilterObjResetDashboard));
+    
+    if (mapStateValue !== "All India/National") {
+      dispatch(updateMapLoaded(false));
+      dispatch(handleShowDistrict(false));
+    }
+  };
+  
 
 
   const handleSchoolFilterYear = (e) => {
     const splittedArr = e.split("@");
-    const year = parseInt(splittedArr[0]);
+    const year = parseInt(splittedArr[0]); 
     const year_report = splittedArr[1];
   
-    setSelectedYear(year_report);
-    dispatch(setSelectYearId(year));
-    setUpdateYearId(year);
-  
-    // Clone filterObj to avoid direct mutations
-    let updatedFilterObj = {
-      ...filterObj,
-      yearId: year,
-      valueType: location.pathname !== "/" ? 1 : 2,
-      regionCode :stateId,
-      dCode : stateId,
-      dashboardRegionCode:stateId,
-
-
+    const modifiedFilterObjForResetMap = {
+      ...modifiedFilterObjForReset, 
+      yearId: year, 
     };
   
-    // Clone reserveUpdatedFilter to avoid direct mutations
-    let updatedReserveFilter = {
-      ...reserveUpdatedFilter,
-      yearId: year,
-      valueType: location.pathname !== "/" ? 1 : 2,
-      regionCode :stateId,
-      dCode : stateId,
-      dashboardRegionCode:stateId,
+    const modifiedFilterObjResetDashboardData = {
+      ...modifiedFilterObjResetDashboard, 
+      yearId: year, 
     };
-   let updatedReserveFilterforDashboard ={
-    ...reserveUpdatedFilter,
-    yearId: year,
-    valueType: location.pathname !== "/" ? 1 : 2,
-    regionCode :stateId,
-    dCode : stateId,
-    dashboardRegionCode:stateId,
 
-   }
-    dispatch(allFilter(updatedFilterObj));
-    dispatch(setReserveUpdatedFilter(updatedReserveFilter));
-  
-    // Handle mapStateValue cases
-    if (mapStateValue === nationalWiseName) {
-      handleAPICallAccordingToFilter(updatedFilterObj);
-      updatedFilterObj = {
-        ...updatedFilterObj,
-        regionType: 21,
-        dType: 21,
-        dashboardRegionType: 21,
-      };
-      handleAPICallAccordingToFilterMap(updatedFilterObj);
-    } else if (onDrillDownStatus && location.pathname === "/") {
-      updatedReserveFilter = {
-        ...updatedReserveFilter,
-        regionType: 22,
-        dType: 22,
-        dashboardRegionType: 22,
-      };
-      handleAPICallAccordingToFilter(updatedReserveFilter);
-      handleAPICallAccordingToFilterMap(updatedReserveFilter);
-    } else {
-      updatedReserveFilter = {
-        ...updatedReserveFilter,
-        regionType: 22,
-        dType: 22,
-        dashboardRegionType: 22,
-      };
-       updatedReserveFilterforDashboard = {
-        ...updatedReserveFilter,
-        regionType: 11,
-        dType: 11,
-        dashboardRegionType: 11,
-      };
-
-      handleAPICallAccordingToFilter(updatedReserveFilterforDashboard);
-      handleAPICallAccordingToFilterMap(updatedReserveFilter);
-    }
-  
-    // Clear district data
-    dispatch(removeAllDistrict());
-    window.localStorage.setItem("map_district_name", "District");
-    if (mapStateValue !== nationalWiseName) {
-      dispatch(setSelectedStateCode(stateId));
-      dispatch(
-        fetchDistrictDataByStateCode({
-          state_code: stateId,
-          yearId: updatedReserveFilter?.yearId,
-        })
-      );
-    }
-  
-    window.localStorage.setItem("year", year_report);
-  
-    if (location.pathname !== "/") {
-      dispatch(removeAllBlock());
-      window.localStorage.setItem("block", "Block");
-    }
-  
+    resetDashboard(year, year_report, modifiedFilterObjForResetMap, modifiedFilterObjResetDashboardData);
+    
     hideOpendFilterBox();
   };
+  
   
 
   const handleSchoolFilterState = (e) => {
@@ -292,7 +236,7 @@ const stateId=useSelector((state=>state.mapData.stateId))
     const state_name = splittedArr[1];
     const lat = splittedArr[2];
     const long = splittedArr[3];
-    filterObj.yearId = updateYearId;
+   // filterObj.yearId = updateYearId;
     dispatch(setstateId(state_code))
     setSelectedState(state_name);
     window.localStorage.setItem("map_state_name", state_name);
@@ -325,7 +269,7 @@ const stateId=useSelector((state=>state.mapData.stateId))
         yearId: 8,
       };
 
-      dispatch(setReserveUpdatedFilter(updatedFilterObj));
+    //  dispatch(setReserveUpdatedFilter(updatedFilterObj));
 
       dispatch(allFilter(filterObj));
       dispatch(mapFilter(filterObj));
@@ -411,7 +355,7 @@ const stateId=useSelector((state=>state.mapData.stateId))
         yearId: 8,
       };
 
-      dispatch(setReserveUpdatedFilter(updatedFilterObj));
+    //  dispatch(setReserveUpdatedFilter(updatedFilterObj));
       dispatch(allFilter(filterObj));
       dispatch(mapFilter(filterObj));
       handleAPICallAccordingToFilter(
@@ -445,7 +389,7 @@ const stateId=useSelector((state=>state.mapData.stateId))
         yearId: 8,
       };
 
-      dispatch(setReserveUpdatedFilter(updatedFilterObj));
+     // dispatch(setReserveUpdatedFilter(updatedFilterObj));
       dispatch(allFilter(filterObj));
       dispatch(mapFilter(filterObj));
 
@@ -455,13 +399,6 @@ const stateId=useSelector((state=>state.mapData.stateId))
         const district_data = state_code + "@" + districtWiseName;
         handleSchoolFilterDistrict(district_data);
       }
-
-      // if (headerData.isViewDataByShow && location.pathname === "/") {
-      //   const district_data = state_code + "@" + districtWiseName;
-      //   console.log(district_data, "district_data")
-      //   handleSchoolFilterDistrict(district_data);
-      // }
-
 
       dispatch(
         fetchDistrictDataByStateCode({
@@ -503,7 +440,7 @@ const stateId=useSelector((state=>state.mapData.stateId))
     const splittedArr = e.split("@");
     const district_code = splittedArr[0];
     const district_name = splittedArr[1];
-    filterObj.yearId = updateYearId;
+  //  filterObj.yearId = updateYearId;
     dispatch(handleRegionName("Districts"));
     dispatch(updateUdiseBlockCode(district_code));
     if (district_name === districtWiseName) {
@@ -609,7 +546,7 @@ const stateId=useSelector((state=>state.mapData.stateId))
     const splittedArr = e.split("@");
     const block_code = splittedArr[0];
     const block_name = splittedArr[1];
-    filterObj.yearId = updateYearId
+    //filterObj.yearId = updateYearId
     dispatch(handleRegionName("Blocks"));
     if (block_name === blockWiseName) {
       filterObj.regionType = allBWiseregionType;
@@ -822,40 +759,13 @@ const stateId=useSelector((state=>state.mapData.stateId))
   };
 
   const handleResetDash = () => {
-    sessionStorage.setItem("handle", "");
-    //   const elements = document.querySelectorAll(".impact-box-content.active");
-    //   elements.forEach((element) => {
-    //     element.classList.remove("active");
-    //   });
-    //  //  document.getElementById("bmap").innerHTML = "";
-    //   const bmapElement = document.getElementById("bmap");
-    //   if (bmapElement) {
-    //     bmapElement.innerHTML = "";
-    //   }
-  
-    dispatch(removeAllDistrict());
-    dispatch(removeAllBlock());
-    setSelectedYear("2021-22");
-    dispatch(setSelectYearId(8))
-     setUpdateYearId("2021-22");
-    setSelectedBlock(block);
-    // setIsStateSelected(false);
-    window.localStorage.setItem("map_state_name", "All India/National");
-    window.localStorage.setItem("map_district_name", "District");
-
-    handleAPICallAccordingToFilterMap(modifiedFilterObjForReset)
-    // dispatch(fetchDashboardData(modifiedFilterObj));
-    handleAPICallAccordingToFilter(modifiedFilterObjResetDashboard);
-    dispatch(setReserveUpdatedFilter(modifiedFilterObjResetDashboard));
-    dispatch(allFilter(modifiedFilterObjResetDashboard));
-    if (mapStateValue !== "All India/National") {
-      dispatch(updateMapLoaded(false));
-      dispatch(handleShowDistrict(false));
-    }
-  
+    const modifiedFilterObjForResetMap = modifiedFilterObjForReset; 
+    const modifiedFilterObjResetDashboardData = modifiedFilterObjResetDashboard;
+    
+    resetDashboard(8, "2021-22", modifiedFilterObjForResetMap, modifiedFilterObjResetDashboardData);
   };
- 
-  const handleReset3016 = () => {
+  
+  const handleResetReports = () => {
     dispatch(removeAllDistrict());
     dispatch(removeAllBlock());
     window.localStorage.setItem("state_wise", "All India/National");
@@ -1059,7 +969,7 @@ const stateId=useSelector((state=>state.mapData.stateId))
                 <button
                   className="btn btn-primary btn-reset-filter"
                   disabled={is3016btnDisabled}
-                  onClick={handleReset3016}
+                  onClick={handleResetReports}
                 >
                   Reset
                 </button>

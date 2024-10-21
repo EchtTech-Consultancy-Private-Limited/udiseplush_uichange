@@ -7,7 +7,7 @@ const fetchYearData = createAsyncThunk(
   "year/fetchYearData",
   async () => {
     const response = await axios.get(`v1.1/acad-year-master/public`);
-    return response.data;
+    return response?.data;
   }
 );
 const removeDateYear = createAsyncThunk(
