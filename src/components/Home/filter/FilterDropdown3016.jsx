@@ -208,6 +208,7 @@ export default function FilterDropdown3016() {
   };
 
   const resetReports = (yearId, yearReport, intialStateWiseFilterSchData, modifyobject) => {
+    
     dispatch(removeAllDistrict());
     dispatch(removeAllBlock());
     window.localStorage.setItem("state_wise", "All India/National");
@@ -216,7 +217,9 @@ export default function FilterDropdown3016() {
     window.localStorage.setItem("map_district_name", "District");
     window.localStorage.setItem("district", "District");
     window.localStorage.setItem("block", "Block");
+    window.localStorage.setItem("year", yearReport);
     setSelectedYear(yearReport);
+    dispatch(setSelectYearId(yearId));
     setSelectedBlock(block);
     setIsStateSelected(false);
 
@@ -274,6 +277,7 @@ export default function FilterDropdown3016() {
       resetDashboard(year, year_report, modifiedFilterObjForResetMap, modifiedFilterObjResetDashboardData);
     }
     else {
+ 
       resetReports(year, year_report, intialStateWiseFilterSchGraphData, intialStateWiseFilterSchTableData);
     }
     hideOpendFilterBox();
