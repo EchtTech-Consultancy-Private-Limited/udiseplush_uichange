@@ -175,6 +175,7 @@ export default function FilterDropdownCommom358() {
   }, []);
 
   const reset358Combine=(yearId, yearReport, intialStateWiseFilterSchData, modifyobjectFor358Combine)=>{
+
     dispatch(removeAllDistrict());
     dispatch(removeAllBlock());
     setSelectedYear(yearReport);
@@ -183,6 +184,7 @@ export default function FilterDropdownCommom358() {
     setIsStateSelected(false);
     dispatch(handleRegionName("States"));
     if (location.pathname === "/infrastructure-reports3013") {
+      console.log("sdksdskjdsjd")
       if (headerData.activeTab === "table") {
         window.localStorage.setItem("state", "All India/National");
         window.localStorage.setItem("map_state_name", "All India/National");
@@ -193,6 +195,7 @@ export default function FilterDropdownCommom358() {
         dispatch(allFilter(modifyobjectFor358Combine));
       }
       else if (headerData.activeTab === "graph") {
+        console.log("sdksdskjdsjd")
         window.localStorage.setItem("state", "State Wise");
         window.localStorage.setItem("map_state_name", "State Wise");
         window.localStorage.setItem("map_district_name", "District");
@@ -200,9 +203,10 @@ export default function FilterDropdownCommom358() {
         window.localStorage.setItem("block", "Block");
         handleAPICallAccordingToFilter(intialStateWiseFilterSchData);
         handleAPICallAccordingToFilterShowpieGraph(modifyobjectFor358Combine)
+    
       }
     } else {
-      if (headerData.activeTab === "table") {
+      if (headerData.activeTab === "table" || headerData.activeTab === "graph") {
         window.localStorage.setItem("state", "All India/National");
         window.localStorage.setItem("map_state_name", "All India/National");
         window.localStorage.setItem("map_district_name", "District");
@@ -801,7 +805,6 @@ console.log(filterObj, "filterObj")
   };
 
   const handleReset358Combine = () => {
-  
     const intialStateWiseFilterSchGraphData = intialStateWiseFilterSchData;
     const intialStateWiseFilterSchTableData = modifyobjectFor358Combine;
     reset358Combine(8, "2021-22", intialStateWiseFilterSchGraphData, intialStateWiseFilterSchTableData);
