@@ -190,6 +190,7 @@ export default function FilterDropdownCommom358() {
         window.localStorage.setItem("district", "District");
         window.localStorage.setItem("block", "Block");
         handleAPICallAccordingToFilter(modifyobjectFor358Combine);
+        dispatch(allFilter(modifyobjectFor358Combine));
       }
       else if (headerData.activeTab === "graph") {
         window.localStorage.setItem("state", "State Wise");
@@ -208,6 +209,7 @@ export default function FilterDropdownCommom358() {
         window.localStorage.setItem("district", "District");
         window.localStorage.setItem("block", "Block");
         handleAPICallAccordingToFilter(modifyobjectFor358Combine);
+        dispatch(allFilter(modifyobjectFor358Combine));
       }
 
     }
@@ -233,6 +235,7 @@ export default function FilterDropdownCommom358() {
       valueType:location.pathname==="/"? 1 : 2,
       yearId: year
     }
+    console.log(intialStateWiseFilterSchTableData, "intialStateWiseFilterSchTableData")
     reset358Combine(year, year_report, intialStateWiseFilterSchTableData, intialStateWiseFilterSchGraphData)
    // window.localStorage.setItem("year", year_report);
     hideOpendFilterBox();
