@@ -60,7 +60,6 @@ export default function InfrastructureReportPieGraph3013(school_dataforpiegraph)
   const schoolFilter = useSelector((state) => state.schoolFilter);
   const filterObj = structuredClone(schoolFilter);
   const [arrGroupedschManagementBroadData, setArrGroupedschManagementBroadData] = useState([]);
-  console.log(arrGroupedschManagementBroadData, "arrGroupedschManagementBroadData")
   const [arrGroupedschCategoryBroadData, setArrGroupedschCategoryBroadData] = useState([]);
   const [data, setData] = useState([]);
 
@@ -257,7 +256,6 @@ export default function InfrastructureReportPieGraph3013(school_dataforpiegraph)
           appended.schHaveCompleteMedicalCheckup = completeMedicalCheckUp;
           appended.totSchInternet = totalInternet;
           appended.totSchCompAvail = computerAvailable;
-          console.log(appended, "updatedArrGroupedData")
           updatedArrGroupedData.push(appended);
         });
 
@@ -275,7 +273,6 @@ export default function InfrastructureReportPieGraph3013(school_dataforpiegraph)
        primaryKeys.push("regionName");
       const groupedData = groupByKey(data, primaryKeys);
       const updatedArrGroupedData = [];
-      console.log(updatedArrGroupedData, "updatedArrGroupedData")
       if (groupedData && typeof groupedData === "object") {
         Object?.keys(groupedData).forEach((item, idx) => {
           const itemsArray = groupedData[item];

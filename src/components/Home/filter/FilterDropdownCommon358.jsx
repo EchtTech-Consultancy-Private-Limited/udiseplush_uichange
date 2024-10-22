@@ -545,12 +545,12 @@ export default function FilterDropdownCommom358() {
       ) {
         const block_data = district_code + "@" + blockWiseName;
         handleSchoolFilterBlock(block_data);
-        if (location.pathname === "/infrastructure-reports3013") {
-          filterObj.dType = 12;
-          filterObj.regionType = 12;
-          filterObj.dashboardRegionType = 12
-          handleAPICallAccordingToFilterShowpieGraph(filterObj)
-        }
+      
+      }
+      if (location.pathname === "/infrastructure-reports3013") {
+        filterObj.dType = 12;
+        filterObj.regionType = 12;
+        handleAPICallAccordingToFilterShowpieGraph(filterObj)
       }
     }
     dispatch(updateFilterDistrict(districtDataClone.data));
@@ -593,7 +593,7 @@ export default function FilterDropdownCommom358() {
       dispatch(allFilter(filterObj));
       handleAPICallAccordingToFilter(filterObj);
       handleAPICallAccordingToFilterShow(filterObj);
-      handleAPICallAccordingToFilterShowpieGraph(filterObj)
+    //  handleAPICallAccordingToFilterShowpieGraph(filterObj)
     } else {
       filterObj.regionType = specificBWiseregionType;
       filterObj.regionCode = block_code;
