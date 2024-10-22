@@ -172,50 +172,50 @@ export default function InfrastructureReportPieGraph3013(school_dataforpiegraph)
           let totalSchoolsHandWashToilet = 0;
           let regionName = "";
           itemsArray.forEach((dataItem) => {
-            regionName = dataItem.regionName;
-            totalSchoolsHaveElectricity += parseInt(dataItem.totSchElectricity);
-            totalSchools += parseInt(dataItem.totSch);
-            totalFunElectricity += parseInt(dataItem.totSchFuncElectricity);
+            regionName = dataItem?.regionName;
+            totalSchoolsHaveElectricity += parseInt(dataItem?.totSchElectricity);
+            totalSchools += parseInt(dataItem?.totSch);
+            totalFunElectricity += parseInt(dataItem?.totSchFuncElectricity);
             totalSchoolsHandWashToilet += parseInt(
-              dataItem.totSchHandwashToilet
+              dataItem?.totSchHandwashToilet
             );
-            separateHeadMasterRoom += parseInt(dataItem.totSchSeprateRoomHm);
-            landAvailable += parseInt(dataItem.totSchLandAvail);
-            solarPanelAvailable += parseInt(dataItem.totSchSolarPanel);
-            playGroundAvail += parseInt(dataItem.totSchPlayground);
-            totalSchoolLibrary += parseInt(dataItem.totSchLibrary);
-            totalSchoolLibrarian += parseInt(dataItem.totSchLibrarian);
-            totalNewspaper += parseInt(dataItem.totSchNewspaper);
-            totalKitchenGarden += parseInt(dataItem.totSchKitchenGarden);
-            totalFurniture += parseInt(dataItem.totSchFurniture);
-            totalBoysToilet += parseInt(dataItem.totSchBoysToilet);
-            totalFuncBoysToilet += parseInt(dataItem.totSchFuncBoysToilet);
-            totalgirlsToilet += parseInt(dataItem.totSchGirlsToilet);
-            totalFuncGirlsToilet += parseInt(dataItem.totSchFuncGirlsToilet);
-            // totalToiletfacility += parseInt(dataItem.schHaveToilet);
+            separateHeadMasterRoom += parseInt(dataItem?.totSchSeprateRoomHm);
+            landAvailable += parseInt(dataItem?.totSchLandAvail);
+            solarPanelAvailable += parseInt(dataItem?.totSchSolarPanel);
+            playGroundAvail += parseInt(dataItem?.totSchPlayground);
+            totalSchoolLibrary += parseInt(dataItem?.totSchLibrary);
+            totalSchoolLibrarian += parseInt(dataItem?.totSchLibrarian);
+            totalNewspaper += parseInt(dataItem?.totSchNewspaper);
+            totalKitchenGarden += parseInt(dataItem?.totSchKitchenGarden);
+            totalFurniture += parseInt(dataItem?.totSchFurniture);
+            totalBoysToilet += parseInt(dataItem?.totSchBoysToilet);
+            totalFuncBoysToilet += parseInt(dataItem?.totSchFuncBoysToilet);
+            totalgirlsToilet += parseInt(dataItem?.totSchGirlsToilet);
+            totalFuncGirlsToilet += parseInt(dataItem?.totSchFuncGirlsToilet);
+            // totalToiletfacility += parseInt(dataItem?.schHaveToilet);
             totalToiletfacility = totalBoysToilet + totalgirlsToilet;
-            totalFuncBoysurinal += parseInt(dataItem.totSchFuncBoysUrinal);
-            totalFuncUrinal += parseInt(dataItem.schHaveFuncUrinals);
-            totalFuncGirlsUrinal += parseInt(dataItem.totSchFuncGirlsUrinal);
-            totalDrinkingWater += parseInt(dataItem.totSchDrinkingWater);
+            totalFuncBoysurinal += parseInt(dataItem?.totSchFuncBoysUrinal);
+            totalFuncUrinal += parseInt(dataItem?.schHaveFuncUrinals);
+            totalFuncGirlsUrinal += parseInt(dataItem?.totSchFuncGirlsUrinal);
+            totalDrinkingWater += parseInt(dataItem?.totSchDrinkingWater);
             totalFunctionalDrinkingWater += parseInt(
-              dataItem.totSchFuncWaterPurifier
+              dataItem?.totSchFuncWaterPurifier
             );
-            totalPurifier += parseInt(dataItem.totSchWaterPurifier);
+            totalPurifier += parseInt(dataItem?.totSchWaterPurifier);
             totalRainWaterHarvesting += parseInt(
-              dataItem.totSchRainWaterHarvesting
+              dataItem?.totSchRainWaterHarvesting
             );
-            totalWaterTested += parseInt(dataItem.totSchWaterTested);
-            totalIncinerator += parseInt(dataItem.totSchIncinerator);
-            totalHandWashFacility += parseInt(dataItem.totSchHandwashMeals);
-            totalSchoolRamps += parseInt(dataItem.totSchRamps);
-            medicalCheckUp += parseInt(dataItem.totSchMedicalCheckup);
+            totalWaterTested += parseInt(dataItem?.totSchWaterTested);
+            totalIncinerator += parseInt(dataItem?.totSchIncinerator);
+            totalHandWashFacility += parseInt(dataItem?.totSchHandwashMeals);
+            totalSchoolRamps += parseInt(dataItem?.totSchRamps);
+            medicalCheckUp += parseInt(dataItem?.totSchMedicalCheckup);
             completeMedicalCheckUp += parseInt(
-              dataItem.schHaveCompleteMedicalCheckup
+              dataItem?.schHaveCompleteMedicalCheckup
             );
-            totalHandRails += parseInt(dataItem.totSchHandRails);
-            totalInternet += parseInt(dataItem.totSchInternet);
-            computerAvailable += parseInt(dataItem.totSchCompAvail);
+            totalHandRails += parseInt(dataItem?.totSchHandRails);
+            totalInternet += parseInt(dataItem?.totSchInternet);
+            computerAvailable += parseInt(dataItem?.totSchCompAvail);
           });
           const appended = {};
           primaryKeys.forEach((key, index) => {
@@ -257,10 +257,10 @@ export default function InfrastructureReportPieGraph3013(school_dataforpiegraph)
           appended.schHaveCompleteMedicalCheckup = completeMedicalCheckUp;
           appended.totSchInternet = totalInternet;
           appended.totSchCompAvail = computerAvailable;
-  
+          console.log(appended, "updatedArrGroupedData")
           updatedArrGroupedData.push(appended);
         });
-        console.log(updatedArrGroupedData, "updatedArrGroupedData")
+
         setArrGroupedschManagementBroadData(updatedArrGroupedData);
     
       }
@@ -275,6 +275,7 @@ export default function InfrastructureReportPieGraph3013(school_dataforpiegraph)
        primaryKeys.push("regionName");
       const groupedData = groupByKey(data, primaryKeys);
       const updatedArrGroupedData = [];
+      console.log(updatedArrGroupedData, "updatedArrGroupedData")
       if (groupedData && typeof groupedData === "object") {
         Object?.keys(groupedData).forEach((item, idx) => {
           const itemsArray = groupedData[item];

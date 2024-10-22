@@ -658,6 +658,7 @@ export default function FilterDropdownCommom358() {
   };
 
   const handleAPICallAccordingToFilterShowpieGraph = (obj) => {
+    obj.valueType=1
     if (location.pathname === "/infrastructure-reports3013") {
       dispatch(fetchArchiveServicesPieGraphSchoolData(obj));
     }
