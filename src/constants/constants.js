@@ -169,8 +169,8 @@ export const initialFilterSchoolData = {
 
   export const modifyobjectFor358Combine = {
     categoryCode: 0,
-    dashboardRegionCode: 11,
-    dashboardRegionType: 11,
+    // dashboardRegionCode: 11,
+    // dashboardRegionType: 11,
     locationCode: 0,
     managementCode: 0,
     regionCode: 99,

@@ -32,7 +32,7 @@ import { removeAllDistrict } from "../../redux/thunks/districtThunk";
 import { removeAllBlock } from "../../redux/thunks/blockThunk";
 
 export default function InfrastructureReportPieGraph3013(school_dataforpiegraph) {
-console.log(school_dataforpiegraph.school_dataforpiegraph, "school_dataforpiegraph")
+
   const location = useLocation();
   const queryString = location.search; 
   const urlParams = new URLSearchParams(queryString);
@@ -60,8 +60,10 @@ console.log(school_dataforpiegraph.school_dataforpiegraph, "school_dataforpiegra
   const schoolFilter = useSelector((state) => state.schoolFilter);
   const filterObj = structuredClone(schoolFilter);
   const [arrGroupedschManagementBroadData, setArrGroupedschManagementBroadData] = useState([]);
+  console.log(arrGroupedschManagementBroadData, "arrGroupedschManagementBroadData")
   const [arrGroupedschCategoryBroadData, setArrGroupedschCategoryBroadData] = useState([]);
   const [data, setData] = useState([]);
+
   const [groupKeys, setGroupKeys] = useState({
     schManagementBroad: true,  
   });
@@ -71,35 +73,26 @@ console.log(school_dataforpiegraph.school_dataforpiegraph, "school_dataforpiegra
   });
 
 
-
   useEffect(() => {
     dispatch(removeAllDistrict());
     dispatch(removeAllBlock());
   }, [ location.pathname]);
 
   useEffect(() => {
-    if (updatedSchoolData?.length > 0) {
-      handleCustomKeyInAPIResponse(updatedSchoolData);
-    }
-    else{
-      handleCustomKeyInAPIResponse([]);
+    if (updatedSchoolData?.length >= 0) {
+      handleCustomKeyInAPIResponse();
     }
   }, [updatedSchoolData]);
 
   useEffect(() => {
-    if (data.length > 0) {
-      multiGroupingRows(data);
-      multiGroupingCategoryRows(data);
-    }
-    else{
-      multiGroupingRows([]);
-      multiGroupingCategoryRows([]);
+    if (data.length >= 0) {
+      multiGroupingRows();
+      multiGroupingCategoryRows();
     }
   }, [data]);
 
-  const handleCustomKeyInAPIResponse = (updatedSchoolData) => {
- console.log(updatedSchoolData, "updatedSchoolData")
-    const arr = updatedSchoolData.map((item) => { 
+  const handleCustomKeyInAPIResponse = () => {
+    const arr = updatedSchoolData?.map((item) => { 
       let appendedObj = { ...item };
 
       // Broad management key added
@@ -133,7 +126,7 @@ console.log(school_dataforpiegraph.school_dataforpiegraph, "school_dataforpiegra
     setData(arr);
   };
 
-  const multiGroupingRows = (data) => {
+  const multiGroupingRows = () => {
     const primaryKeys = Object?.keys(groupKeys).filter((key) => groupKeys[key]);
     if (primaryKeys.length > 0) {
        primaryKeys.push("regionName");
@@ -267,6 +260,7 @@ console.log(school_dataforpiegraph.school_dataforpiegraph, "school_dataforpiegra
   
           updatedArrGroupedData.push(appended);
         });
+        console.log(updatedArrGroupedData, "updatedArrGroupedData")
         setArrGroupedschManagementBroadData(updatedArrGroupedData);
     
       }
@@ -275,7 +269,7 @@ console.log(school_dataforpiegraph.school_dataforpiegraph, "school_dataforpiegra
   };
   
 
-  const multiGroupingCategoryRows = (data) => {
+  const multiGroupingCategoryRows = () => {
     const primaryKeys = Object?.keys(CategoryGroupKeys).filter((key) => CategoryGroupKeys[key]);
     if (primaryKeys.length > 0) {
        primaryKeys.push("regionName");
