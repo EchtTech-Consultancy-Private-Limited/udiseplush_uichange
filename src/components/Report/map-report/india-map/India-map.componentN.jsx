@@ -114,12 +114,12 @@ export default function IndiaMapComponentN() {
     }
   }, [indiaMapJson, geoJsonId, selectedYearId]);
 
-  useEffect(() => {
-    if (geoJsonRef.current) {
-      geoJsonRef.current.clearLayers();
-      geoJsonRef.current.addData(geoJson);
-    }
-  }, [geoJson, selectedYearId, geoJsonId]);
+  // useEffect(() => {
+  //   if (geoJsonRef.current) {
+  //     geoJsonRef.current.clearLayers();
+  //     geoJsonRef.current.addData(geoJson);
+  //   }
+  // }, [geoJson, selectedYearId, geoJsonId]);
 
   const handleSchemesEvent = useSelector(
     (state) => state?.mapData?.grossEData,
@@ -304,7 +304,7 @@ export default function IndiaMapComponentN() {
           });
         }
       }
-    }, [map, geoJsonId, geoJsonRef, selectedYearId, indiaMapJson]);
+    }, [map, geoJsonId, geoJsonRef]);
 
     return null;
   };
@@ -428,7 +428,6 @@ export default function IndiaMapComponentN() {
       selectedDropoutType,
       selectedTransitionRate,
       selectedPupilTeacherRatio,
-      selectedYearId
     ]
   );
 
@@ -439,7 +438,7 @@ export default function IndiaMapComponentN() {
         setLoding(false);
       }, 1000);
     }
-  }, [schoolFilter, selectedYearId]);
+  }, [schoolFilter]);
   const updateFeatureStyleAndTooltip = useCallback(
     (feature, layer) => {
       const { color, isHighlightedDistrict } = getColorFromData(feature);
@@ -615,7 +614,6 @@ export default function IndiaMapComponentN() {
       selectedDropoutType,
       selectedTransitionRate,
       selectedPupilTeacherRatio,
-      selectedYearId
     ]
   );
 
@@ -654,7 +652,7 @@ export default function IndiaMapComponentN() {
 
       // layer.bindPopup(feature.properties.lgd_state_name);
     },
-    [updateFeatureStyleAndTooltip, mapData, handles, selectedYearId]
+    [updateFeatureStyleAndTooltip, mapData, handles]
   );
 
   const handleAPICallAccordingToFilter = (obj) => {
@@ -810,7 +808,7 @@ export default function IndiaMapComponentN() {
       // window.localStorage.setItem("state", StateName);
     },
 
-    [dispatch, schoolFilter, localStorageStateName, geoJsonId, selectedYearId, indiaMapJson]
+    [dispatch, schoolFilter, localStorageStateName, geoJsonId]
   );
 
   const getCentroid = (feature) => {
