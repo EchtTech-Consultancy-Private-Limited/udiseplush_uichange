@@ -423,7 +423,7 @@ export default function FilterDropdownCommom358() {
         const district_data = state_code + "@" + districtWiseName;
         handleSchoolFilterDistrict(district_data);
         if (location.pathname === "/infrastructure-reports3013") {
-          filterObj.dCode = 11;
+          filterObj.dType = 11;
           filterObj.regionType = 11;
           filterObj.dashboardRegionType = 11
           handleAPICallAccordingToFilterShowpieGraph(filterObj)
@@ -546,7 +546,7 @@ export default function FilterDropdownCommom358() {
         const block_data = district_code + "@" + blockWiseName;
         handleSchoolFilterBlock(block_data);
         if (location.pathname === "/infrastructure-reports3013") {
-          filterObj.dCode = 12;
+          filterObj.dType = 12;
           filterObj.regionType = 12;
           filterObj.dashboardRegionType = 12
           handleAPICallAccordingToFilterShowpieGraph(filterObj)

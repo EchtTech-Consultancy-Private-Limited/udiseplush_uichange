@@ -10,7 +10,8 @@ import groupByKey from "../../utils/groupBy";
 
 import {
   selectedDYear,
-  initialFilterPieGraphSchoolData
+  initialFilterPieGraphSchoolData,
+  modifyobjectFor358Combine
 } from "../../constants/constants";
 import { categoryMappings } from "../../constants/constants";
 
@@ -30,8 +31,8 @@ import {
 import { removeAllDistrict } from "../../redux/thunks/districtThunk";
 import { removeAllBlock } from "../../redux/thunks/blockThunk";
 
-export default function InfrastructureReportPieGraph3013() {
-
+export default function InfrastructureReportPieGraph3013(school_dataforpiegraph) {
+console.log(school_dataforpiegraph.school_dataforpiegraph, "school_dataforpiegraph")
   const location = useLocation();
   const queryString = location.search; 
   const urlParams = new URLSearchParams(queryString);
@@ -39,14 +40,13 @@ export default function InfrastructureReportPieGraph3013() {
   const paramValue = urlParams.get("type");
   const dispatch = useDispatch();
 
-  const school_data = useSelector((state) => state.schoolPieGraph);
   const selectedField = useSelector(
     (state) => state.header.selectedField3013graph.field
   );
 
   const updatedSchoolData = useMemo(() => {
-    return school_data?.data?.data?.map((school) => {
-      if (categoryMappings.hasOwnProperty(school.schCategoryDesc)) {
+    return school_dataforpiegraph?.school_dataforpiegraph?.data?.data?.map((school) => {
+      if (categoryMappings?.hasOwnProperty(school?.schCategoryDesc)) {
         return {
           ...school,
           schCategoryDesc: categoryMappings[school.schCategoryDesc],
@@ -54,7 +54,7 @@ export default function InfrastructureReportPieGraph3013() {
       }
       return school;
     });
-  }, [school_data, categoryMappings]);
+  }, [school_dataforpiegraph, categoryMappings]);
   const selectedleble = useSelector((state) => state.header.selectedField3013graph.label)
   const headerData = useSelector((state) => state.header);
   const schoolFilter = useSelector((state) => state.schoolFilter);
@@ -75,24 +75,31 @@ export default function InfrastructureReportPieGraph3013() {
   useEffect(() => {
     dispatch(removeAllDistrict());
     dispatch(removeAllBlock());
-  }, [dispatch, location.pathname, paramValue]);
+  }, [ location.pathname]);
 
   useEffect(() => {
     if (updatedSchoolData?.length > 0) {
-      handleCustomKeyInAPIResponse();
+      handleCustomKeyInAPIResponse(updatedSchoolData);
+    }
+    else{
+      handleCustomKeyInAPIResponse([]);
     }
   }, [updatedSchoolData]);
 
   useEffect(() => {
     if (data.length > 0) {
-      multiGroupingRows();
-      multiGroupingCategoryRows();
+      multiGroupingRows(data);
+      multiGroupingCategoryRows(data);
+    }
+    else{
+      multiGroupingRows([]);
+      multiGroupingCategoryRows([]);
     }
   }, [data]);
 
-  const handleCustomKeyInAPIResponse = () => {
- 
-    const arr = updatedSchoolData.map((item) => {
+  const handleCustomKeyInAPIResponse = (updatedSchoolData) => {
+ console.log(updatedSchoolData, "updatedSchoolData")
+    const arr = updatedSchoolData.map((item) => { 
       let appendedObj = { ...item };
 
       // Broad management key added
@@ -126,7 +133,7 @@ export default function InfrastructureReportPieGraph3013() {
     setData(arr);
   };
 
-  const multiGroupingRows = () => {
+  const multiGroupingRows = (data) => {
     const primaryKeys = Object?.keys(groupKeys).filter((key) => groupKeys[key]);
     if (primaryKeys.length > 0) {
        primaryKeys.push("regionName");
@@ -268,7 +275,7 @@ export default function InfrastructureReportPieGraph3013() {
   };
   
 
-  const multiGroupingCategoryRows = () => {
+  const multiGroupingCategoryRows = (data) => {
     const primaryKeys = Object?.keys(CategoryGroupKeys).filter((key) => CategoryGroupKeys[key]);
     if (primaryKeys.length > 0) {
        primaryKeys.push("regionName");
@@ -410,13 +417,6 @@ export default function InfrastructureReportPieGraph3013() {
   };
   
 
-  useEffect(() => {
-    if (headerData.activeTab === "graph") {
-      //  dispatch(allFilter(initialFilterPieGraphSchoolData));
-      initialFilterPieGraphSchoolData.yearId=filterObj.yearId
-      dispatch(fetchArchiveServicesPieGraphSchoolData(initialFilterPieGraphSchoolData));
-    }
-  }, [headerData.activeTab,schoolFilter]);
   const colorMapSch = {
     "Primary (PRY)": "#f5bf55",
     "Upper Primary (UPR)": "#e6694a",

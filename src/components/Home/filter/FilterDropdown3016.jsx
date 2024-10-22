@@ -90,6 +90,7 @@ export default function FilterDropdown3016() {
   const queryString = window.location.href;
   const urlParams = new URLSearchParams(queryString.replace("#/", ""));
   const paramValue = urlParams.get("type");
+ 
   const stateData = useSelector((state) => state.state);
   const headerSlice = useSelector((state) => state.header);
   const stateDataClone = useSelector((state) => state.state.dataClone);
@@ -225,7 +226,7 @@ export default function FilterDropdown3016() {
 
     dispatch(handleRegionName("States"));
     if (
-      (headerSlice.activeTab === "graph" || paramValue === "graph") &&
+      (headerSlice.activeTab === "graph") &&
       location.pathname === "/school-reports"
     ) {
       window.localStorage.setItem("state_wise", "State Wise");
@@ -238,12 +239,18 @@ export default function FilterDropdown3016() {
       handleAPICallAccordingToFilter(intialStateWiseFilterSchData);
     }
     if (
-      (headerSlice.activeTab === "table" || paramValue === "table") &&
+      (headerSlice.activeTab === "table") &&
       location.pathname === "/school-reports"
     ) {
 
       dispatch(allFilter(modifyobject));
       handleAPICallAccordingToFilter(modifyobject);
+      window.localStorage.setItem("state_wise", "All India/National");
+      window.localStorage.setItem("state", "All India/National");
+      window.localStorage.setItem("map_state_name", "All India/National");
+      window.localStorage.setItem("map_district_name", "District");
+      window.localStorage.setItem("district", "District");
+      window.localStorage.setItem("block", "Block");
     }
     dispatch(handleCurrentIndex(0));
   }

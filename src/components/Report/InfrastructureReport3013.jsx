@@ -5,7 +5,7 @@ import Tabs from "react-bootstrap/Tabs";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import { fetchArchiveServicesSchoolData } from "../../redux/thunks/archiveServicesThunk";
+import { fetchArchiveServicesPieGraphSchoolData, fetchArchiveServicesSchoolData } from "../../redux/thunks/archiveServicesThunk";
 import allreportsdata from "../../json-data/allreports.json";
 import allReportsHindidata from "../../json-data/allReportsHindi.json";
 import FilterDropdownCommom358 from "../Home/filter/FilterDropdownCommon358";
@@ -31,6 +31,7 @@ import {
   initialFilterSchoolData,
   intialIndiaWiseFilterSchData,
   intialStateWiseFilterSchData,
+  modifyobjectFor358Combine,
   nationalWiseName,
   selectedDYear,
   stateWiseName,
@@ -95,6 +96,7 @@ export default function Infrastructure3013() {
     return school;
   });
 
+  const school_dataforpiegraph = useSelector((state) => state.schoolPieGraph);
   const schoolFilter = useSelector((state) => state.schoolFilter);
   const distBlockWiseData = useSelector((state) => state.distBlockWise);
   const headerData = useSelector((state) => state.header);
@@ -176,7 +178,6 @@ export default function Infrastructure3013() {
     []
   );
   const [activeTab, setActiveTab] = useState(type);
-
   dispatch(handleActiveTabs(activeTab));
   (function (H) {
     H.seriesTypes.pie.prototype.animate = function (init) {
@@ -2283,6 +2284,7 @@ export default function Infrastructure3013() {
       window.localStorage.setItem("year", selectedDYear);
       dispatch(allFilter(intialStateWiseFilterSchData));
       dispatch(fetchArchiveServicesSchoolData(intialStateWiseFilterSchData));
+      dispatch(fetchArchiveServicesPieGraphSchoolData(modifyobjectFor358Combine));
     }
 
     dispatch(handleViewDataByShow(!(headerData.activeTab === "graph")));
@@ -2545,7 +2547,7 @@ export default function Infrastructure3013() {
                         <InfrastructureReportGraph3013
                           arrGroupedGraphData={arrGroupedGraphData}
                         />
-                        <InfrastructureReportPieGraph3013 />
+                        <InfrastructureReportPieGraph3013 school_dataforpiegraph={school_dataforpiegraph}/>
                       </div>
                     </div>
                   </Tab>
