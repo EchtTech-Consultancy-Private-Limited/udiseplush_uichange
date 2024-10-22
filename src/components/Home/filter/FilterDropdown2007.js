@@ -19,6 +19,7 @@ import {
   initialFilterPtRData,
   selectedDYear2007,
   initialFilterPtRDataStateWise,
+  modifyobjectFor2007,
   
 } from "../../../constants/constants";
 import { useDispatch, useSelector } from "react-redux";
@@ -182,32 +183,75 @@ export default function FilterDropdown4000() {
       delete filter.locationCode;
     }
   }
+
+  const reset2007Reports=(yearId,yearReport,initialFilterPtRDataStateWise,modifyobjectFor2007 )=>{
+    dispatch(removeAllDistrict());
+    dispatch(removeAllBlock());
+    setSelectedYear(yearReport)
+    window.localStorage.setItem("state_wise", "All India/National");
+    window.localStorage.setItem("state", "All India/National");
+    window.localStorage.setItem("map_state_name", "All India/National");
+    window.localStorage.setItem("map_district_name", "District");
+    window.localStorage.setItem("district", "District");
+    window.localStorage.setItem("state_wise", "All India/National");
+    window.localStorage.setItem("block", "Block");
+    dispatch(handleSelectYear("2022-23"));
+    setSelectedBlock(block);
+    setIsStateSelected(false);
+
+    
+    modifyobjectFor2007.managementCode = schManagementBroad ? 0 : undefined;
+    if (schCategoryBroad) {
+      modifyobjectFor2007 = {
+        ...modifyobjectFor2007,
+      };
+
+      if (schCategoryBroad && schLocationDesc) {
+        modifyobjectFor2007.locationCode = 0;
+      }
+    }
+    if (schManagementBroad) {
+      modifyobjectFor2007 = {
+        ...modifyobjectFor2007,
+
+      };
+      if (schManagementBroad && schLocationDesc===false) {
+        modifyobjectFor2007.managementCode = 0;
+      
+      }
+      if (schManagementBroad && schLocationDesc) {
+        modifyobjectFor2007.managementCode = 0;
+        modifyobjectFor2007.locationCode = 0;
+      }
+    }
+  
+    //setUpdateYearId(filterObj?.yearId)
+    dispatch(allFilter(modifyobjectFor2007));
+   
+    if(headerData.activeTab === "graph" && location.pathname === "/teacher-reports-2007"){
+      window.localStorage.setItem("state_wise", "State Wise");
+      window.localStorage.setItem("state", "State Wise");
+      window.localStorage.setItem("map_state_name", "State Wise");
+      handleAPICallAccordingToFilter(initialFilterPtRDataStateWise);
+    }
+    else if(headerData.activeTab === "table"){
+      handleAPICallAccordingToFilter(modifyobjectFor2007);
+    }
+    dispatch(handleCurrentIndex(0));
+  }
   const handleSchoolFilterYear = (e) => {
     const splittedArr = e.split("@");
     const year = parseInt(splittedArr[0]);
     const year_report = splittedArr[1];
-    setSelectedYear(year_report);
-    filterObj.yearId = year;
-    //dispatch(allFilter(filterObj));
-    setUpdateYearId(filterObj?.yearId);
-
-    let reserveUpdatedFilters = {
-      ...reserveUpdatedFilter,
+    const intialStateWiseFilterSchTableData = {
+      ...initialFilterPtRDataStateWise,
       yearId: year,
-    };
-    dispatch(setReserveUpdatedFilter(reserveUpdatedFilters));
-    if (mapStateValue === nationalWiseName || mapStateValue === stateWiseName) {
-      updateFilterObj(filterObj, schManagementBroad, schCategoryBroad, schLocationDesc)
-      handleAPICallAccordingToFilter(filterObj);
-     
     }
-    else {
-      updateFilterObj(reserveUpdatedFilters, schManagementBroad, schCategoryBroad, schLocationDesc);
-      handleAPICallAccordingToFilter(reserveUpdatedFilters);
+    const intialStateWiseFilterSchGraphData = {
+      ...modifyobjectFor2007,
+      yearId: year
     }
-    //handleAPICallAccordingToFilter(filterObj);
-    dispatch(handleSelectYear(year_report))
-    // window.localStorage.setItem("year", year_report);
+    reset2007Reports(year, year_report, intialStateWiseFilterSchTableData, intialStateWiseFilterSchGraphData)
     hideOpendFilterBox();
   };
   const handleSchoolFilterState = (e) => {
@@ -216,7 +260,7 @@ export default function FilterDropdown4000() {
     const state_name = splittedArr[1];
     const lat = splittedArr[2];
     const long = splittedArr[3];
-    filterObj.yearId = updateYearId
+  //  filterObj.yearId = updateYearId
 
     setIsStateSelected(true);
     setSelectedState(state_name);
@@ -248,16 +292,16 @@ export default function FilterDropdown4000() {
         ...(schLocationDesc && { locationCode: 0 }),
         yearId: 8
       };
-      dispatch(setReserveUpdatedFilter(updatedFilterObj));
+    //  dispatch(setReserveUpdatedFilter(updatedFilterObj));
       updateFilterObj(filterObj, schManagementBroad, schCategoryBroad, schLocationDesc);
 
       dispatch(allFilter(filterObj));
       handleAPICallAccordingToFilter(filterObj);
 
-      const elements = document.querySelectorAll('.impact-box-content.active');
-      elements.forEach(element => {
-        element.classList.remove('active');
-      });
+      // const elements = document.querySelectorAll('.impact-box-content.active');
+      // elements.forEach(element => {
+      //   element.classList.remove('active');
+      // });
 
       dispatch(handleShowDistrict(false));
       dispatch(updateMapLoaded(false));
@@ -298,7 +342,7 @@ export default function FilterDropdown4000() {
         yearId: 8
       };
         
-      dispatch(setReserveUpdatedFilter(updatedFilterObj));
+     // dispatch(setReserveUpdatedFilter(updatedFilterObj));
       updateFilterObj(filterObj, schManagementBroad, schCategoryBroad, schLocationDesc);
 
       dispatch(allFilter(filterObj));
@@ -312,10 +356,10 @@ export default function FilterDropdown4000() {
 
       /*--------------------Filter by Particular State ----------------------*/
       /************ remove selected events *************/
-      const elements = document.querySelectorAll('.impact-box-content.active');
-      elements.forEach(element => {
-        element.classList.remove('active');
-      });
+      // const elements = document.querySelectorAll('.impact-box-content.active');
+      // elements.forEach(element => {
+      //   element.classList.remove('active');
+      // });
       filterObj.regionType = specificSWiseregionType;
       filterObj.regionCode = state_code;
 
@@ -336,7 +380,7 @@ export default function FilterDropdown4000() {
 
 
       updateFilterObj(filterObj, schManagementBroad, schCategoryBroad, schLocationDesc);
-      dispatch(setReserveUpdatedFilter(updatedFilterObj));
+     // dispatch(setReserveUpdatedFilter(updatedFilterObj));
       dispatch(allFilter(filterObj));
       if(headerData.activeTab==="graph"){
         headerData.isViewDataByShow && handleAPICallAccordingToFilter(filterObj);
@@ -376,7 +420,7 @@ export default function FilterDropdown4000() {
     const splittedArr = e.split("@");
     const district_code = splittedArr[0];
     const district_name = splittedArr[1];
-    filterObj.yearId = updateYearId
+   // filterObj.yearId = updateYearId
     dispatch(handleRegionName("Districts"));
     dispatch(updateUdiseBlockCode(district_code));
     if (district_name === districtWiseName) {
@@ -401,7 +445,7 @@ export default function FilterDropdown4000() {
       };
 
      
-      dispatch(setReserveUpdatedFilter(updatedFilterObj));
+     // dispatch(setReserveUpdatedFilter(updatedFilterObj));
       updateFilterObj(filterObj, schManagementBroad, schCategoryBroad, schLocationDesc);
       dispatch(allFilter(filterObj));
       handleAPICallAccordingToFilter(filterObj);
@@ -433,7 +477,7 @@ export default function FilterDropdown4000() {
           yearId: filterObj.yearId,
         })
       );
-      dispatch(setReserveUpdatedFilter(updatedFilterObj));
+    //  dispatch(setReserveUpdatedFilter(updatedFilterObj));
       dispatch(allFilter(filterObj));
       setSelectedBlockClone(district_name);
 if(headerData.activeTab==="graph"){
@@ -465,7 +509,7 @@ else if(headerData.activeTab==="table"){
     const splittedArr = e.split("@");
     const block_code = splittedArr[0];
     const block_name = splittedArr[1];
-    filterObj.yearId = updateYearId;
+    //filterObj.yearId = updateYearId;
     dispatch(handleRegionName("Blocks"));
     if (block_name === blockWiseName) {
       filterObj.regionType = allBWiseregionType;
@@ -483,7 +527,7 @@ else if(headerData.activeTab==="table"){
         ...(schLocationDesc && { locationCode: 0 }),
         yearId: 8
       };
-      dispatch(setReserveUpdatedFilter(updatedFilterObj));
+     // dispatch(setReserveUpdatedFilter(updatedFilterObj));
       updateFilterObj(filterObj, schManagementBroad, schCategoryBroad, schLocationDesc);
       dispatch(allFilter(filterObj));
       handleAPICallAccordingToFilter(filterObj);
@@ -502,7 +546,7 @@ else if(headerData.activeTab==="table"){
         ...(schLocationDesc && { locationCode: 0 }),
         yearId: 8
       };
-      dispatch(setReserveUpdatedFilter(updatedFilterObj));
+    //  dispatch(setReserveUpdatedFilter(updatedFilterObj));
       updateFilterObj(filterObj, schManagementBroad, schCategoryBroad, schLocationDesc);
       dispatch(allFilter(filterObj));
       handleAPICallAccordingToFilter(filterObj);
@@ -598,111 +642,12 @@ else if(headerData.activeTab==="table"){
 
     return extra_col;
   };
-  const handleResetDash = () => {
-    sessionStorage.setItem('handle', '');
-    const elements = document.querySelectorAll('.impact-box-content.active');
-    elements.forEach(element => {
-      element.classList.remove('active');
-    });
-    // document.getElementById("bmap").innerHTML = "";
-    const bmapElement = document.getElementById("bmap");
-    if (bmapElement) {
-      bmapElement.innerHTML = "";
-    }
-    dispatch(removeAllDistrict());
-    dispatch(removeAllBlock());
-    dispatch(handleSelectYear("2020-21"));
-    setSelectedBlock(block);
-    setIsStateSelected(false);
-    window.localStorage.setItem("map_district_name", "District");
-    window.localStorage.setItem("map_state_name", "All India/National");
 
-
-    const modifiedFilterObj = {
-      regionCode: "11",
-      regionType: 21,
-      dType: 10,  //21statewise //10 for all india 
-      dCode: 99, // 11statewise //99 for all india
-      yearId: filterObj.yearId,
-
-    };
-
-    // dispatch(fetchDashboardData(modifiedFilterObj));
-    handleAPICallAccordingToFilter(modifiedFilterObj);
-    if (mapStateValue !== "All India/National") {
-      dispatch(updateMapLoaded(false));
-      dispatch(handleShowDistrict(false));
-    }
-    const modifiedFilterObjs = {
-      regionCode: 99,
-      dCode: 99,
-      regionType: 21,
-      yearId: 9
-    };
-    dispatch(fetchAllStateSchemesData(modifiedFilterObjs))
-
-  };
-
-  const handleReset3016 = () => {
-    dispatch(removeAllDistrict());
-    dispatch(removeAllBlock());
-    setSelectedYear("2021-22")
-    window.localStorage.setItem("state_wise", "All India/National");
-    window.localStorage.setItem("state", "All India/National");
-    window.localStorage.setItem("map_state_name", "All India/National");
-    window.localStorage.setItem("map_district_name", "District");
-    window.localStorage.setItem("district", "District");
-    window.localStorage.setItem("state_wise", "All India/National");
-    window.localStorage.setItem("block", "Block");
-    dispatch(handleSelectYear("2022-23"));
-    setSelectedBlock(block);
-    setIsStateSelected(false);
-
-    let modifyobject = {
-      regionType: 10,  //21statewise //10 for all india 
-      regionCode: 99, // 11statewise //99 for all india
-      dType: 10,  //21statewise //10 for all india 
-      dCode: 99, // 11statewise //99 for all india
-      yearId: filterObj.yearId
-    };
-    modifyobject.managementCode = schManagementBroad ? 0 : undefined;
-    if (schCategoryBroad) {
-      modifyobject = {
-        ...modifyobject,
-      };
-
-      if (schCategoryBroad && schLocationDesc) {
-        modifyobject.locationCode = 0;
-      }
-    }
-    if (schManagementBroad) {
-      modifyobject = {
-        ...modifyobject,
-
-      };
-      if (schManagementBroad && schLocationDesc===false) {
-        modifyobject.managementCode = 0;
-      
-      }
-      if (schManagementBroad && schLocationDesc) {
-        modifyobject.managementCode = 0;
-        modifyobject.locationCode = 0;
-      }
-    }
-  
-    setUpdateYearId(filterObj?.yearId)
-    dispatch(allFilter(modifyobject));
-   
-    if(headerData.activeTab === "graph" && location.pathname === "/teacher-reports-2007"){
-      window.localStorage.setItem("state_wise", "State Wise");
-      window.localStorage.setItem("state", "State Wise");
-      window.localStorage.setItem("map_state_name", "State Wise");
-      handleAPICallAccordingToFilter(initialFilterPtRDataStateWise);
-    }
-    else if(headerData.activeTab === "table"){
-      handleAPICallAccordingToFilter(modifyobject);
-    }
-    dispatch(handleCurrentIndex(0));
+  const handleReset2007 = () => {
+    const intialStateWiseFilterSchGraphData = initialFilterPtRDataStateWise;
+    const intialStateWiseFilterSchTableData = modifyobjectFor2007;
+    reset2007Reports(8, "2021-22", intialStateWiseFilterSchGraphData, intialStateWiseFilterSchTableData);
+    
   }
 
   useEffect(() => {
@@ -831,9 +776,14 @@ else if(headerData.activeTab==="table"){
                />
             </div>}
             <div className="text-center mt-2">
-              {location.pathname === "/" ? <button className="btn btn-primary btn-reset-filter" disabled={isDashbtnDisabled} onClick={handleResetDash}>Reset</button> : <button className="btn btn-primary btn-reset-filter" disabled={is3016btnDisabled} onClick={handleReset3016}>Reset</button>}
+              <button
+                className="btn btn-primary btn-reset-filter"
+                disabled={is3016btnDisabled}
+                onClick={handleReset2007}
+              >
+                Reset
+              </button>
             </div>
-
           </div>
 
         </div>

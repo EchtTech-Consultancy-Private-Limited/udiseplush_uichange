@@ -10,7 +10,8 @@ import groupByKey from "../../utils/groupBy";
 
 import {
   selectedDYear,
-  initialFilterPieGraphSchoolData
+  initialFilterPieGraphSchoolData,
+  modifyobjectFor358Combine
 } from "../../constants/constants";
 import { categoryMappings } from "../../constants/constants";
 
@@ -30,23 +31,22 @@ import {
 import { removeAllDistrict } from "../../redux/thunks/districtThunk";
 import { removeAllBlock } from "../../redux/thunks/blockThunk";
 
-export default function InfrastructureReportPieGraph3013() {
+export default function InfrastructureReportPieGraph3013(school_dataforpiegraph) {
 
   const location = useLocation();
-  const queryString = location.search; // Using location.search to get query parameters
+  const queryString = location.search; 
   const urlParams = new URLSearchParams(queryString);
 
   const paramValue = urlParams.get("type");
   const dispatch = useDispatch();
 
-  const school_data = useSelector((state) => state.schoolPieGraph);
   const selectedField = useSelector(
     (state) => state.header.selectedField3013graph.field
   );
 
   const updatedSchoolData = useMemo(() => {
-    return school_data?.data?.data?.map((school) => {
-      if (categoryMappings.hasOwnProperty(school.schCategoryDesc)) {
+    return school_dataforpiegraph?.school_dataforpiegraph?.data?.data?.map((school) => {
+      if (categoryMappings?.hasOwnProperty(school?.schCategoryDesc)) {
         return {
           ...school,
           schCategoryDesc: categoryMappings[school.schCategoryDesc],
@@ -54,7 +54,7 @@ export default function InfrastructureReportPieGraph3013() {
       }
       return school;
     });
-  }, [school_data, categoryMappings]);
+  }, [school_dataforpiegraph, categoryMappings]);
   const selectedleble = useSelector((state) => state.header.selectedField3013graph.label)
   const headerData = useSelector((state) => state.header);
   const schoolFilter = useSelector((state) => state.schoolFilter);
@@ -62,6 +62,7 @@ export default function InfrastructureReportPieGraph3013() {
   const [arrGroupedschManagementBroadData, setArrGroupedschManagementBroadData] = useState([]);
   const [arrGroupedschCategoryBroadData, setArrGroupedschCategoryBroadData] = useState([]);
   const [data, setData] = useState([]);
+
   const [groupKeys, setGroupKeys] = useState({
     schManagementBroad: true,  
   });
@@ -71,27 +72,26 @@ export default function InfrastructureReportPieGraph3013() {
   });
 
 
-
   useEffect(() => {
     dispatch(removeAllDistrict());
     dispatch(removeAllBlock());
-  }, [dispatch, location.pathname, paramValue]);
+  }, [ location.pathname]);
 
   useEffect(() => {
-    if (updatedSchoolData?.length > 0) {
+    if (updatedSchoolData?.length >= 0) {
       handleCustomKeyInAPIResponse();
     }
   }, [updatedSchoolData]);
 
   useEffect(() => {
-    if (data.length > 0) {
+    if (data.length >= 0) {
       multiGroupingRows();
       multiGroupingCategoryRows();
     }
   }, [data]);
 
   const handleCustomKeyInAPIResponse = () => {
-    const arr = updatedSchoolData.map((item) => {
+    const arr = updatedSchoolData?.map((item) => { 
       let appendedObj = { ...item };
 
       // Broad management key added
@@ -122,7 +122,6 @@ export default function InfrastructureReportPieGraph3013() {
 
       return appendedObj;
     });
-
     setData(arr);
   };
 
@@ -172,50 +171,50 @@ export default function InfrastructureReportPieGraph3013() {
           let totalSchoolsHandWashToilet = 0;
           let regionName = "";
           itemsArray.forEach((dataItem) => {
-            regionName = dataItem.regionName;
-            totalSchoolsHaveElectricity += parseInt(dataItem.totSchElectricity);
-            totalSchools += parseInt(dataItem.totSch);
-            totalFunElectricity += parseInt(dataItem.totSchFuncElectricity);
+            regionName = dataItem?.regionName;
+            totalSchoolsHaveElectricity += parseInt(dataItem?.totSchElectricity);
+            totalSchools += parseInt(dataItem?.totSch);
+            totalFunElectricity += parseInt(dataItem?.totSchFuncElectricity);
             totalSchoolsHandWashToilet += parseInt(
-              dataItem.totSchHandwashToilet
+              dataItem?.totSchHandwashToilet
             );
-            separateHeadMasterRoom += parseInt(dataItem.totSchSeprateRoomHm);
-            landAvailable += parseInt(dataItem.totSchLandAvail);
-            solarPanelAvailable += parseInt(dataItem.totSchSolarPanel);
-            playGroundAvail += parseInt(dataItem.totSchPlayground);
-            totalSchoolLibrary += parseInt(dataItem.totSchLibrary);
-            totalSchoolLibrarian += parseInt(dataItem.totSchLibrarian);
-            totalNewspaper += parseInt(dataItem.totSchNewspaper);
-            totalKitchenGarden += parseInt(dataItem.totSchKitchenGarden);
-            totalFurniture += parseInt(dataItem.totSchFurniture);
-            totalBoysToilet += parseInt(dataItem.totSchBoysToilet);
-            totalFuncBoysToilet += parseInt(dataItem.totSchFuncBoysToilet);
-            totalgirlsToilet += parseInt(dataItem.totSchGirlsToilet);
-            totalFuncGirlsToilet += parseInt(dataItem.totSchFuncGirlsToilet);
-            // totalToiletfacility += parseInt(dataItem.schHaveToilet);
+            separateHeadMasterRoom += parseInt(dataItem?.totSchSeprateRoomHm);
+            landAvailable += parseInt(dataItem?.totSchLandAvail);
+            solarPanelAvailable += parseInt(dataItem?.totSchSolarPanel);
+            playGroundAvail += parseInt(dataItem?.totSchPlayground);
+            totalSchoolLibrary += parseInt(dataItem?.totSchLibrary);
+            totalSchoolLibrarian += parseInt(dataItem?.totSchLibrarian);
+            totalNewspaper += parseInt(dataItem?.totSchNewspaper);
+            totalKitchenGarden += parseInt(dataItem?.totSchKitchenGarden);
+            totalFurniture += parseInt(dataItem?.totSchFurniture);
+            totalBoysToilet += parseInt(dataItem?.totSchBoysToilet);
+            totalFuncBoysToilet += parseInt(dataItem?.totSchFuncBoysToilet);
+            totalgirlsToilet += parseInt(dataItem?.totSchGirlsToilet);
+            totalFuncGirlsToilet += parseInt(dataItem?.totSchFuncGirlsToilet);
+            // totalToiletfacility += parseInt(dataItem?.schHaveToilet);
             totalToiletfacility = totalBoysToilet + totalgirlsToilet;
-            totalFuncBoysurinal += parseInt(dataItem.totSchFuncBoysUrinal);
-            totalFuncUrinal += parseInt(dataItem.schHaveFuncUrinals);
-            totalFuncGirlsUrinal += parseInt(dataItem.totSchFuncGirlsUrinal);
-            totalDrinkingWater += parseInt(dataItem.totSchDrinkingWater);
+            totalFuncBoysurinal += parseInt(dataItem?.totSchFuncBoysUrinal);
+            totalFuncUrinal += parseInt(dataItem?.schHaveFuncUrinals);
+            totalFuncGirlsUrinal += parseInt(dataItem?.totSchFuncGirlsUrinal);
+            totalDrinkingWater += parseInt(dataItem?.totSchDrinkingWater);
             totalFunctionalDrinkingWater += parseInt(
-              dataItem.totSchFuncWaterPurifier
+              dataItem?.totSchFuncWaterPurifier
             );
-            totalPurifier += parseInt(dataItem.totSchWaterPurifier);
+            totalPurifier += parseInt(dataItem?.totSchWaterPurifier);
             totalRainWaterHarvesting += parseInt(
-              dataItem.totSchRainWaterHarvesting
+              dataItem?.totSchRainWaterHarvesting
             );
-            totalWaterTested += parseInt(dataItem.totSchWaterTested);
-            totalIncinerator += parseInt(dataItem.totSchIncinerator);
-            totalHandWashFacility += parseInt(dataItem.totSchHandwashMeals);
-            totalSchoolRamps += parseInt(dataItem.totSchRamps);
-            medicalCheckUp += parseInt(dataItem.totSchMedicalCheckup);
+            totalWaterTested += parseInt(dataItem?.totSchWaterTested);
+            totalIncinerator += parseInt(dataItem?.totSchIncinerator);
+            totalHandWashFacility += parseInt(dataItem?.totSchHandwashMeals);
+            totalSchoolRamps += parseInt(dataItem?.totSchRamps);
+            medicalCheckUp += parseInt(dataItem?.totSchMedicalCheckup);
             completeMedicalCheckUp += parseInt(
-              dataItem.schHaveCompleteMedicalCheckup
+              dataItem?.schHaveCompleteMedicalCheckup
             );
-            totalHandRails += parseInt(dataItem.totSchHandRails);
-            totalInternet += parseInt(dataItem.totSchInternet);
-            computerAvailable += parseInt(dataItem.totSchCompAvail);
+            totalHandRails += parseInt(dataItem?.totSchHandRails);
+            totalInternet += parseInt(dataItem?.totSchInternet);
+            computerAvailable += parseInt(dataItem?.totSchCompAvail);
           });
           const appended = {};
           primaryKeys.forEach((key, index) => {
@@ -257,9 +256,9 @@ export default function InfrastructureReportPieGraph3013() {
           appended.schHaveCompleteMedicalCheckup = completeMedicalCheckUp;
           appended.totSchInternet = totalInternet;
           appended.totSchCompAvail = computerAvailable;
-  
           updatedArrGroupedData.push(appended);
         });
+
         setArrGroupedschManagementBroadData(updatedArrGroupedData);
     
       }
@@ -410,12 +409,6 @@ export default function InfrastructureReportPieGraph3013() {
   };
   
 
-  useEffect(() => {
-    if (headerData.activeTab === "graph") {
-      //  dispatch(allFilter(initialFilterPieGraphSchoolData));
-      dispatch(fetchArchiveServicesPieGraphSchoolData(initialFilterPieGraphSchoolData));
-    }
-  }, [headerData.activeTab]);
   const colorMapSch = {
     "Primary (PRY)": "#f5bf55",
     "Upper Primary (UPR)": "#e6694a",

@@ -21566,19 +21566,7 @@
             "year": "2011_c"
           }
         },
-        {
-          "arcs": [[1328, 1329, 1330, 1331]],
-          "type": "Polygon",
-          "properties": {
-            "lgd_district_name": "Mangan",
-            "lgd_district_id": "241",
-            "lgd_state_name": "Sikkim",
-            "lgd_state_id": "11",
-            "udiseDistrictCode": "1101",
-            "udiseDistrictName": "MANGAN",
-            "year": "2011_c"
-          }
-        },
+      
         {
           "arcs": [[-1250, 1332, -1301, 1333, 1334, 1335, -1324, -1264]],
           "type": "Polygon",
@@ -33511,19 +33499,7 @@
     "11": {
       "type": "GeometryCollection",
       "geometries": [
-        {
-          "arcs": [[1328, 1329, 1330, 1331]],
-          "type": "Polygon",
-          "properties": {
-            "lgd_district_name": "Mangan",
-            "lgd_district_id": "241",
-            "lgd_state_name": "Sikkim",
-            "lgd_state_id": "11",
-            "udiseDistrictCode": "1101",
-            "udiseDistrictName": "MANGAN",
-            "year": "2011_c"
-          }
-        },
+   
         {
           "arcs": [[-1330, 1377, 1378, 1379]],
           "type": "Polygon",

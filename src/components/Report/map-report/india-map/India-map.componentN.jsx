@@ -19,7 +19,9 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Box from "@mui/material/Box";
 import * as topojson from "topojson-client";
 import "../india-map/india-map.componentN.scss";
-import india from "../../../../json-data/india.json";
+//import indiaMapJson from "../../../../json-data/india2021-2022.json";
+import india2021_2022 from "../../../../json-data/india2021-2022.json";
+import india2020_2021 from "../../../../json-data/india2020-2021.json"
 import { getColor, layersUtils, getCenterOfGeoJson } from "./MapUtilsN";
 import "leaflet/dist/leaflet.css";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
@@ -65,7 +67,7 @@ import {
   fetchArchiveServicesSchoolData,
 } from "../../../../redux/thunks/archiveServicesThunk";
 import { useLocation } from "react-router-dom";
-import { setReserveUpdatedFilter } from "../../../../redux/slice/headerSlice";
+import { setMapLoader, setonDrilldownMap, setReserveUpdatedFilter } from "../../../../redux/slice/headerSlice";
 const COUNTRY_VIEW_ID = "india-states";
 
 export default function IndiaMapComponentN() {
@@ -76,12 +78,49 @@ export default function IndiaMapComponentN() {
     dashIntDataMap: null,
     dashData: null,
   });
-  const geoJson = useMemo(
-    () => topojson.feature(india, india.objects[geoJsonId]),
-    [geoJsonId]
-  );
+  const selectedDistrict = localStorage.getItem("map_district_name")
+  const selectedYearId = useSelector((state) => state.header.selectYearId, shallowEqual);
+  const [indiaMapJson, setIndiaMapJson] = useState(india2021_2022)
+  const selectedState = localStorage.getItem("state")
   const mapRef = useRef(null);
   const geoJsonRef = useRef(null);
+  useEffect(() => {
+    switch (selectedYearId) {
+      case 8:
+        setIndiaMapJson(india2021_2022);
+        break;
+      case 7:
+        setIndiaMapJson(india2021_2022);
+        break;
+      case 6:
+        setIndiaMapJson(india2020_2021);
+        break;
+      case 5:
+        setIndiaMapJson(india2021_2022);
+        break;
+      default:
+        setIndiaMapJson(india2021_2022);
+        break;
+    }
+  }, [selectedYearId]);
+
+
+  const geoJson = useMemo(() => {
+    if (indiaMapJson && indiaMapJson.objects[geoJsonId]) {
+      return topojson.feature(indiaMapJson, indiaMapJson.objects[geoJsonId]);
+    } else {
+      console.error("India map JSON or GeoJSON ID not found.");
+      return null;
+    }
+  }, [indiaMapJson, geoJsonId, selectedYearId]);
+
+  useEffect(() => {
+    if (geoJsonRef.current) {
+      geoJsonRef.current.clearLayers();
+      geoJsonRef.current.addData(geoJson);
+    }
+  }, [geoJson, selectedYearId, geoJsonId]);
+
   const handleSchemesEvent = useSelector(
     (state) => state?.mapData?.grossEData,
     shallowEqual
@@ -91,12 +130,15 @@ export default function IndiaMapComponentN() {
     shallowEqual
   );
   let filterObj = structuredClone(schoolFilter);
-  localStorage.setItem("selectedYearId", filterObj.yearId)
+  useEffect(() => {
+    localStorage.setItem("selectedYearId", filterObj.yearId);
+  }, [filterObj.yearId]);
   const selectedStateCode = useSelector(
     (state) => state.mapData.stateId,
     shallowEqual
   );
   const localStorageStateName = window.localStorage.getItem("map_state_name");
+  const mapDisValue = window.localStorage.getItem("map_district_name");
   const [handles, setHandles] = useState(handleSchemesEvent);
   const handlesRef = useRef(handles);
   const dashIntDataMap = useSelector(
@@ -115,12 +157,12 @@ export default function IndiaMapComponentN() {
     (state) => state?.MapStats?.data?.status,
     shallowEqual
   );
-
+  const header_name = useSelector((state) => state.header);
   const districtUdice = useSelector(
     (state) => state.distBlockWise.blockUdiseCode
   );
   const headerSlice = useSelector((state) => state.header);
-  const selectedYearId = useSelector((state) => state.header.selectYearId)
+
   const [selectedEnrollmentType, setSelectedEnrollmentType] =
     useState("elementary");
   const [selectedDropoutType, setSelectedDropoutType] = useState("primary");
@@ -129,13 +171,14 @@ export default function IndiaMapComponentN() {
   const [selectedPupilTeacherRatio, setSelectedPupilTeacherRatio] =
     useState("primary");
   const [loading, setLoding] = useState("true");
-  const mapStateValue = localStorage.getItem("map_state_name");
+
+  //const loading = useSelector((state => state?.header?.mapLoader))
   useEffect(() => {
     setHandles(handleSchemesEvent);
   }, [handleSchemesEvent]);
- 
-  useEffect(()=>{
-      dispatch(setReserveUpdatedFilter(filterObj));
+
+  useEffect(() => {
+    dispatch(setReserveUpdatedFilter(filterObj));
   }, [selectedYearId])
 
   useEffect(() => {
@@ -173,28 +216,18 @@ export default function IndiaMapComponentN() {
   const mapCenter = useMemo(() => getCenterOfGeoJson(geoJson), [geoJson]);
 
   useEffect(() => {
-    if (selectedStateCode) {
-      setGeoJsonId(selectedStateCode);
-    }
     if (localStorageStateName === "All India/National") {
       setGeoJsonId(COUNTRY_VIEW_ID);
+    } else if (selectedStateCode) {
+      setGeoJsonId(selectedStateCode);
     }
-  }, [selectedStateCode, localStorageStateName, handles]);
+  }, [selectedStateCode, localStorageStateName, handles, selectedYearId]);
 
   const initializeMap = useCallback((data) => {
     setMapData(data);
   }, []);
 
-  // const MapUpdater = () => {
-  //   const map = useMap();
-  //   useEffect(() => {
-  //     if (map && geoJsonRef.current) {
-  //       map.fitBounds(geoJsonRef.current.getBounds());
-  //     }
-  //   }, [map, geoJsonId, mapData, handles]);
 
-  //   return null;
-  // };
 
   const MapUpdater = ({ geoJsonRef }) => {
     const map = useMap();
@@ -271,7 +304,7 @@ export default function IndiaMapComponentN() {
           });
         }
       }
-    }, [map, geoJsonId, geoJsonRef]);
+    }, [map, geoJsonId, geoJsonRef, selectedYearId, indiaMapJson]);
 
     return null;
   };
@@ -287,9 +320,9 @@ export default function IndiaMapComponentN() {
         localStorageStateName !== "All India/National"
           ? properties.udiseDistrictCode
           : null;
-      const district_ids = properties.udiseDistrictCode || [];
+      const district_ids = properties?.udiseDistrictCode || [];
       const isHighlightedDistrict =
-        districtUdice.length >= 4 && district_ids.includes(districtUdice);
+        districtUdice.length >= 4 && district_ids.includes(districtUdice) && selectedDistrict !== "District";
       const matchingDatas = state_id
         ? {
           dashIntData: mapData?.dashIntDataMap?.find(
@@ -395,9 +428,18 @@ export default function IndiaMapComponentN() {
       selectedDropoutType,
       selectedTransitionRate,
       selectedPupilTeacherRatio,
+      selectedYearId
     ]
   );
 
+  useEffect(() => {
+    if (selectedYearId) {
+      setLoding(true);
+      setTimeout(() => {
+        setLoding(false);
+      }, 1000);
+    }
+  }, [schoolFilter, selectedYearId]);
   const updateFeatureStyleAndTooltip = useCallback(
     (feature, layer) => {
       const { color, isHighlightedDistrict } = getColorFromData(feature);
@@ -440,11 +482,13 @@ export default function IndiaMapComponentN() {
 
       let tooltipContent;
       if (localStorageStateName === "All India/National") {
-        setLoding(true);
+        // dispatch(setMapLoader(true))
+        setLoding(true)
         tooltipContent = `<div class="tooltip-content"><strong>State:</strong> <span class="tooltip-content-text">${properties?.lgd_state_name || "N/A"
           }</span></div>`;
-        if (matchingDatas?.dashIntData) {
-          setLoding(false);
+        if (matchingDatas?.dashIntData && matchingDatas?.dashData) {
+          setLoding(false)
+          //dispatch(setMapLoader(false))
           if (handlesRef.current === "gross_enrollment_ratio") {
             if (selectedEnrollmentType === "elementary") {
               tooltipContent += `<br/><strong>Gross Enrollment Ratio Elementary:</strong> <span class="tooltip-content-text">${matchingDatas?.dashIntData?.gerElementary || "N/A"
@@ -489,15 +533,19 @@ export default function IndiaMapComponentN() {
             tooltipContent += `<br/><strong> Schools with Electricity Connection:</strong> <span class="tooltip-content-text"> ${matchingDatas?.dashData?.schWithElectricity || "N/A"
               } % </span>`;
           }
+
         }
 
       } else {
 
         tooltipContent = `<div class="tooltip-content"><strong>District:</strong> <span class="tooltip-content-text"> ${properties?.lgd_district_name || "N/A"
           } </span></div>`;
-        // setLoding(true)
-        if (matchingDatas?.dashIntData) {
-          setLoding(false);
+        //   setLoding(false)
+        // dispatch(setMapLoader(true))
+
+        if (matchingDatas?.dashIntData && matchingDatas?.dashData) {
+          // dispatch(setMapLoader(false))
+          setLoding(false)
           if (handlesRef.current === "gross_enrollment_ratio") {
             if (selectedEnrollmentType === "elementary") {
               tooltipContent += `<br/><strong>Gross Enrollment Ratio Elementary:</strong> <span class="tooltip-content-text">${matchingDatas?.dashIntData?.gerElementary || "N/A"
@@ -556,6 +604,7 @@ export default function IndiaMapComponentN() {
       //   const bounds = layer.getBounds();
       //   mapRef.current.fitBounds(bounds, { padding: [20, 20] });
       // }
+
     },
     [
       getColorFromData,
@@ -566,8 +615,15 @@ export default function IndiaMapComponentN() {
       selectedDropoutType,
       selectedTransitionRate,
       selectedPupilTeacherRatio,
+      selectedYearId
     ]
   );
+
+  useEffect(() => {
+    if (schoolFilter?.regionCode?.length >= 4 || header_name?.headerName === "School Dashboard") {
+      setLoding(false);
+    }
+  }, [schoolFilter, header_name?.headerName]);
 
   const geoJSONStyle = useCallback(
     (feature) => {
@@ -598,13 +654,12 @@ export default function IndiaMapComponentN() {
 
       // layer.bindPopup(feature.properties.lgd_state_name);
     },
-    [updateFeatureStyleAndTooltip, mapData, handles]
+    [updateFeatureStyleAndTooltip, mapData, handles, selectedYearId]
   );
 
   const handleAPICallAccordingToFilter = (obj) => {
     // if (geoJsonId === "india-states") {
     if (headerSlice.headerName === "Education Dashboard") {
-      console.log("fetchDashboardData")
       dispatch(fetchDashboardData(obj));
       dispatch(fetchSchoolStatsData(obj));
       dispatch(fetchSchoolStatsIntData(obj));
@@ -623,16 +678,18 @@ export default function IndiaMapComponentN() {
       dispatch(fetchStudentStatsData(obj));
       dispatch(fetchStudentStatsIntData(obj));
     }
+
   };
   // };
   const onDrillDown = useCallback(
     (e) => {
       let StateName;
       let featureId;
-      
-      const selectYearId=localStorage.getItem("selectedYearId")
+
+      const selectYearId = localStorage.getItem("selectedYearId")
       let filterObj = structuredClone(schoolFilter);
-      filterObj.yearId=selectYearId;
+      filterObj.yearId = selectYearId;
+      dispatch(setonDrilldownMap(true))
       if (e) {
         StateName = e?.target?.feature?.properties?.lgd_state_name;
         featureId = e?.target
@@ -641,7 +698,7 @@ export default function IndiaMapComponentN() {
       }
 
       if (localStorageStateName === "All India/National") {
-        if (india.objects[featureId]) {
+        if (indiaMapJson.objects[featureId]) {
           setGeoJsonId(featureId);
           const modifiedFilterObj = {
             regionCode: featureId,
@@ -654,7 +711,6 @@ export default function IndiaMapComponentN() {
             valueType: 2,
           };
           if (localStorageStateName === "All India/National") {
-            console.log("render This")
             dispatch(fetchMaptatsData(modifiedFilterObj));
             dispatch(fetchMaptatsOtherData(modifiedFilterObj));
           }
@@ -672,7 +728,6 @@ export default function IndiaMapComponentN() {
           handleAPICallAccordingToFilter(filterObj);
           dispatch(fetchMaptatsData(filterObj));
           filterObj.valueType = 2;
-          console.log("render This")
           dispatch(fetchMaptatsOtherData(filterObj));
           dispatch(removeAllDistrict());
           const modifiedFilterObjs = {
@@ -716,7 +771,6 @@ export default function IndiaMapComponentN() {
             handleAPICallAccordingToFilter(newDataObject);
             dispatch(fetchMaptatsData(newDataObject));
             filterObj.valueType = 2;
-            console.log("render This")
             dispatch(fetchMaptatsOtherData(newDataObject));
           }
 
@@ -755,7 +809,8 @@ export default function IndiaMapComponentN() {
       }
       // window.localStorage.setItem("state", StateName);
     },
-    [dispatch, schoolFilter, localStorageStateName, geoJsonId]
+
+    [dispatch, schoolFilter, localStorageStateName, geoJsonId, selectedYearId, indiaMapJson]
   );
 
   const getCentroid = (feature) => {
@@ -811,7 +866,6 @@ export default function IndiaMapComponentN() {
                   );
                   window.localStorage.setItem("state", "All India/National");
                   dispatch(fetchMaptatsData(modifiedFilterObjForReset));
-                  console.log("render This")
                   dispatch(fetchMaptatsOtherData(modifiedFilterObjForReset));
                   handleAPICallAccordingToFilter(
                     modifiedFilterObjResetDashboard
@@ -895,7 +949,9 @@ export default function IndiaMapComponentN() {
             <GeoJSON
               className="map-interactive"
               data={geoJson}
-              key={geoJsonId}
+              // key={geoJsonId}
+            //  key={`${geoJsonId}-${selectedYearId}`}
+            key={`${geoJsonId}-${selectedYearId}-${Date.now()}`}
               style={geoJSONStyle}
               onEachFeature={onEachFeature}
               ref={geoJsonRef}
@@ -929,6 +985,7 @@ export default function IndiaMapComponentN() {
             geoJsonRef={geoJsonRef}
             geoJsonId={geoJsonId}
             center={mapCenter}
+            key={`${indiaMapJson}-${selectedYearId}`}
           />
         </MapContainer>
       </div>

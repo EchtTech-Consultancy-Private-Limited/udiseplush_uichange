@@ -39,7 +39,7 @@ export const modifiedFilterObjResetDashboard = {
   dashboardRegionType: 10,
   locationCode: 0,
   managementCode: 0,
-  regionCode: "11",
+  regionCode: 99,
   regionType: 21,
   dType: 10, //21statewise //10 for all india
   dCode: 99, // 11statewise //99 for all india
@@ -148,6 +148,38 @@ export const initialFilterSchoolData = {
     dashboardRegionCode: 21,
     valueType: 1
   }
+  export const modifyobject = {
+    categoryCode: 0,
+    locationCode: 0,
+    managementCode: 0,
+    regionCode: 99,
+    regionType: 10,
+    dType: 10, //21statewise //10 for all india change 21 to 10
+    dCode: 99, // 11statewise //99 for all india change 11 to 99
+    schoolTypeCode: 0,
+    yearId: 8,
+  };
+ export const modifyobjectFor2007 = {
+    regionType: 10,  //21statewise //10 for all india 
+    regionCode: 99, // 11statewise //99 for all india
+    dType: 10,  //21statewise //10 for all india 
+    dCode: 99, // 11statewise //99 for all india
+    yearId: 8
+  };
+
+  export const modifyobjectFor358Combine = {
+    categoryCode: 0,
+    // dashboardRegionCode: 11,
+    // dashboardRegionType: 11,
+    locationCode: 0,
+    managementCode: 0,
+    regionCode: 99,
+    regionType: 10,
+    dType: 10, //21statewise //10 for all india change 21 to 10
+    dCode: 99, // 11statewise //99 for all india change 11 to 99
+    schoolTypeCode: 0,
+    yearId:8
+  };
  export const categoryMappings = {
     "Primary": "Primary (I-V)",
     "Primary with Upper Primary": "Primary with Upper Primary (I-VIII)",

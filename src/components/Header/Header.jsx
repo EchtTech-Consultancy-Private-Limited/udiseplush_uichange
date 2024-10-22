@@ -34,8 +34,8 @@ const Header = () => {
 
   const changeLanguage = (e) => {
     const selectedLanguage = e.target.value;
-    localStorage.setItem("selectedLanguage", selectedLanguage); // Save selected language to local storage
-    i18n.changeLanguage(selectedLanguage); // Change the language in i18n
+    localStorage.setItem("selectedLanguage", selectedLanguage); 
+    i18n.changeLanguage(selectedLanguage);
   };
 
   useEffect(() => {
@@ -165,7 +165,7 @@ const Header = () => {
                               name="debt-amount"
                               id="2"
                               value="2"
-                              defaultChecked="checked"
+                              defaultChecked={true}
                               required=""
                               title="Normal Font Size"
                               onClick={() => changeSizeByBtn("average")}
@@ -199,7 +199,7 @@ const Header = () => {
                             type="checkbox"
                             id="mode"
                             checked={toggleDarkMode}
-                            onClick={toggleDarkTheme}
+                            onChange={toggleDarkTheme}
                           />
                           <span className="slider round"></span>
                         </label>
